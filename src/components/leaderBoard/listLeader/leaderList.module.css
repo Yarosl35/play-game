@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+.mainContainer {
+  padding-top: 147px;
+}
+.listItem {
+  display: flex;
+  height: 119px;
+  width: 1062px;
+  margin-left: 2px;
+  background: #fff;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+.cellLeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.rank {
+  width: 296px;
+}
+.scope {
+  width: 305px;
+}
+.name {
+  width: 325px;
+}
+.context {
+  width: 85px;
+}
+.cellLeader p {
+  font-family: "Roboto", sans-serif;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0em;
+}
