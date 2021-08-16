@@ -6,7 +6,7 @@ import styles from "./leaderBoard.module.css";
 export const LeaderBoard = () => {
   return (
     <div className={styles.mainContainer}>
-      <ListLeader />
+      <ListLeader arrayList={leaderData[0].list} />
     </div>
   );
 };
