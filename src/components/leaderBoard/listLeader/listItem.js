@@ -4,7 +4,7 @@ import ContextIcon from "../../icon/ContextIcon.png";
 
 export const ListItem = ({ name, color, scope, rank }) => {
   return (
-    <div className={styles.listItem}>
+    <div className={styles.listItem} style={{ background: color }}>
       <div className={`${styles.rank} ${styles.cellLeader} `}>
         <p>{rank}</p>
       </div>
