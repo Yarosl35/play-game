@@ -1,7 +1,7 @@
 import React from "react";
-import { leaderData } from "./../data/leaderData";
-import { ListItem } from "./listItem";
-import { ListLeader } from "./index";
+import { ListItem } from "./../components/leaderBoard/listLeader/listItem";
+import { ListLeader } from "./../components/leaderBoard/listLeader/index";
+import { leaderData } from "../components/leaderBoard/data/leaderData";
 
 export default {
   title: "ListPage",
