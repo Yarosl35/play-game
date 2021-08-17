@@ -18,7 +18,7 @@ export const MenuRoom = ({ arrayList, changeRoom }) => {
     setShowList((show) => !show);
   };
 
-  const listMenuItem = arrayList.map(({ room }) => {
+  const listMenuItems = arrayList.map(({ room }) => {
     return <RoomItem key={room} changeInput={changeInput} room={room} />;
   });
 
@@ -45,7 +45,9 @@ export const MenuRoom = ({ arrayList, changeRoom }) => {
             }}
           />
         </div>
-        {showList ? <div className={styles.options}>{listMenuItem}</div> : null}
+        {showList ? (
+          <div className={styles.options}>{listMenuItems}</div>
+        ) : null}
       </label>
     </OutsideClickHandler>
   );

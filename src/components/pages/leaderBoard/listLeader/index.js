@@ -10,7 +10,7 @@ const colorPlace = {
 };
 
 export const ListLeader = ({ arrayList }) => {
-  const listItem = arrayList
+  const listItems = arrayList
     .sort((a, b) => b.score - a.score)
     .map((data, index) => {
       const place = index + 1;
@@ -46,7 +46,7 @@ export const ListLeader = ({ arrayList }) => {
           <p>score</p>
         </div>
       </div>
-      {listItem}
+      {listItems}
     </>
   );
 };
