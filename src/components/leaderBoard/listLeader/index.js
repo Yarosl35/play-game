@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./leaderList.module.css";
-import { OptionList } from "./optionList";
 import { ListItem } from "./listItem";
 
 const colorPlace = {
@@ -9,34 +8,33 @@ const colorPlace = {
   third: "rgba(173, 138, 86,  0.68)",
   other: "rgba(255, 255, 255,  0.68)",
 };
-export const ListLeader = ({ arrayList }) => {
-  console.log(arrayList);
-  const listItem = arrayList.map((data, index) => {
-    const place = index + 1;
 
-    return (
-      <ListItem
-        key={data.id}
-        name={data.name}
-        rank={place}
-        color={
-          place === 1
-            ? colorPlace.first
-            : place === 2
-            ? colorPlace.second
-            : place === 3
-            ? colorPlace.third
-            : colorPlace.other
-        }
-        score={data.scope}
-      />
-    );
-  });
+export const ListLeader = ({ arrayList }) => {
+  const listItem = arrayList
+    .sort((a, b) => b.score - a.score)
+    .map((data, index) => {
+      const place = index + 1;
+
+      return (
+        <ListItem
+          key={data.id}
+          name={data.name}
+          rank={place}
+          color={
+            place === 1
+              ? colorPlace.first
+              : place === 2
+              ? colorPlace.second
+              : place === 3
+              ? colorPlace.third
+              : colorPlace.other
+          }
+          score={data.score}
+        />
+      );
+    });
   return (
-    <div className={styles.mainContainer}>
-      <div className={styles.selectContainer}>
-        <p className={styles.id}>Room ID :</p> <OptionList />
-      </div>
+    <>
       <div className={styles.listTopNames}>
         <div className={`${styles.rank} ${styles.cellLeader} `}>
           <p>rank</p>
@@ -49,6 +47,6 @@ export const ListLeader = ({ arrayList }) => {
         </div>
       </div>
       {listItem}
-    </div>
+    </>
   );
 };
