@@ -1,6 +1,8 @@
-import { LeaderBoard } from "./leaderBoard/index";
+import { LeaderBoard } from "./pages/leaderBoard/index";
 import { Board } from "./layout/index";
-import { leaderData } from "./leaderBoard/data/leaderData";
+import { StartPage } from "./layout/StartPage";
+import { Login } from "./pages/Login";
+import { leaderData } from "./pages/leaderBoard/data/leaderData";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 
 function App() {
@@ -13,10 +15,10 @@ function App() {
               <LeaderBoard arrayList={leaderData[0].list} />
             </Board>
           </Route>
-          <Route path="/">
-            <Board>
-              <LeaderBoard arrayList={leaderData[0].list} />
-            </Board>
+          <Route path="/Login">
+            <StartPage>
+              <Login />
+            </StartPage>
           </Route>
         </Switch>
       </div>

@@ -16,3 +16,13 @@
   display: flex;
   background-color: #e5e5e5;
 }
+.containerStart {
+  width: 100%;
+  background: linear-gradient(
+    108.22deg,
+    #f97c08 -2.93%,
+    rgba(251, 140, 6, 0.881224) 16.57%,
+    rgba(255, 169, 2, 0.66) 52.89%,
+    rgba(247, 216, 59, 0.66) 109.53%
+  );
+}
