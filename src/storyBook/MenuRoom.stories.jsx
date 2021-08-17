@@ -1,6 +1,6 @@
 import React from "react";
-import { MenuRoom } from "../components/leaderBoard/MenuRoom";
-import { leaderData } from "../components/leaderBoard/data/leaderData";
+import { MenuRoom } from "../components/pages/leaderBoard/MenuRoom";
+import { leaderData } from "../components/pages/leaderBoard/data/leaderData";
 
 export default {
   title: "MenuRoom",

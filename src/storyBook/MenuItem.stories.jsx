@@ -1,6 +1,6 @@
 import React from "react";
-import { RoomItem } from "../components/leaderBoard/MenuRoom/RoomItem";
-import styles from "../components/leaderBoard/MenuRoom/MenuRoom.module.css";
+import { RoomItem } from "../components/pages/leaderBoard/MenuRoom/RoomItem";
+import styles from "../components/pages/leaderBoard/MenuRoom/MenuRoom.module.css";
 
 export default {
   title: "MenuRoomItem",

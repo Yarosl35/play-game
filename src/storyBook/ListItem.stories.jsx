@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ListItem } from "./../components/leaderBoard/listLeader/listItem";
+import { ListItem } from "./../components/pages/leaderBoard/listLeader/listItem";
 
 export default {
   title: "ListItemComponent",
