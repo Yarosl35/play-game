@@ -45,11 +45,7 @@ export const MenuRoom = ({ arrayList, changeRoom }) => {
             }}
           />
         </div>
-        {showList ? (
-          <div className={styles.options} style={{ position: "absolute" }}>
-            {listMenuItem}
-          </div>
-        ) : null}
+        {showList ? <div className={styles.options}>{listMenuItem}</div> : null}
       </label>
     </OutsideClickHandler>
   );

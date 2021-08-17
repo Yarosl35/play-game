@@ -1,11 +1,3 @@
-.listItem {
-  display: flex;
-  height: 119px;
-  width: 1062px;
-  margin-left: 2px;
-  background: #fff;
-  border-top: 1px solid black;
-}
 .listTopNames {
   display: flex;
   width: 1062px;
@@ -27,8 +19,13 @@
 .name {
   width: 325px;
 }
-.context {
-  width: 85px;
+.listItem {
+  display: flex;
+  height: 119px;
+  width: 1062px;
+  margin-left: 2px;
+  background: #fff;
+  border-top: 1px solid black;
 }
 .cellLeader p {
   font-family: "Roboto", sans-serif;
@@ -36,79 +33,4 @@
   font-style: normal;
   font-weight: 400;
   letter-spacing: 0em;
-}
-.id {
-  font-family: "Roboto", sans-serif;
-  font-size: 36px;
-  font-style: normal;
-  font-weight: 500;
-  margin-right: 17px;
-}
-.selectContainer {
-  height: 102px;
-}
-.containerForSelect {
-  display: flex;
-  align-items: center;
-  width: 440px;
-  margin-left: 39px;
-}
-.select {
-  z-index: 1;
-  width: 249px;
-  height: 52px;
-  background: #ffffff;
-  box-sizing: border-box;
-  border-radius: 26px;
-  outline: none;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 32px;
-  color: #000000;
-  padding-left: 40px;
-}
-.options {
-  z-index: 3;
-  position: "absolute";
-}
-.options div {
-  display: flex;
-  padding-left: 40px;
-  align-items: center;
-  border: 1px solid black;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 32px;
-  width: 209px;
-  height: 52px;
-  border-radius: 26px;
-  background: #ffffff;
-  transition: 0.4s;
-}
-.options div:hover {
-  background: #b9b9b9;
-  transition: 0.4s;
-}
-.btnList {
-  z-index: 5;
-  position: absolute;
-  border-radius: 50px;
-  border: 1px solid black;
-  width: 50px;
-  height: 50px;
-  background: #c4c4c4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: -52px;
-  margin-left: 200px;
-}
-.btnList img {
-  width: 30px;
-}
-.labelList {
-  width: 254px;
-  position: "relative";
 }

@@ -11,6 +11,7 @@ export const LeaderBoard = () => {
     const roomSelected = leaderData.find((e) => e.room === room);
     setLeaderListRoom(roomSelected.list);
   };
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.selectContainer}>
