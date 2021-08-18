@@ -1,8 +1,15 @@
 import styles from "./Register.module.css";
 import { Formik, Form, Field } from "formik";
 import { SignupSchema } from "../../../services/validationService";
+import { Link } from "react-router-dom";
+import { Api } from "../../../ApiDotdotfire/api";
+const api = new Api();
 
 export const Register = () => {
+  const registerUser = async (loginData) => {
+    const responseLoginData = await api.register(loginData);
+    console.log(responseLoginData.data);
+  };
   return (
     <div className={styles.bgContainer}>
       <Formik
@@ -12,7 +19,7 @@ export const Register = () => {
         }}
         validationSchema={SignupSchema}
         onSubmit={(values) => {
-          console.log(values);
+          registerUser(values);
         }}
       >
         {({ errors, touched }) => (
@@ -80,7 +87,9 @@ export const Register = () => {
           </Form>
         )}
       </Formik>
-      <button className={styles.BtnReset}>Login</button>
+      <Link to="/login" className={styles.positionRightBtn}>
+        <button className={styles.BtnReset}>Login</button>
+      </Link>
     </div>
   );
 };

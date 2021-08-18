@@ -3,6 +3,7 @@ import styles from "./Login.module.css";
 import { Formik, Form, Field } from "formik";
 import { SignupSchema } from "../../../services/validationService";
 import { Api } from "../../../ApiDotdotfire/api";
+import { Link } from "react-router-dom";
 import icon from "./iconUser.svg";
 const api = new Api();
 
@@ -53,9 +54,11 @@ export const Login = () => {
               ) : null}
             </div>
             <div className={styles.BtnBlock}>
-              <button type="button" className={styles.BtnLogin}>
-                Register
-              </button>
+              <Link to="/register">
+                <button type="button" className={styles.BtnLogin}>
+                  Register
+                </button>
+              </Link>
               <button type="submit" className={styles.BtnLogin}>
                 Login
               </button>
