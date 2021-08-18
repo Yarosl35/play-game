@@ -1,5 +1,6 @@
 .bgContainer {
   width: 100%;
+  padding-top: 189px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -57,11 +58,19 @@
   color: #000000;
   margin-left: 15px;
 }
+.containerSchool {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+}
 .containerLoginInput {
-  margin-top: 10px;
+  /* margin-top: 10px; */
   display: flex;
   flex-direction: column;
   height: 220px;
+}
+.listJob {
+  height: 230px;
 }
 .containerPasswordInput {
   height: 260px;
@@ -70,10 +79,10 @@
 }
 .BtnBlock {
   display: flex;
-  margin-bottom: 10px;
+  margin-bottom: 50px;
 }
 .BtnReset {
-  width: 307px;
+  width: 218px;
   height: 93.09px;
 
   background: #202232;
@@ -90,11 +99,20 @@
 .positionRightBtn {
   position: absolute;
   margin-left: 1050px;
-  margin-top: 60px;
+  margin-top: -140px;
+}
+.labelListJob {
+  margin-bottom: 20px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 42px;
+  color: #000000;
+  margin-left: 15px;
 }
 .error {
   width: 500px;
-  height: 72px;
 
   font-family: Roboto;
   font-style: normal;
@@ -104,4 +122,5 @@
   margin-top: 25px;
   margin-left: 40px;
   color: #ac0505;
+  border: 1px solid black;
 }

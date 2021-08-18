@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 .labelList {
-  width: 254px;
+  width: 400px;
   position: "relative";
 }
 .select {
@@ -58,4 +58,64 @@
 .options div:hover {
   background: #b9b9b9;
   transition: 0.4s;
+}
+.formListBig {
+  z-index: 5;
+  position: absolute;
+  border-radius: 20px;
+  border: 3px solid black;
+  width: 91px;
+  height: 91px;
+  background: #c4c4c4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -97px;
+  margin-left: 478px;
+}
+.formListBig img {
+  width: 30px;
+}
+
+.optionsB {
+  z-index: 3;
+  position: absolute;
+}
+.optionsB div {
+  display: flex;
+  padding-left: 40px;
+  align-items: center;
+  border: 1px solid black;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 32px;
+  width: 524px;
+  height: 87px;
+  border-radius: 26px;
+  background: #ffffff;
+  transition: 0.4s;
+}
+.optionsB div:hover {
+  background: #b9b9b9;
+  transition: 0.4s;
+}
+.selectB {
+  z-index: 1;
+  width: 249px;
+  height: 52px;
+  background: #ffffff;
+  box-sizing: border-box;
+  border-radius: 26px;
+  outline: none;
+  font-family: Roboto;
+  font-style: normal;
+  width: 570px;
+  height: 97px;
+  color: #000000;
+  padding-left: 40px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 32px;
 }
