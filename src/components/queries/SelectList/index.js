@@ -2,15 +2,15 @@ import { useState } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 import styles from "./MenuRoom.module.css";
 import btnLogo from "./btnLogo.svg";
-import { RoomItem } from "./RoomItem";
+import { ListItem } from "./ListItem";
 
-export const MenuRoom = ({ arrayList, changeRoom }) => {
-  const [value, setValue] = useState(1);
+export const SelectList = ({ arrayList, change, circle, inputBig }) => {
+  const [value, setValue] = useState(arrayList[0].name);
   const [showList, setShowList] = useState(false);
 
-  const changeInput = (value) => {
-    setValue(value);
-    changeRoom(value);
+  const changeInput = ({ value, name }) => {
+    setValue(name);
+    change(value);
     setShowList(false);
   };
 
@@ -18,8 +18,8 @@ export const MenuRoom = ({ arrayList, changeRoom }) => {
     setShowList((show) => !show);
   };
 
-  const listMenuItems = arrayList.map(({ room }) => {
-    return <RoomItem key={room} changeInput={changeInput} room={room} />;
+  const listMenuItems = arrayList.map((value) => {
+    return <ListItem key={value} changeInput={changeInput} data={value} />;
   });
 
   return (
@@ -30,12 +30,15 @@ export const MenuRoom = ({ arrayList, changeRoom }) => {
     >
       <label className={styles.labelList} htmlFor="list">
         <input
-          className={styles.select}
+          className={inputBig ? styles.selectB : styles.select}
           id="list"
-          value={`room ${value}`}
+          value={value}
           readOnly
         />
-        <div className={styles.btnList} onClick={showChange}>
+        <div
+          className={circle ? styles.btnList : styles.formListBig}
+          onClick={showChange}
+        >
           <img
             src={btnLogo}
             alt="btn"
@@ -46,7 +49,9 @@ export const MenuRoom = ({ arrayList, changeRoom }) => {
           />
         </div>
         {showList ? (
-          <div className={styles.options}>{listMenuItems}</div>
+          <div className={inputBig ? styles.optionsB : styles.options}>
+            {listMenuItems}
+          </div>
         ) : null}
       </label>
     </OutsideClickHandler>

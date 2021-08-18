@@ -1,14 +1,31 @@
+import { useState } from "react";
 import styles from "./Register.module.css";
 import { Formik, Form, Field } from "formik";
-import { SignupSchema } from "../../../services/validationService";
+import { RegisterSchema } from "../../../services/validationService";
 import { Link } from "react-router-dom";
-import { Api } from "../../../ApiDotdotfire/api";
-const api = new Api();
+import { SelectList } from "../../queries/SelectList";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUSer } from "../../../redux/feature/reducer";
 
+const forList = [
+  { value: "1", name: "school 1" },
+  { value: "2", name: "school 2" },
+];
 export const Register = () => {
+  const dispatch = useDispatch();
+  const [selectedJob, setSelectedJob] = useState("");
+  const dataRegister = useSelector((e) => e.register);
+  console.log(dataRegister);
+
   const registerUser = async (loginData) => {
-    const responseLoginData = await api.register(loginData);
-    console.log(responseLoginData.data);
+    const newObj = {
+      ...loginData,
+      jobPosition: selectedJob,
+    };
+    dispatch(registerUSer(newObj));
+  };
+  const changeJob = (value) => {
+    setSelectedJob(value);
   };
   return (
     <div className={styles.bgContainer}>
@@ -16,8 +33,10 @@ export const Register = () => {
         initialValues={{
           email: "",
           password: "",
+          confirmPassword: "",
+          schoolName: "",
         }}
-        validationSchema={SignupSchema}
+        validationSchema={RegisterSchema}
         onSubmit={(values) => {
           registerUser(values);
         }}
@@ -42,8 +61,10 @@ export const Register = () => {
                 className={styles.formLoginPage}
                 type="password"
               />
-              {errors.email && touched.email ? (
-                <div className={styles.error}>{`Error: ${errors.email}`}</div>
+              {errors.password && touched.password ? (
+                <div
+                  className={styles.error}
+                >{`Error: ${errors.password}`}</div>
               ) : null}
             </div>
             <div className={styles.containerLoginInput}>
@@ -51,33 +72,35 @@ export const Register = () => {
               <Field
                 name="confirmPassword"
                 className={styles.formLoginPage}
-                type="confirmPassword"
+                type="password"
               />
-              {errors.email && touched.email ? (
-                <div className={styles.error}>{`Error: ${errors.email}`}</div>
+              {errors.confirmPassword && touched.confirmPassword ? (
+                <div
+                  className={styles.error}
+                >{`Error: ${errors.confirmPassword}`}</div>
               ) : null}
             </div>
-            <div className={styles.containerLoginInput}>
+            <div className={styles.containerSchool}>
               <label className={styles.labelInput}>school name:</label>
               <Field
                 name="schoolName"
                 className={styles.formLoginPage}
-                type="schoolName"
+                type="text"
               />
-              {errors.email && touched.email ? (
-                <div className={styles.error}>{`Error: ${errors.email}`}</div>
+              {errors.schoolName && touched.schoolName ? (
+                <div
+                  className={styles.error}
+                >{`Error: ${errors.schoolName}`}</div>
               ) : null}
             </div>
-            <div className={styles.containerLoginInput}>
-              <label className={styles.labelInput}>job position:</label>
-              <Field
-                name="jobPosition"
-                className={styles.formLoginPage}
-                type="jobPosition"
+            <div className={styles.listJob}>
+              <p className={styles.labelListJob}>Job position:</p>
+              <SelectList
+                arrayList={forList}
+                change={changeJob}
+                circle={false}
+                inputBig={true}
               />
-              {errors.email && touched.email ? (
-                <div className={styles.error}>{`Error: ${errors.email}`}</div>
-              ) : null}
             </div>
             <div className={styles.BtnBlock}>
               <button type="submit" className={styles.BtnLogin}>

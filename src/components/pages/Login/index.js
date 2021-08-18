@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import styles from "./Login.module.css";
 import { Formik, Form, Field } from "formik";
 import { SignupSchema } from "../../../services/validationService";
-import { Api } from "../../../ApiDotdotfire/api";
 import { Link } from "react-router-dom";
 import icon from "./iconUser.svg";
-const api = new Api();
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../../redux/feature/reducer";
 
 export const Login = () => {
+  const a = useSelector((a) => a);
+  console.log(a);
+  const dispatch = useDispatch();
   const sendDataLogin = async (loginData) => {
-    const responseLoginData = await api.LoginUser(loginData);
-    console.log(responseLoginData.data);
+    dispatch(loginUser(loginData));
   };
   return (
     <div className={styles.bgContainer}>
