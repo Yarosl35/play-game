@@ -1,13 +1,9 @@
 import styles from "./Login.module.css";
 import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
+import { SignupSchema } from "../../../services/validationService";
 
 import icon from "./iconUser.svg";
 
-const SignupSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string(),
-});
 export const Login = () => {
   return (
     <div className={styles.bgContainer}>
@@ -21,26 +17,33 @@ export const Login = () => {
         }}
         validationSchema={SignupSchema}
         onSubmit={(values) => {
-          // same shape as initial values
           console.log(values);
         }}
       >
         {({ errors, touched }) => (
-          <Form>
+          <Form className={styles.formMainContainer}>
             <div className={styles.containerLoginInput}>
               <label className={styles.labelInput}>email:</label>
-              <Field name="email" className={styles.formLogin} type="email" />
-              {errors.email && touched.email ? <div>{errors.email}</div> : null}
+              <Field
+                name="email"
+                className={styles.formLoginPage}
+                type="email"
+              />
+              {errors.email && touched.email ? (
+                <div className={styles.error}>{`Error: ${errors.email}`}</div>
+              ) : null}
             </div>
             <div className={styles.containerPasswordInput}>
               <label className={styles.labelInput}>password:</label>
               <Field
                 name="password"
-                className={styles.formLogin}
+                className={styles.formLoginPage}
                 type="password"
               />
               {errors.password && touched.password ? (
-                <div>{errors.password}</div>
+                <div
+                  className={styles.error}
+                >{`Error: ${errors.password}`}</div>
               ) : null}
             </div>
             <div className={styles.BtnBlock}>
