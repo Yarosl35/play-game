@@ -4,6 +4,7 @@ import { StartPage } from "./layout/StartPage";
 import { Login } from "./pages/Login";
 import { leaderData } from "./pages/leaderBoard/data/leaderData";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
+import { Register } from "./pages/Register";
 
 function App() {
   return (
@@ -15,9 +16,14 @@ function App() {
               <LeaderBoard arrayList={leaderData[0].list} />
             </Board>
           </Route>
-          <Route path="/Login">
+          <Route path="/login">
             <StartPage>
               <Login />
+            </StartPage>
+          </Route>
+          <Route path="/register">
+            <StartPage>
+              <Register />
             </StartPage>
           </Route>
         </Switch>
