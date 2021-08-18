@@ -1,10 +1,16 @@
+import React, { useState } from "react";
 import styles from "./Login.module.css";
 import { Formik, Form, Field } from "formik";
 import { SignupSchema } from "../../../services/validationService";
-
+import { Api } from "../../../ApiDotdotfire/api";
 import icon from "./iconUser.svg";
+const api = new Api();
 
 export const Login = () => {
+  const sendDataLogin = async (loginData) => {
+    const responseLoginData = await api.LoginUser(loginData);
+    console.log(responseLoginData.data);
+  };
   return (
     <div className={styles.bgContainer}>
       <div className={styles.iconUser}>
@@ -17,7 +23,7 @@ export const Login = () => {
         }}
         validationSchema={SignupSchema}
         onSubmit={(values) => {
-          console.log(values);
+          sendDataLogin(values);
         }}
       >
         {({ errors, touched }) => (
