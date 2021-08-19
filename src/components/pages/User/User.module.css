@@ -1,0 +1,78 @@
+.containerWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  width: 760px;
+  height: 625px;
+  background-color: #ffffff;
+  padding: 55px;
+  margin-top: 65px;
+}
+
+.formMainContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 500px;
+}
+
+.blockTitle {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 42px;
+  margin-left: -45px;
+}
+
+.labelInput {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.input {
+  width: 243px;
+  height: 33px;
+  border-radius: 0;
+  border: 2px solid #000000;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+input[type="email"]:disabled {
+  background: #c4c4c4;
+  color: #000000;
+  text-decoration: underline;
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btnBlock {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btnSave {
+  border: 0;
+  background-color: #c4c4c4;
+  width: 85px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.error {
+  position: absolute;
+  left: 250px;
+  top: 45px;
+  color: #ff0000;
+}
