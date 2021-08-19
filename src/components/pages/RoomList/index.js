@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./Rooms.module.css";
 import { playersData } from "./data/playersData";
 import { RoomsItem } from "./RoomsItem/index";
