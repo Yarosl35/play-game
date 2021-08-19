@@ -5,6 +5,7 @@ import { Login } from "./pages/Login";
 import { leaderData } from "./pages/leaderBoard/data/leaderData";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import { Register } from "./pages/Register";
+import { Players } from "./pages/Players";
 
 function App() {
   return (
@@ -13,7 +14,12 @@ function App() {
         <Switch>
           <Route path="/leader-board">
             <Board>
-              <LeaderBoard arrayList={leaderData[0].list} />
+              <LeaderBoard />
+            </Board>
+          </Route>
+          <Route path="/players">
+            <Board>
+              <Players />
             </Board>
           </Route>
           <Route path="/login">

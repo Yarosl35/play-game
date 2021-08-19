@@ -22,6 +22,7 @@ bin-release/
 /node_modules
 /.pnp
 .pnp.js
+/.vscode
 
 # testing
 /coverage

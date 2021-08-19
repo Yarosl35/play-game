@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerUSer } from "../../../redux/feature/reducer";
 
 const forList = [
-  { value: "1", name: "school 1" },
-  { value: "2", name: "school 2" },
+  { value: "teacher", name: "Teacher" },
+  { value: "technician", name: "Technician" },
+  { value: "principle", name: "Principle" },
 ];
 export const Register = () => {
   const dispatch = useDispatch();

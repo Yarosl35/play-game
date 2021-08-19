@@ -16,5 +16,4 @@ export const RegisterSchema = Yup.object().shape({
     "Passwords must match"
   ),
   schoolName: Yup.string().min(2, "should be 2 chars minimum."),
-  jobPosition: Yup.string(),
 });

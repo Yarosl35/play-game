@@ -11,13 +11,13 @@
 }
 .leftBar {
   width: 344px;
-  height: 897px;
   margin-left: -7px;
   background-color: yellowgreen;
 }
 .leaderContainer {
   display: flex;
   background-color: #e5e5e5;
+  height: calc(100vh - 127px);
 }
 .containerStart {
   width: 100%;
