@@ -34,3 +34,23 @@
   font-weight: 400;
   letter-spacing: 0em;
 }
+.containerScroll {
+  width: 100%;
+  height: calc(100vh - 342px);
+  overflow-y: scroll;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+.containerScroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.containerScroll::-webkit-scrollbar-track {
+  background: #c4c4c4;
+}
+
+/* Handle */
+.containerScroll::-webkit-scrollbar-thumb {
+  background: #ffffff;
+}

@@ -46,7 +46,9 @@ export const ListLeader = ({ arrayList }) => {
           <p>score</p>
         </div>
       </div>
+      <div className={styles.containerScroll}>
       {listItems}
+      </div>
     </>
   );
 };

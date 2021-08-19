@@ -28,4 +28,18 @@ export class Api {
       console.warn(error);
     }
   };
+  getUser = async () => {
+    try {
+      const dataUser = await axios.get(`${url}/users/details`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authentication: "",
+          Prefer: "",
+        },
+      });
+      return dataUser;
+    } catch (error) {
+      console.warn(error);
+    }
+  };
 }
