@@ -54,12 +54,10 @@ export const PlayersItem = ({ data, removePlayer }) => {
       {showHideUpdateRow ? (
         <div
           className={styles.tooltip}
-          style={
-            {
-              // left: MousePosition.left + 4,
-              // top: MousePosition.top - 70,
-            }
-          }
+          style={{
+            left: MousePosition.left + (MousePosition.left > 700 ? -550 : 4),
+            top: MousePosition.top - (MousePosition.top > 600 ? 400 : 70),
+          }}
         >
           <div>
             <p>player name: {data.name}</p>
