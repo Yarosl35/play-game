@@ -83,6 +83,20 @@
   height: calc(100vh - 482px);
   overflow-y: scroll;
 }
+.containerScroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.containerScroll::-webkit-scrollbar-track {
+  background: #c4c4c4;
+}
+
+/* Handle */
+.containerScroll::-webkit-scrollbar-thumb {
+  background: #ffffff;
+}
+
 .containerAddSeat {
   background-color: #ff731d;
   height: 175px;
