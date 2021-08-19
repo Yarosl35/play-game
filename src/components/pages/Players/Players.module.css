@@ -1,0 +1,154 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+.mainContainer {
+  margin-left: 17px;
+  margin-top: 24px;
+  height: calc(100vh - 160px);
+  width: 1079px;
+}
+.listPlayers li {
+  height: 121px;
+  /* width: 1062px; */
+  border-radius: 0px;
+  border-top: 2px solid black;
+  display: flex;
+  align-items: center;
+}
+.containerBtn {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: flex-end;
+}
+.importBtn {
+  margin-right: 90px;
+  height: 69px;
+  width: 270px;
+  background: #005696;
+  position: absolute;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+
+  color: #ffffff;
+}
+.namesList {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.namesList div {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 42px;
+}
+.name {
+  width: 280px;
+  font-size: 36px;
+  display: flex;
+  justify-content: center;
+}
+.status {
+  width: 254px;
+  font-size: 36px;
+  display: flex;
+  justify-content: center;
+}
+.seatCode {
+  width: 247px;
+  font-size: 36px;
+  display: flex;
+  justify-content: center;
+}
+.remove {
+  width: 86px;
+  font-weight: 500;
+  font-size: 24px;
+  display: flex;
+  color: #ff0a0a;
+  justify-content: center;
+}
+.link {
+  width: 210px;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
+  display: flex;
+  justify-content: center;
+  color: #357900;
+}
+.containerScroll {
+  height: calc(100vh - 482px);
+  overflow-y: scroll;
+}
+.containerAddSeat {
+  background-color: #ff731d;
+  height: 175px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+}
+.AddSeatText {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 48px;
+  margin-top: 17px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+}
+.inputAddContainer {
+  display: flex;
+  align-items: center;
+}
+.inputAddContainer label {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  margin-right: 19px;
+}
+.inputAddContainer input {
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 26px;
+  background: transparent;
+  width: 249px;
+  height: 52px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  padding-left: 19px;
+  outline: none;
+}
+.boxFormAddSeat {
+  display: flex;
+}
+.boxFormAddSeatInput {
+  display: flex;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 840px;
+  margin-right: 20px;
+  margin-left: 20px;
+  justify-content: space-between;
+}
+.BtnAdd {
+  width: 130px;
+  height: 72px;
+  background: #005696;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 19px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+
+  color: #ffffff;
+}

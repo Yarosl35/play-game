@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+.namesList div {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 42px;
+}
+.name {
+  width: 280px;
+  font-size: 36px;
+  display: flex;
+  justify-content: center;
+}
+.status {
+  width: 254px;
+  font-size: 36px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 42px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.statusWaiting {
+  color: rgba(0, 170, 139, 1);
+}
+.statusPlaying {
+  color: rgba(39, 150, 0, 1);
+}
+.statusOffline {
+  color: rgba(138, 0, 0, 1);
+}
+.seatCode {
+  width: 247px;
+  font-size: 36px;
+  display: flex;
+  justify-content: center;
+}
+.remove {
+  width: 86px;
+  font-weight: 500;
+  font-size: 24px;
+  display: flex;
+  color: #ff0a0a;
+  justify-content: center;
+}
+.remove img {
+  cursor: pointer;
+}
+.link {
+  width: 210px;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
+  display: flex;
+  justify-content: center;
+  color: #357900;
+}
+.link img {
+  cursor: pointer;
+}
+.tooltip {
+  padding-top: 38px;
+  padding-left: 24px;
+  position: absolute;
+  border-radius: 4px;
+  width: 525px;
+  height: 278px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 4px solid #8b8b8b;
+  box-sizing: border-box;
+}
+.tooltip div p {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 42px;
+
+  color: #000000;
+}
