@@ -1,4 +1,4 @@
-import { LeaderBoard } from "./pages/leaderBoard/index";
+import { LeaderBoard } from "./pages/LeaderBoard/index";
 import { Board } from "./layout/index";
 import { StartPage } from "./layout/StartPage";
 import { Login } from "./pages/Login";
@@ -7,6 +7,9 @@ import { Register } from "./pages/Register";
 import { Players } from "./pages/Players";
 import { RoomList } from "./pages/RoomList";
 import { WebPanel } from "./layout/WebPanel";
+import { User } from "./pages/User";
+import { ResetPassword } from "./pages/ResetPassword";
+import { EmailSend } from "./pages/ResetPassword/Email";
 
 function App() {
   return (
@@ -37,6 +40,21 @@ function App() {
             <WebPanel>
               <RoomList />
             </WebPanel>
+          </Route>
+          <Route path="/user">
+            <WebPanel>
+              <User />
+            </WebPanel>
+          </Route>
+          <Route exact path="/reset/email">
+            <StartPage>
+              <EmailSend />
+            </StartPage>
+          </Route>
+          <Route path="/reset">
+            <StartPage>
+              <ResetPassword />
+            </StartPage>
           </Route>
         </Switch>
       </div>

@@ -72,7 +72,7 @@
   display: flex;
   justify-content: space-between;
   width: 468px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 .BtnReset {
   position: absolute;

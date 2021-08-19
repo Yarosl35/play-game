@@ -21,6 +21,7 @@
 }
 .containerStart {
   width: 100%;
+  height: calc(100vh - 127px);
   background: linear-gradient(
     108.22deg,
     #f97c08 -2.93%,
