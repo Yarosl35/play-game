@@ -2,10 +2,11 @@ import { LeaderBoard } from "./pages/leaderBoard/index";
 import { Board } from "./layout/index";
 import { StartPage } from "./layout/StartPage";
 import { Login } from "./pages/Login";
-import { leaderData } from "./pages/leaderBoard/data/leaderData";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import { Register } from "./pages/Register";
 import { Players } from "./pages/Players";
+import { RoomList } from "./pages/RoomList";
+import { WebPanel } from "./layout/WebPanel";
 
 function App() {
   return (
@@ -31,6 +32,11 @@ function App() {
             <StartPage>
               <Register />
             </StartPage>
+          </Route>
+          <Route path="/room-list">
+            <WebPanel>
+              <RoomList />
+            </WebPanel>
           </Route>
         </Switch>
       </div>
