@@ -1,0 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+.namesList div {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 42px;
+}
