@@ -1,29 +1,26 @@
 import axios from "axios";
-const url =
-  "https://stoplight.io/mocks/dotdotfire/get-platform/17529590/api/v1";
+import qs from "qs";
+const url = "http://getplatform.dotdotfire.ga/api/v1";
 
 export class Api {
-  LoginUser = async () => {
+  LoginUser = async (data) => {
     try {
-      const dataLogin = await axios.post(`${url}/users/login`, {
-        email: "",
-        password: "",
-      });
+      const dataLogin = await axios.post(
+        `${url}/users/login`,
+        qs.stringify(data)
+      );
       return dataLogin;
     } catch (error) {
       console.warn(error);
     }
   };
-  register = async () => {
+  register = async (data) => {
     try {
-      const dataLogin = await axios.post(`${url}/users/register`, {
-        email: "",
-        password: "",
-        fullName: "",
-        school: "",
-        jobPosition: "",
-      });
-      return dataLogin;
+      const dataResponse = await axios.post(
+        `${url}/users/register`,
+        qs.stringify(data)
+      );
+      return dataResponse;
     } catch (error) {
       console.warn(error);
     }
@@ -43,3 +40,5 @@ export class Api {
     }
   };
 }
+// namenew@gmail.com
+// 987654qwerty

@@ -63,13 +63,13 @@
   position: absolute;
   border-radius: 20px;
   border: 3px solid black;
-  width: 91px;
-  height: 91px;
+  width: 88px;
+  height: 88px;
   background: #c4c4c4;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: -97px;
+  margin-top: -90px;
   margin-left: 478px;
 }
 .formListBig img {
@@ -101,16 +101,14 @@
 }
 .selectB {
   z-index: 1;
-  width: 249px;
-  height: 52px;
   background: #ffffff;
   box-sizing: border-box;
   border-radius: 26px;
   outline: none;
   font-family: Roboto;
   font-style: normal;
-  width: 570px;
-  height: 97px;
+  width: 545px;
+  height: 87px;
   color: #000000;
   padding-left: 40px;
   font-family: Roboto;

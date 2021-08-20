@@ -75,12 +75,6 @@
   margin-bottom: 0px;
 }
 .BtnReset {
-  position: absolute;
-  margin-left: 1050px;
-  margin-top: 60px;
-  width: 307px;
-  height: 93.09px;
-
   background: #202232;
   box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.25);
   border-radius: 18px;
@@ -89,8 +83,15 @@
   font-weight: 500;
   font-size: 36px;
   line-height: 53px;
-
+  height: 100%;
   color: #ffffff;
+}
+.BtnResetLink {
+  position: absolute;
+  margin-left: 1050px;
+  margin-top: 60px;
+  width: 307px;
+  height: 93.09px;
 }
 .error {
   width: 500px;
