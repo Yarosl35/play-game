@@ -1,61 +1,39 @@
 import { LeaderBoard } from "./pages/LeaderBoard/index";
-import { Board } from "./layout/index";
-import { StartPage } from "./layout/StartPage";
+import { LoginLayout } from "./layout/LoginLayout";
 import { Login } from "./pages/Login";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import { Register } from "./pages/Register";
 import { Players } from "./pages/Players";
 import { RoomList } from "./pages/RoomList";
-import { WebPanel } from "./layout/WebPanel";
 import { User } from "./pages/User";
 import { ResetPassword } from "./pages/ResetPassword";
 import { EmailSend } from "./pages/ResetPassword/Email";
+import { NewPassword } from "./pages/NewPassword";
+import { PrivateRoute } from "./PrivateRouter";
 
 function App() {
   return (
     <BrowserRouter>
       <div>
         <Switch>
-          <Route path="/leader-board">
-            <Board>
-              <LeaderBoard />
-            </Board>
-          </Route>
-          <Route path="/players">
-            <Board>
-              <Players />
-            </Board>
-          </Route>
-          <Route path="/login">
-            <StartPage>
-              <Login />
-            </StartPage>
-          </Route>
-          <Route path="/register">
-            <StartPage>
-              <Register />
-            </StartPage>
-          </Route>
-          <Route path="/room-list">
-            <WebPanel>
-              <RoomList />
-            </WebPanel>
-          </Route>
-          <Route path="/user">
-            <WebPanel>
-              <User />
-            </WebPanel>
-          </Route>
-          <Route exact path="/reset/email">
-            <StartPage>
-              <EmailSend />
-            </StartPage>
-          </Route>
-          <Route path="/reset">
-            <StartPage>
-              <ResetPassword />
-            </StartPage>
-          </Route>
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route exact path="/reset/email" component={EmailSend} />
+          <Route path="/reset" component={ResetPassword} />
+          <Route path="/new-password" component={NewPassword} />
+          <PrivateRoute path="/leader-board">
+            <LeaderBoard />
+          </PrivateRoute>
+          <PrivateRoute path="/user">
+            <User />
+          </PrivateRoute>
+          <PrivateRoute path="/room-list">
+            <RoomList />
+          </PrivateRoute>
+          <PrivateRoute path="/players">
+            <Players />
+          </PrivateRoute>
+          <Route path="/" component={LoginLayout} />
         </Switch>
       </div>
     </BrowserRouter>

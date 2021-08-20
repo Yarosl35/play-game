@@ -1,13 +1,12 @@
 import React from "react";
 import styles from "./layout.module.css";
-import Logo from "./logo.svg";
-import { TopBar } from "./TopBar";
+import { TopBoard } from "./TopBoard";
 
-export const StartPage = ({ children }) => {
+export const Panel = ({ children }) => {
   return (
     <div className={styles.test}>
-      <TopBar />
-      <div className={styles.containerStart}>
+      <TopBoard />
+      <div className={styles.containerWebPanel}>
         <div>{children}</div>
       </div>
     </div>

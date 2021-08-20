@@ -11,7 +11,6 @@ export const PlayersItem = ({ data, removePlayer }) => {
   const [showHideUpdateRow, setShowHideUpdateRow] = useState(false);
   function handleMouseMove(ev) {
     setShowHideUpdateRow(true);
-    console.log(ev);
     setMousePosition({ left: ev.screenX, top: ev.screenY });
   }
   return (

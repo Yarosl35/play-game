@@ -5,9 +5,23 @@ import { Link } from "react-router-dom";
 export const TopBar = () => {
   return (
     <div className={styles.topBar}>
-      <img className={styles.logo} src={Logo} />
+      <Link to="/" style={{ textDecoration: "none" }}>
+        <img className={styles.logo} src={Logo} />
+      </Link>
       <div className={styles.containerMenu}>
-        <Link to="/leader-board">
+        <div>
+          <Link to="/play" style={{ textDecoration: "none" }}>
+            Play
+          </Link>
+          <Link to="/about" style={{ textDecoration: "none" }}>
+            About
+          </Link>
+          <Link to="resource" style={{ textDecoration: "none" }}>
+            Resource
+          </Link>
+        </div>
+        <Link to="/login">Login</Link>
+        {/* <Link to="/leader-board">
           <p>leader-board</p>
         </Link>
 
@@ -34,7 +48,7 @@ export const TopBar = () => {
         </Link>
         <Link to="/reset">
           <p>reset</p>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
