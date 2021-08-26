@@ -10,7 +10,7 @@ export const Players = () => {
   const addNewPlayer = (dataPlayer) => {
     setArrPlayers((e) => [
       {
-        id: new Date().getMilliseconds,
+        id: new Date().getMilliseconds(),
         name: dataPlayer.name,
         status: "Waiting",
         seatCode: "S13HF4",
