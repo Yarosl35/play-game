@@ -1,31 +1,31 @@
 import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { UserSchema } from "./../../../services/validationService";
 import styles from "./User.module.css";
-import { Api } from "./../../../API/dotdotfire";
+// import { Api } from "./../../../API/dotdotfire";
 import { Panel } from "../../layout/Panel";
-const datauser = new Api();
+// const datauser = new Api();
 
 export const User = () => {
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
 
-  const dataUserInfo = async () => {
-    const dataUser = await datauser.getUser();
-    setUser(dataUser.data.details);
-  };
+  // const dataUserInfo = async () => {
+  //   const dataUser = await datauser.getUser();
+  //   setUser(dataUser.data.details);
+  // };
 
-  useEffect(() => {
-    dataUserInfo();
-  }, []);
+  // useEffect(() => {
+  //   dataUserInfo();
+  // }, []);
   return (
     <Panel>
       <div className={styles.containerWrapper}>
         <div className={styles.container}>
           <Formik
             initialValues={{
-              email: "??? email",
-              fullName: !user.fullName ? "" : user.fullName,
-              schoolName: !user.schoolName ? "" : user.schoolName,
+              email: "tes@email.com",
+              fullName: "name",
+              schoolName: "schoolName",
               oldPassword: "",
               newPassword: "",
               confirmPassword: "",
@@ -33,7 +33,7 @@ export const User = () => {
             validationSchema={UserSchema}
             enableReinitialize={true}
             onSubmit={(values) => {
-              // server request
+              console.log(values);
             }}
           >
             {({ errors, touched }) => (
