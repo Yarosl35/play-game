@@ -6,7 +6,7 @@ export const TopBar = () => {
   return (
     <div className={styles.topBar}>
       <Link to="/" style={{ textDecoration: "none" }}>
-        <img className={styles.logo} src={Logo} />
+        <img className={styles.logo} src={Logo} alt="logo" />
       </Link>
       <div className={styles.containerMenu}>
         <div>
@@ -21,34 +21,6 @@ export const TopBar = () => {
           </Link>
         </div>
         <Link to="/login">Login</Link>
-        {/* <Link to="/leader-board">
-          <p>leader-board</p>
-        </Link>
-
-        <Link to="/players">
-          <p>players</p>
-        </Link>
-
-        <Link to="/login">
-          <p>login</p>
-        </Link>
-        <Link to="/register">
-          <p>register</p>
-        </Link>
-
-        <Link to="/room-list">
-          <p>room-list</p>
-        </Link>
-
-        <Link to="/user">
-          <p>user</p>
-        </Link>
-        <Link to="/reset/email">
-          <p>reset/email</p>
-        </Link>
-        <Link to="/reset">
-          <p>reset</p>
-        </Link> */}
       </div>
     </div>
   );

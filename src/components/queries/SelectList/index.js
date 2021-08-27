@@ -19,7 +19,7 @@ export const SelectList = ({ arrayList, change, circle, inputBig }) => {
   };
 
   const listMenuItems = arrayList.map((value) => {
-    return <ListItem key={value} changeInput={changeInput} data={value} />;
+    return <ListItem key={value.id} changeInput={changeInput} data={value} />;
   });
 
   return (

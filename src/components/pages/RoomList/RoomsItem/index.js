@@ -1,5 +1,4 @@
 import ListIcon from "./ListIcon.svg";
-import styles from "./RoomsItem.module.css";
 
 export const RoomsItem = ({ data }) => {
   // id: 5,
