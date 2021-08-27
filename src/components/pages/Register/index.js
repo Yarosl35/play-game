@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import styles from "./Register.module.css";
 import { Formik, Form, Field } from "formik";
 import { RegisterSchema } from "../../../services/validationService";
@@ -6,14 +7,20 @@ import { Link } from "react-router-dom";
 import { SelectList } from "../../queries/SelectList";
 import { LoginLayout } from "../../layout/LoginLayout";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../../redux/feature/reducer";
+import { Modal } from "../../Modal";
+import { registerUser, closeModal } from "../../../redux/feature/reducer";
 
 const forList = [
-  { value: "teacher", name: "Teacher" },
-  { value: "technician", name: "Technician" },
-  { value: "principle", name: "Principle" },
+  { id: 1, value: "teacher", name: "Teacher" },
+  { id: 2, value: "technician", name: "Technician" },
+  { id: 3, value: "principle", name: "Principle" },
 ];
 export const Register = () => {
+  const formikRef = useRef();
+  const resRegistration = useSelector((resData) => resData);
+  const createdUserShow = useSelector(
+    ({ createdUserShow }) => createdUserShow.show
+  );
   const dispatch = useDispatch();
   const [selectedJob, setSelectedJob] = useState(forList[0].value);
 
@@ -30,10 +37,31 @@ export const Register = () => {
   const changeJob = (value) => {
     setSelectedJob(value);
   };
+  const history = useHistory();
+  useEffect(() => {
+    if (createdUserShow) {
+      setTimeout(() => {
+        dispatch(closeModal());
+        return history.push("/login");
+      }, 3000);
+    }
+  }, [createdUserShow, dispatch, history]);
+  useEffect(() => {
+    if (resRegistration.emailUserError) {
+      formikRef.current.setFieldError(
+        "emailError",
+        "Error: email is already taken"
+      );
+    }
+  }, [resRegistration.emailUserError]);
   return (
     <LoginLayout>
+      {resRegistration.createdUserShow.show ? (
+        <Modal response={resRegistration} />
+      ) : null}
       <div className={styles.bgContainer}>
         <Formik
+          innerRef={formikRef}
           initialValues={{
             email: "",
             password: "",
@@ -41,8 +69,8 @@ export const Register = () => {
             schoolName: "",
           }}
           validationSchema={RegisterSchema}
-          onSubmit={(values) => {
-            regUser(values);
+          onSubmit={(values, { setFieldError }) => {
+            regUser(values, setFieldError);
           }}
         >
           {({ errors, touched }) => (
@@ -57,6 +85,9 @@ export const Register = () => {
                 {errors.email && touched.email ? (
                   <div className={styles.error}>{`Error: ${errors.email}`}</div>
                 ) : null}
+                {errors.emailError && (
+                  <div className={styles.error}>{errors.emailError}</div>
+                )}
               </div>
               <div className={styles.containerLoginInput}>
                 <label className={styles.labelInput}>password:</label>
@@ -64,6 +95,7 @@ export const Register = () => {
                   name="password"
                   className={styles.formLoginPage}
                   type="password"
+                  autoComplete="off"
                 />
                 {errors.password && touched.password ? (
                   <div
@@ -77,6 +109,7 @@ export const Register = () => {
                   name="confirmPassword"
                   className={styles.formLoginPage}
                   type="password"
+                  autoComplete="off"
                 />
                 {errors.confirmPassword && touched.confirmPassword ? (
                   <div

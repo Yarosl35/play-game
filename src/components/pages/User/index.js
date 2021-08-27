@@ -23,9 +23,9 @@ export const User = () => {
         <div className={styles.container}>
           <Formik
             initialValues={{
-              email: "tes@email.com",
-              fullName: "name",
-              schoolName: "schoolName",
+              email: "test@email.com",
+              fullName: "full name",
+              schoolName: "school name",
               oldPassword: "",
               newPassword: "",
               confirmPassword: "",

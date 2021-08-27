@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./resetPassword.module.css";
 import { Formik, Form, Field } from "formik";
 import { Link } from "react-router-dom";

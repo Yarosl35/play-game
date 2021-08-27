@@ -10,7 +10,7 @@ export const LoginLayout = ({ children }) => {
   const history = useHistory();
   useEffect(() => {
     if (auth) return history.push("/players");
-  }, [auth]);
+  }, [auth, history]);
   return (
     <div className={styles.test}>
       <TopBar />

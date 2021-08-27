@@ -1,30 +1,36 @@
 import axios from "axios";
 import qs from "qs";
-const url = "http://getplatform.dotdotfire.ga/api/v1";
+
+const url = "https://getplatform.dotdotfire.com/api/v1";
 
 export class Api {
   LoginUser = async (data) => {
-    try {
-      const dataLogin = await axios.post(
-        `${url}/users/login`,
-        qs.stringify(data)
-      );
-      return dataLogin;
-    } catch (error) {
-      console.warn(error);
-    }
+    const options = {
+      method: "POST",
+      url: `${url}/users/login`,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        accept: "*/*",
+      },
+      data: qs.stringify({ email: data.email, password: data.password }),
+    };
+    const dataResponse = await axios.request(options);
+    return dataResponse;
   };
   register = async (data) => {
-    try {
-      const dataResponse = await axios.post(
-        `${url}/users/register`,
-        qs.stringify(data)
-      );
-      return dataResponse;
-    } catch (error) {
-      console.warn(error);
-    }
+    const options = {
+      method: "POST",
+      url: `${url}/users/register`,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        accept: "*/*",
+      },
+      data: qs.stringify({ email: data.email, password: data.password }),
+    };
+    const dataResponse = await axios.request(options);
+    return dataResponse;
   };
+
   getUser = async () => {
     try {
       const dataUser = await axios.get(`${url}/users/details`, {

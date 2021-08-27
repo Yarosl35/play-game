@@ -4,34 +4,62 @@ const userAPI = new Api();
 
 const initialState = {
   user: { email: "", token: "" },
-  register: null,
   auth: null,
+  loginError: false,
+  emailUserError: false,
+  createdUserShow: { show: false, text: "" },
 };
 
-export const loginUser = createAsyncThunk("users/loginUser", async (data) => {
-  const response = await userAPI.LoginUser(data);
-  return response.data;
-});
-export const registerUser = createAsyncThunk("users/Register", async (data) => {
-  const response = await userAPI.register(data);
-  return response.data;
-});
+export const loginUser = createAsyncThunk(
+  "users/loginUser",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await userAPI.LoginUser(data);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const registerUser = createAsyncThunk(
+  "users/Register",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await userAPI.register(data);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const counterSlice = createSlice({
   name: "counter",
   initialState,
-  reducers: {},
+  reducers: {
+    closeModal(state) {
+      state.createdUserShow = { show: false, text: "" };
+    },
+  },
   extraReducers: {
     [loginUser.fulfilled]: (state, action) => {
       state.user = action.payload;
       state.auth = true;
+      state.loginError = false;
+    },
+    [loginUser.rejected]: (state) => {
+      state.loginError = true;
     },
     [registerUser.fulfilled]: (state, action) => {
-      state.register = action.payload;
+      state.createdUserShow = { show: true, text: action.payload.msg };
+      state.emailUserError = false;
+    },
+    [registerUser.rejected]: (state) => {
+      state.emailUserError = true;
     },
   },
 });
 
-export const {} = counterSlice.actions;
+export const { closeModal } = counterSlice.actions;
 
 export default counterSlice.reducer;
