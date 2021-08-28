@@ -27,7 +27,7 @@ export const RoomOption = () => {
     <Board>
       <div className={styles.containerFlex}>
         <div className={styles.mainContainer}>
-          <div className={styles.divtable}>
+          <div className={styles.blockOption}>
             <p className={styles.textMain}>Time setting</p>
             <div className={styles.blockForDate}>
               <div className={styles.inputContainer}>
@@ -60,14 +60,14 @@ export const RoomOption = () => {
               </div>
             </div>
           </div>
-          <div className={styles.divtable}>
+          <div className={styles.blockOption}>
             <p className={styles.textMain}>Game quest</p>
             <div className={styles.gameQuest}>
               <p className={styles.pOption}>Quest csv</p>
               <button className={styles.uploadCsv}>upload csv</button>
             </div>
           </div>
-          <div className={styles.divtable}>
+          <div className={styles.blockOption}>
             <p className={styles.textMain}>Game setting</p>
             <div className={styles.gameSetting}>
               <div className={styles.miniContainer}>
