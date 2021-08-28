@@ -1,0 +1,22 @@
+.switchOption {
+  width: 52px;
+  height: 28px;
+
+  background: #c4c4c4;
+  border-radius: 27.5px;
+}
+.switchBlockOff {
+  width: 35px;
+  height: 28px;
+  background: #000000;
+  border-radius: 27.5px;
+  transition: 0.2s;
+}
+.switchBlockOn {
+  background: #ff731d;
+  width: 35px;
+  height: 28px;
+  border-radius: 27.5px;
+  transform: translateX(17px);
+  transition: 0.2s;
+}

@@ -11,15 +11,18 @@ import { loginUser } from "../../../redux/feature/reducer";
 export const Login = () => {
   const formikRef = useRef();
   const loginError = useSelector(({ loginError }) => loginError);
-  const auth = useSelector(({ auth }) => auth);
+  const dataLogin = useSelector((dataLogin) => dataLogin);
   const dispatch = useDispatch();
   const sendDataLogin = async (loginData) => {
     dispatch(loginUser(loginData));
   };
   const history = useHistory();
+
   useEffect(() => {
-    if (auth) return history.push("/players");
-  }, [auth, history]);
+    if (dataLogin.auth) {
+      return history.push("/players");
+    }
+  }, [dataLogin.auth, history]);
   useEffect(() => {
     if (loginError) {
       formikRef.current.setFieldError(
@@ -29,6 +32,7 @@ export const Login = () => {
       formikRef.current.setFieldError("passwordError", "Error: wrong password");
     }
   }, [loginError]);
+
   return (
     <LoginLayout>
       <div className={styles.bgContainer}>
