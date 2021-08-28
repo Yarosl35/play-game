@@ -20,10 +20,12 @@ export const Board = ({ children }) => {
               <img src={dashboard} alt="icon" />
               <p>Dashboard</p>
             </li>
-            <li>
-              <img src={options} alt="icon" />
-              <p>Options</p>
-            </li>
+            <Link to="room-options" style={{ textDecoration: "none" }}>
+              <li>
+                <img src={options} alt="icon" />
+                <p>Options</p>
+              </li>
+            </Link>
             <Link to="players" style={{ textDecoration: "none" }}>
               <li>
                 <img src={players} alt="icon" />
