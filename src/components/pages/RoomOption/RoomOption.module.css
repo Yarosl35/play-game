@@ -28,7 +28,7 @@
 
   color: #000000;
 }
-.divtable {
+.blockOption {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
