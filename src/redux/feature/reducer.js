@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import Cookies from "universal-cookie";
+
 import { Api } from "../../API/dotdotfire";
 const userAPI = new Api();
 
@@ -9,6 +11,8 @@ const initialState = {
   emailUserError: false,
   createdUserShow: { show: false, text: "" },
 };
+
+const cookies = new Cookies();
 
 export const loginUser = createAsyncThunk(
   "users/loginUser",
@@ -46,6 +50,8 @@ export const counterSlice = createSlice({
       state.user = action.payload;
       state.auth = true;
       state.loginError = false;
+      //add cookies
+      cookies.set("userToken", { token: action.payload.accessToken });
     },
     [loginUser.rejected]: (state) => {
       state.loginError = true;

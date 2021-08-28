@@ -1,0 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+.containerFlex {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  margin-left: 17px;
+  margin-top: 79px;
+  width: 1326px;
+}
+
+.textMain {
+  border-bottom: 5px solid #ec1f25;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 42px;
+
+  color: #000000;
+}
+.divtable {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.blockForDate {
+  margin-bottom: 42px;
+  margin-left: 68px;
+}
+.inputContainer {
+  margin-top: 11px;
+  padding-bottom: 13px;
+  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.inputDate {
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 26px;
+  height: 52px;
+  width: 316px;
+  outline: none;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  padding-left: 24px;
+  font-size: 24px;
+  box-sizing: border-box;
+}
+.IconDate {
+  /* display: none; */
+  width: 52px;
+  position: absolute;
+  margin-left: 267px;
+  margin-top: 2px;
+}
+.blockCustomInput {
+  height: 100%;
+  width: 324px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.uploadCsv {
+  background: rgba(0, 86, 150, 1);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  width: 148.44px;
+  height: 40px;
+  color: #ffffff;
+}
+.pOption {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  color: #000000;
+}
+.gameQuest {
+  display: flex;
+  margin-left: 68px;
+  width: 420px;
+  margin-top: 24px;
+  margin-bottom: 55px;
+  justify-content: space-between;
+  align-items: center;
+}
+.miniContainer {
+  display: flex;
+  margin-left: 68px;
+  width: 400px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+}
+.gameSetting {
+  margin-top: 8px;
+}
+.inputSpeed {
+  background: #ffffff;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 6px;
+  width: 95px;
+  height: 34px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
+
+  color: #000000;
+}
+.centerGameSetOption {
+  display: flex;
+  width: 100px;
+  justify-content: center;
+}

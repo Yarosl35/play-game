@@ -83,7 +83,9 @@ export const Players = () => {
                   />
                 </span>
               </div>
-              <button className={styles.BtnAdd}>Add</button>
+              <button type="submit" className={styles.BtnAdd}>
+                Add
+              </button>
             </div>
           </form>
         </div>

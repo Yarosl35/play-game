@@ -5,6 +5,7 @@ import { Switch, Route, BrowserRouter } from "react-router-dom";
 import { Register } from "./pages/Register";
 import { Players } from "./pages/Players";
 import { RoomList } from "./pages/RoomList";
+import { RoomOption } from "./pages/RoomOption";
 import { User } from "./pages/User";
 import { ResetPassword } from "./pages/ResetPassword";
 import { EmailSend } from "./pages/ResetPassword/Email";
@@ -29,6 +30,9 @@ function App() {
           </PrivateRoute>
           <PrivateRoute path="/room-list">
             <RoomList />
+          </PrivateRoute>
+          <PrivateRoute path="/room-options">
+            <RoomOption />
           </PrivateRoute>
           <PrivateRoute path="/players">
             <Players />
