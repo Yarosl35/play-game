@@ -7,7 +7,7 @@ import leaderBoard from "./imgsMenu/leaderboard.svg";
 import options from "./imgsMenu/options.svg";
 import permissions from "./imgsMenu/permissions.svg";
 import players from "./imgsMenu/players.svg";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export const Board = ({ children }) => {
   return (
@@ -17,35 +17,72 @@ export const Board = ({ children }) => {
         <div className={styles.leftBar}>
           <ul>
             <li>
-              <img src={dashboard} alt="icon" />
-              <p>Dashboard</p>
+              <NavLink
+                to="/dash-board"
+                activeClassName={styles.selected}
+                className={styles.linkStyle}
+                style={{ textDecoration: "none" }}
+              >
+                <img src={dashboard} alt="icon" />
+                <p>Dashboard</p>
+              </NavLink>
             </li>
-            <Link to="room-options" style={{ textDecoration: "none" }}>
-              <li>
+            <li>
+              <NavLink
+                to="/room-options"
+                activeClassName={styles.selected}
+                className={styles.linkStyle}
+                style={{ textDecoration: "none" }}
+              >
                 <img src={options} alt="icon" />
                 <p>Options</p>
-              </li>
-            </Link>
-            <Link to="players" style={{ textDecoration: "none" }}>
-              <li>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/players"
+                activeClassName={styles.selected}
+                className={styles.linkStyle}
+                style={{ textDecoration: "none" }}
+              >
                 <img src={players} alt="icon" />
                 <p>Players</p>
-              </li>
-            </Link>
-            <li>
-              <img src={permissions} alt="icon" />
-              <p>Permissions</p>
+              </NavLink>
             </li>
             <li>
-              <img src={console} alt="icon" />
-              <p>Console</p>
+              <NavLink
+                to="/permissions"
+                activeClassName={styles.selected}
+                className={styles.linkStyle}
+                style={{ textDecoration: "none" }}
+              >
+                <img src={permissions} alt="icon" />
+                <p>Permissions</p>
+              </NavLink>
             </li>
-            <Link to="leader-board" style={{ textDecoration: "none" }}>
-              <li>
+            <li>
+              <NavLink
+                to="/console"
+                activeClassName={styles.selected}
+                className={styles.linkStyle}
+                style={{ textDecoration: "none" }}
+              >
+                <img src={console} alt="icon" />
+                <p>Console</p>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/leader-board"
+                activeClassName={styles.selected}
+                className={styles.linkStyle}
+                style={{ textDecoration: "none" }}
+              >
                 <img src={leaderBoard} alt="icon" />
                 <p>LeaderBoard</p>
-              </li>
-            </Link>
+              </NavLink>
+            </li>
           </ul>
         </div>
         <div>{children}</div>

@@ -7,7 +7,10 @@ import { Link } from "react-router-dom";
 export const TopBoard = () => {
   return (
     <div className={styles.topBar}>
-      <Link to="/" style={{ textDecoration: "none" }}>
+      <Link
+        to={process.env.REACT_APP_REDIRECT_MAIN_PAGE}
+        style={{ textDecoration: "none" }}
+      >
         <img className={styles.logo} src={Logo} alt="logo" />
       </Link>
       <div className={styles.containerMenuBoard}>

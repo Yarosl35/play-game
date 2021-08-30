@@ -6,7 +6,7 @@ import { Panel } from "../../layout/Panel";
 
 export const RoomList = () => {
   const listItems = playersData.map((data) => {
-    return <RoomsItem data={data} />;
+    return <RoomsItem key={data.id} data={data} />;
   });
 
   return (

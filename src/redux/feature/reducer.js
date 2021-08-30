@@ -6,6 +6,7 @@ const userAPI = new Api();
 
 const initialState = {
   user: { email: "", token: "" },
+  roomSelect: null,
   auth: null,
   loginError: false,
   emailUserError: false,
@@ -44,6 +45,10 @@ export const counterSlice = createSlice({
     closeModal(state) {
       state.createdUserShow = { show: false, text: "" };
     },
+    roomListSelect(state, action) {
+      console.log(action);
+      state.roomSelect = action.payload;
+    },
   },
   extraReducers: {
     [loginUser.fulfilled]: (state, action) => {
@@ -66,6 +71,6 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { closeModal } = counterSlice.actions;
+export const { closeModal, roomListSelect } = counterSlice.actions;
 
 export default counterSlice.reducer;

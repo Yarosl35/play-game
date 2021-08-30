@@ -20,7 +20,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (dataLogin.auth) {
-      return history.push("/players");
+      return history.push(process.env.REACT_APP_REDIRECT_MAIN_PAGE);
     }
   }, [dataLogin.auth, history]);
   useEffect(() => {

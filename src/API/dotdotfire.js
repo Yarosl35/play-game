@@ -1,7 +1,7 @@
 import axios from "axios";
 import qs from "qs";
 
-const url = "https://getplatform.dotdotfire.com/api/v1";
+const url = process.env.REACT_APP_API_DOT_DOT_FIRE;
 
 export class Api {
   LoginUser = async (data) => {

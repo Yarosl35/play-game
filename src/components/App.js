@@ -1,5 +1,4 @@
 import { LeaderBoard } from "./pages/LeaderBoard/index";
-import { LoginLayout } from "./layout/LoginLayout";
 import { Login } from "./pages/Login";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import { Register } from "./pages/Register";
@@ -11,6 +10,7 @@ import { ResetPassword } from "./pages/ResetPassword";
 import { EmailSend } from "./pages/ResetPassword/Email";
 import { NewPassword } from "./pages/NewPassword";
 import { PrivateRoute } from "./PrivateRouter";
+import { DashBoard } from "./pages/DashBoard";
 
 function App() {
   return (
@@ -31,13 +31,18 @@ function App() {
           <PrivateRoute path="/room-list">
             <RoomList />
           </PrivateRoute>
+          <PrivateRoute path="/dash-board/:id?">
+            <DashBoard />
+          </PrivateRoute>
           <PrivateRoute path="/room-options">
             <RoomOption />
           </PrivateRoute>
           <PrivateRoute path="/players">
             <Players />
           </PrivateRoute>
-          <Route path="/" component={LoginLayout} />
+          <PrivateRoute path="/">
+            <Players />
+          </PrivateRoute>
         </Switch>
       </div>
     </BrowserRouter>
