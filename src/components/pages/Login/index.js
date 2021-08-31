@@ -6,7 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 import icon from "./iconUser.svg";
 import { LoginLayout } from "../../layout/LoginLayout";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../../redux/feature/reducer";
+import { loginUser, loginNotError } from "../../../redux/feature/reducer";
 
 export const Login = () => {
   const formikRef = useRef();
@@ -14,6 +14,7 @@ export const Login = () => {
   const dataLogin = useSelector((dataLogin) => dataLogin);
   const dispatch = useDispatch();
   const sendDataLogin = async (loginData) => {
+    dispatch(loginNotError());
     dispatch(loginUser(loginData));
   };
   const history = useHistory();
