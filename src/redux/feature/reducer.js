@@ -49,6 +49,9 @@ export const counterSlice = createSlice({
       console.log(action);
       state.roomSelect = action.payload;
     },
+    loginNotError(state) {
+      state.loginError = false;
+    },
   },
   extraReducers: {
     [loginUser.fulfilled]: (state, action) => {
@@ -71,6 +74,10 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { closeModal, roomListSelect } = counterSlice.actions;
+export const {
+  closeModal,
+  roomListSelect,
+  loginNotError,
+} = counterSlice.actions;
 
 export default counterSlice.reducer;
