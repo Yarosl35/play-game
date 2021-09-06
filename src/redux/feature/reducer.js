@@ -1,13 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "universal-cookie";
+import { socket } from "./../../socket/index";
 
 import { Api } from "../../API/dotdotfire";
 const userAPI = new Api();
 
 const initialState = {
   user: { email: "", token: "" },
+  listRooms: null,
+  userDetails: null,
   roomSelect: null,
   auth: null,
+  socket: null,
   loginError: false,
   emailUserError: false,
   createdUserShow: { show: false, text: "" },
@@ -37,7 +41,44 @@ export const registerUser = createAsyncThunk(
     }
   }
 );
-
+export const getUser = createAsyncThunk(
+  "users/getUser",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await userAPI.getUser(cookies.get("userToken").token);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const createRoom = createAsyncThunk("users/createRoom", async (data) => {
+  socket.emit("createRoom", data);
+});
+export const changeNameEmit = createAsyncThunk(
+  "users/changeName",
+  async (data) => {
+    socket.emit(
+      "updateRoomName",
+      {
+        roomID: data.roomID,
+        name: data.name,
+      },
+      (data) => {
+        console.log("change", data);
+      }
+    );
+  }
+);
+export const changeDescriptionEmit = createAsyncThunk(
+  "users/changeDescription",
+  async (data) => {
+    socket.emit("updateRoomDescription", {
+      roomID: data.roomID,
+      description: data.description,
+    });
+  }
+);
 export const counterSlice = createSlice({
   name: "counter",
   initialState,
@@ -47,12 +88,26 @@ export const counterSlice = createSlice({
     },
     roomListSelect(state, action) {
       console.log(action);
-      state.roomSelect = action.payload;
+      const roomSelected = state.listRooms.filter(
+        ({ roomID }) => roomID === action.payload - 1
+      );
+      state.roomSelect = {
+        roomSelected: roomSelected[0],
+        page: action.payload,
+      };
     },
     loginNotError(state) {
       state.loginError = false;
     },
+    setRoomsList(state, data) {
+      state.listRooms = data.payload;
+      // state.loginError = false;
+    },
+    addNewRoom(state, data) {
+      state.listRooms.push(data.payload);
+    },
   },
+  // cookies.get("userToken")
   extraReducers: {
     [loginUser.fulfilled]: (state, action) => {
       state.user = action.payload;
@@ -71,6 +126,13 @@ export const counterSlice = createSlice({
     [registerUser.rejected]: (state) => {
       state.emailUserError = true;
     },
+    [getUser.fulfilled]: (state, action) => {
+      console.log(action.payload);
+    },
+    [getUser.rejected]: (state, action) => {
+      console.log(action.payload);
+    },
+    //change dashboard
   },
 });
 
@@ -78,6 +140,9 @@ export const {
   closeModal,
   roomListSelect,
   loginNotError,
+  connectSocket,
+  setRoomsList,
+  addNewRoom,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

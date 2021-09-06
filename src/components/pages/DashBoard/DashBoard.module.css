@@ -195,6 +195,12 @@
   margin-left: 48px;
   margin-top: 25px;
   width: 575px;
+  color: #000000;
+  font-family: Roboto;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
 }
 .roomDescription {
   border: 1px solid #000000;
@@ -204,4 +210,10 @@
   margin-top: 25px;
   padding: 14px;
   width: 575px;
+  color: #000000;
+  font-family: Roboto;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
 }

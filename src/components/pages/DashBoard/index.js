@@ -1,22 +1,54 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import logo from "./logo.svg";
 import styles from "./DashBoard.module.css";
 import { Board } from "../../layout/Board";
-import { dataBoard } from "./data";
-import "react-datepicker/dist/react-datepicker.css";
+import {
+  changeNameEmit,
+  changeDescriptionEmit,
+} from "../../../redux/feature/reducer";
 
 export const DashBoard = () => {
+  const [nameRoom, setNameRoom] = useState("");
+  const [descriptionRoom, setDescriptionRoom] = useState("");
   const roomSelect = useSelector(({ roomSelect }) => roomSelect);
-  const history = useHistory();
+  console.log("roomSelect:", roomSelect);
 
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const changeName = () => {
+    console.log({
+      roomID: roomSelect.roomSelected.roomID,
+      name: nameRoom,
+    });
+    dispatch(
+      changeNameEmit({
+        roomID: roomSelect.roomSelected.roomID,
+        name: nameRoom,
+      })
+    );
+  };
+  const changeDescription = () => {
+    dispatch(
+      changeNameEmit({
+        roomID: roomSelect.roomSelected.roomID,
+        description: descriptionRoom,
+      })
+    );
+  };
   useEffect(() => {
     if (!roomSelect) {
       history.push(process.env.REACT_APP_REDIRECT_MAIN_PAGE);
-    } else history.push(`/dash-board/${roomSelect}`);
+    } else {
+      history.push(`/dash-board/${roomSelect.page}`);
+      setNameRoom(roomSelect.roomSelected.name);
+      setDescriptionRoom(roomSelect.roomSelected.description);
+    }
   }, [roomSelect, history]);
+  if (!roomSelect) return null;
+  // roomSelect.roomSelected.name
 
   return (
     <Board>
@@ -35,16 +67,26 @@ export const DashBoard = () => {
             <div className={styles.roomDetails}>
               <div>
                 <p>Room name</p>
-                <div className={styles.roomName}>
-                  <p>{dataBoard.roomName}</p>
-                </div>
+                <input
+                  className={styles.roomName}
+                  type="text"
+                  value={nameRoom}
+                  onChange={(e) => setNameRoom(e.target.value)}
+                />
+                <button onClick={changeName}> change name</button>
               </div>
               <div>
                 <p>Room description</p>
-                <div className={styles.roomDescription}>
-                  <p>School: {dataBoard.roomDescription.school}</p>
-                  <p>Participants:</p>
-                  <ul>
+                <input
+                  className={styles.roomDescription}
+                  type="text"
+                  value={descriptionRoom}
+                  onChange={(e) => setDescriptionRoom(e.target.value)}
+                />
+                <button onClick={changeDescription}> change description</button>
+                {/* <p>School: {dataBoard.roomDescription.school}</p> */}
+                {/* <p>Participants:</p> */}
+                {/* <ul>
                     {dataBoard.roomDescription.participants.map(
                       (participant, index) => {
                         return (
@@ -54,8 +96,7 @@ export const DashBoard = () => {
                         );
                       }
                     )}
-                  </ul>
-                </div>
+                  </ul> */}
               </div>
             </div>
           </div>

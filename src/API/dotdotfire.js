@@ -31,19 +31,24 @@ export class Api {
     return dataResponse;
   };
 
-  getUser = async () => {
-    try {
-      const dataUser = await axios.get(`${url}/users/details`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authentication: "",
-          Prefer: "",
-        },
-      });
-      return dataUser;
-    } catch (error) {
-      console.warn(error);
-    }
+  getUser = async (token) => {
+    // console.log("token api", token);
+    // const options = {
+    //   method: "GET",
+    //   url: `${url}/users/details`,
+    //   headers: {
+    //     // "Content-Type": "application/json",
+    //     Authentication: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMTF0ZXN0QG1haWwuY29tIiwiaWF0IjoxNjMwNTEwNzM3LCJleHAiOjE2MzgyODY3Mzd9.GA39zQmrx3LFjnA-T5u85QjioTEWu1SJic-gXvz-2Cw`,
+    //   },
+    // };
+
+    // const dataResponse = await axios.request(options);
+    const dataResponse = await axios.get(`${url}/users/details`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return dataResponse;
   };
 }
 // namenew@gmail.com

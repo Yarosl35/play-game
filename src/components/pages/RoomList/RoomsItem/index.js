@@ -7,11 +7,11 @@ import { Link } from "react-router-dom";
 export const RoomsItem = ({ data }) => {
   const dispatch = useDispatch();
   const selectRoom = () => {
-    dispatch(roomListSelect(data.id));
+    dispatch(roomListSelect(data.roomID + 1));
   };
   return (
     <Link
-      to={`/dash-board/${data.id}`}
+      to={`/dash-board/${data.roomID + 1}`}
       onClick={selectRoom}
       style={{ textDecoration: "none" }}
     >
@@ -27,11 +27,11 @@ export const RoomsItem = ({ data }) => {
         </div>
         <div>
           <p>Date:</p>
-          <p>{data.date}</p>
+          <p>{data.setting.timeSetting.startTime}</p>
         </div>
         <div>
           <p>Time: </p>
-          <p>{data.time}</p>
+          <p>{data.setting.timeSetting.startTime}</p>
         </div>
       </li>
     </Link>

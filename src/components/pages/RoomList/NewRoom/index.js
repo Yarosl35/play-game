@@ -1,19 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { SelectList } from "./SelectList";
+import { createRoom, addNewRoom } from "./../../../../redux/feature/reducer";
 import styles from "./NewRoom.module.css";
+import { socket } from "../../../../socket";
 const arrayList = [
   { id: 1, name: "coming soon 1", value: "1" },
   { id: 2, name: "coming soon 2", value: "2" },
 ];
 export const NewRoom = ({ setShowModal }) => {
   const [roomName, setRoomName] = useState("");
+  const [addRoomShow, setAddRoomShow] = useState(null);
+  const dispatch = useDispatch();
   const [valueList, setValueList] = useState(arrayList[0].value);
   const change = (value) => {
     setValueList(value);
   };
+  function sendCreateNewRoomRequest() {
+    const newRoomDate = {
+      type: "The-Neighbormood",
+      name: roomName,
+      description: "Just description",
+    };
+    console.log(newRoomDate);
+    dispatch(createRoom(newRoomDate));
+  }
   const changeNameRoom = (e) => {
     setRoomName(e.target.value);
   };
+  useEffect(() => {
+    socket.on("addRoom", (data) => {
+      dispatch(addNewRoom(data));
+    });
+    return socket.off("addRoom", (data) => {
+      console.log(data);
+    });
+  }, [dispatch]);
   return (
     <div className={styles.Modal}>
       <div className={styles.Modal_Body}>
@@ -38,7 +60,12 @@ export const NewRoom = ({ setShowModal }) => {
             >
               Cancel
             </button>
-            <button className={styles.btn_create}>Create</button>
+            <button
+              className={styles.btn_create}
+              onClick={sendCreateNewRoomRequest}
+            >
+              Create
+            </button>
           </div>
         </div>
       </div>

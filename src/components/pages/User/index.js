@@ -1,12 +1,15 @@
 import { Field, Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { UserSchema } from "./../../../services/validationService";
 import styles from "./User.module.css";
 // import { Api } from "./../../../API/dotdotfire";
 import { Panel } from "../../layout/Panel";
+import { getUser } from "./../../../redux/feature/reducer";
+import { useDispatch } from "react-redux";
 // const datauser = new Api();
 
 export const User = () => {
+  const dispatch = useDispatch();
   // const [user, setUser] = useState({});
 
   // const dataUserInfo = async () => {
@@ -14,9 +17,9 @@ export const User = () => {
   //   setUser(dataUser.data.details);
   // };
 
-  // useEffect(() => {
-  //   dataUserInfo();
-  // }, []);
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
   return (
     <Panel>
       <div className={styles.containerWrapper}>
