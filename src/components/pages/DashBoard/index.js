@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { useDebounce } from "./../../queries/use-debounce";
+import { socket } from "./../../../socket";
 
 import logo from "./logo.svg";
 import styles from "./DashBoard.module.css";
@@ -8,38 +10,23 @@ import { Board } from "../../layout/Board";
 import {
   changeNameEmit,
   changeDescriptionEmit,
+  changeName,
+  changeDescription,
 } from "../../../redux/feature/reducer";
+// import { Loader } from "../../queries/loader/loader";
 
 export const DashBoard = () => {
   const [nameRoom, setNameRoom] = useState("");
   const [descriptionRoom, setDescriptionRoom] = useState("");
+  const [loaderName, setLoaderName] = useState(false);
+  const [loaderDescription, setLoaderDescription] = useState(false);
   const roomSelect = useSelector(({ roomSelect }) => roomSelect);
-  console.log("roomSelect:", roomSelect);
 
   const dispatch = useDispatch();
   const history = useHistory();
-  const changeName = () => {
-    console.log({
-      roomID: roomSelect.roomSelected.roomID,
-      name: nameRoom,
-    });
-    dispatch(
-      changeNameEmit({
-        roomID: roomSelect.roomSelected.roomID,
-        name: nameRoom,
-      })
-    );
-  };
-  const changeDescription = () => {
-    dispatch(
-      changeNameEmit({
-        roomID: roomSelect.roomSelected.roomID,
-        description: descriptionRoom,
-      })
-    );
-  };
+
   useEffect(() => {
-    if (!roomSelect) {
+    if (!roomSelect.page) {
       history.push(process.env.REACT_APP_REDIRECT_MAIN_PAGE);
     } else {
       history.push(`/dash-board/${roomSelect.page}`);
@@ -47,9 +34,50 @@ export const DashBoard = () => {
       setDescriptionRoom(roomSelect.roomSelected.description);
     }
   }, [roomSelect, history]);
-  if (!roomSelect) return null;
-  // roomSelect.roomSelected.name
 
+  const debouncedName = useDebounce(nameRoom, 700);
+  const debouncedDescription = useDebounce(descriptionRoom, 700);
+  useEffect(() => {
+    if (roomSelect)
+      if (debouncedDescription) {
+        setLoaderDescription(false);
+        dispatch(
+          changeDescriptionEmit({
+            roomID: roomSelect.roomSelected.roomID,
+            description: debouncedDescription,
+          })
+        );
+      }
+  }, [debouncedDescription, dispatch, roomSelect]);
+  useEffect(() => {
+    if (roomSelect)
+      if (debouncedName) {
+        setLoaderName(false);
+        dispatch(
+          changeNameEmit({
+            roomID: roomSelect.roomSelected.roomID,
+            name: debouncedName,
+          })
+        );
+      }
+  }, [debouncedName, dispatch, roomSelect]);
+  useEffect(() => {
+    socket.on("updateRoomName", (data) => {
+      dispatch(changeName(data));
+    });
+    socket.on("updateRoomDescription", (data) => {
+      dispatch(changeDescription(data));
+    });
+    return () => {
+      socket.off("updateRoomName", (data) => {
+        console.log("updateRoomName", data);
+      });
+      socket.off("updateRoomDescription", (data) => {
+        console.log("updateRoomDescription", data);
+      });
+    };
+  }, [dispatch]);
+  if (!roomSelect) return null;
   return (
     <Board>
       <div className={styles.containerFlex}>
@@ -71,32 +99,35 @@ export const DashBoard = () => {
                   className={styles.roomName}
                   type="text"
                   value={nameRoom}
-                  onChange={(e) => setNameRoom(e.target.value)}
+                  onChange={(e) => {
+                    setNameRoom(e.target.value);
+                    setLoaderName(true);
+                  }}
                 />
-                <button onClick={changeName}> change name</button>
+                {loaderName ? (
+                  <>
+                    {/* <Loader />  */}
+                    saving...
+                  </>
+                ) : null}
               </div>
               <div>
                 <p>Room description</p>
-                <input
+                <textarea
                   className={styles.roomDescription}
                   type="text"
                   value={descriptionRoom}
-                  onChange={(e) => setDescriptionRoom(e.target.value)}
+                  onChange={(e) => {
+                    setDescriptionRoom(e.target.value);
+                    setLoaderDescription(true);
+                  }}
                 />
-                <button onClick={changeDescription}> change description</button>
-                {/* <p>School: {dataBoard.roomDescription.school}</p> */}
-                {/* <p>Participants:</p> */}
-                {/* <ul>
-                    {dataBoard.roomDescription.participants.map(
-                      (participant, index) => {
-                        return (
-                          <li key={index} type="disc">
-                            {participant}
-                          </li>
-                        );
-                      }
-                    )}
-                  </ul> */}
+                {loaderDescription ? (
+                  <>
+                    {/* <Loader />  */}
+                    saving...
+                  </>
+                ) : null}
               </div>
             </div>
           </div>

@@ -17,10 +17,8 @@ export const RoomList = () => {
   };
 
   useEffect(() => {
-    console.log('socket.on("loadAllRooms")');
     socket.on("loadAllRooms", (data) => {
       dispatch(setRoomsList(Object.values(data)));
-      // console.log("loadAllRooms >", data);
     });
 
     return socket.off("loadAllRooms", (data) => {

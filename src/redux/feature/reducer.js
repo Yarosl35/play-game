@@ -9,7 +9,7 @@ const initialState = {
   user: { email: "", token: "" },
   listRooms: null,
   userDetails: null,
-  roomSelect: null,
+  roomSelect: { page: null },
   auth: null,
   socket: null,
   loginError: false,
@@ -58,25 +58,23 @@ export const createRoom = createAsyncThunk("users/createRoom", async (data) => {
 export const changeNameEmit = createAsyncThunk(
   "users/changeName",
   async (data) => {
-    socket.emit(
-      "updateRoomName",
-      {
-        roomID: data.roomID,
-        name: data.name,
-      },
-      (data) => {
-        console.log("change", data);
-      }
-    );
+    console.log("changeNameEmit", data);
+    socket.emit("updateRoomName", {
+      roomID: data.roomID,
+      name: data.name,
+    });
   }
 );
 export const changeDescriptionEmit = createAsyncThunk(
   "users/changeDescription",
   async (data) => {
-    socket.emit("updateRoomDescription", {
-      roomID: data.roomID,
-      description: data.description,
-    });
+    socket.emit(
+      "updateRoomDescription",
+      { roomID: data.roomID, description: data.description },
+      function (a) {
+        console.log(a);
+      }
+    );
   }
 );
 export const counterSlice = createSlice({
@@ -87,7 +85,7 @@ export const counterSlice = createSlice({
       state.createdUserShow = { show: false, text: "" };
     },
     roomListSelect(state, action) {
-      console.log(action);
+      // console.log(action);
       const roomSelected = state.listRooms.filter(
         ({ roomID }) => roomID === action.payload - 1
       );
@@ -106,9 +104,45 @@ export const counterSlice = createSlice({
     addNewRoom(state, data) {
       state.listRooms.push(data.payload);
     },
+    changeName(state, data) {
+      const index = state.listRooms.findIndex(
+        ({ roomID }) => roomID === data.payload.roomID
+      );
+      const oldRoom = state.listRooms[index];
+      const updatedRoom = {
+        ...oldRoom,
+        name: data.payload.name,
+      };
+      const newArr = [
+        ...state.listRooms.slice(0, index),
+        updatedRoom,
+        ...state.listRooms.slice(index + 1),
+      ];
+      console.log("newArr", newArr);
+      state.listRooms = newArr;
+    },
+    changeDescription(state, data) {
+      const index = state.listRooms.findIndex(
+        ({ roomID }) => roomID === data.payload.roomID
+      );
+      const oldRoom = state.listRooms[index];
+      const updatedRoom = {
+        ...oldRoom,
+        description: data.payload.description,
+      };
+      const newArr = [
+        ...state.listRooms.slice(0, index),
+        updatedRoom,
+        ...state.listRooms.slice(index + 1),
+      ];
+      state.listRooms = newArr;
+    },
   },
   // cookies.get("userToken")
   extraReducers: {
+    [changeNameEmit.fulfilled]: (state, action) => {
+      // console.log("changeNameEmit", action);
+    },
     [loginUser.fulfilled]: (state, action) => {
       state.user = action.payload;
       state.auth = true;
@@ -127,10 +161,10 @@ export const counterSlice = createSlice({
       state.emailUserError = true;
     },
     [getUser.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
     },
     [getUser.rejected]: (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
     },
     //change dashboard
   },
@@ -143,6 +177,8 @@ export const {
   connectSocket,
   setRoomsList,
   addNewRoom,
+  changeName,
+  changeDescription,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

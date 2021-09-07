@@ -1,13 +1,16 @@
-import React, { useState, forwardRef } from "react";
+import React, { useState, forwardRef, useEffect } from "react";
 import styles from "./RoomOption.module.css";
 import calendar from "./calendar.svg";
 import DatePicker from "react-datepicker";
 import { Board } from "../../layout/Board";
 import { Switch } from "./../../queries/Switch";
 import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from "react-redux";
 
 export const RoomOption = () => {
+  const roomSelect = useSelector(({ roomSelect }) => roomSelect);
   const [startDate, setStartDate] = useState(new Date());
+  const [speed, setSpeed] = useState(0);
   const [switchBicycle, setSwitchBicycle] = useState(false);
   const [switchBus, setSwitchBus] = useState(false);
   const [endDate, setEndDate] = useState(new Date());
@@ -23,6 +26,17 @@ export const RoomOption = () => {
       />
     </div>
   ));
+  useEffect(() => {
+    if (roomSelect) {
+      const {
+        roomSelected: { settings },
+      } = roomSelect;
+      setSwitchBicycle(settings.gameSetting.allowBicycle);
+      setSwitchBus(settings.gameSetting.allowBus);
+      setSpeed(settings.gameSetting.maximumSpeed);
+    }
+  }, [roomSelect]);
+  if (!roomSelect) return null;
   return (
     <Board>
       <div className={styles.containerFlex}>
@@ -85,7 +99,12 @@ export const RoomOption = () => {
               <div className={styles.miniContainer}>
                 <p className={styles.pOption}>maximum speed</p>
                 <div className={styles.centerGameSetOption}>
-                  <input className={styles.inputSpeed} type="number" />
+                  <input
+                    className={styles.inputSpeed}
+                    type="number"
+                    value={speed}
+                    onChange={(e) => setSpeed(e.target.value)}
+                  />
                 </div>
               </div>
             </div>
