@@ -1,30 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Players.module.css";
 import { playersData } from "./data/playersData";
 import { PlayersItem } from "./PlayersItem";
 import { useFormik } from "formik";
+import { createRoomSeatEmit } from "./../../../redux/feature/reducer";
 import { Board } from "../../layout/Board";
+import { socket } from "./../../../socket";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Players = () => {
+  const dispatch = useDispatch();
+  const roomSelect = useSelector(({ roomSelect }) => roomSelect);
   const [arrPlayers, setArrPlayers] = useState(playersData);
   const addNewPlayer = (dataPlayer) => {
-    setArrPlayers((e) => [
-      {
-        id: new Date().getMilliseconds(),
-        name: dataPlayer.name,
-        status: "Waiting",
-        seatCode: "S13HF4",
-        link: "url/test",
-        region: "Hong Kong",
-        ipAddress: "123.456.789.101",
-      },
-      ...e,
-    ]);
+    dispatch(createRoomSeatEmit({ ...dataPlayer, roomID: roomSelect.page }));
   };
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
+      class: "",
     },
     onSubmit: (values) => {
       addNewPlayer(values);
@@ -37,7 +32,29 @@ export const Players = () => {
   const listItems = arrPlayers.map((data, index) => {
     return <PlayersItem key={index} data={data} removePlayer={removePlayer} />;
   });
-
+  useEffect(() => {
+    socket.on("addRoomSeat", (data) => {
+      console.log(data);
+    });
+    socket.on("removeRoomSeat", (data) => {
+      console.log(data);
+    });
+    socket.on("updateRoomSeat", (data) => {
+      console.log(data);
+    });
+    return () => {
+      socket.on("removeRoomSeat", (data) => {
+        console.log(data);
+      });
+      socket.on("updateRoomSeat", (data) => {
+        console.log(data);
+      });
+      socket.of("addRoomSeat", (data) => {
+        console.log(data);
+      });
+    };
+  }, [dispatch]);
+  console.log(roomSelect);
   return (
     <Board>
       <div className={styles.mainContainer}>
@@ -83,6 +100,16 @@ export const Players = () => {
                   />
                 </span>
               </div>
+              <span className={styles.inputAddContainer}>
+                <label htmlFor="class">class</label>
+                <input
+                  id="class"
+                  name="class"
+                  type="class"
+                  onChange={formik.handleChange}
+                  value={formik.values.class}
+                />
+              </span>
               <button type="submit" className={styles.BtnAdd}>
                 Add
               </button>

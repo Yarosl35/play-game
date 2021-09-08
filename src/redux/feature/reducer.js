@@ -55,6 +55,17 @@ export const getUser = createAsyncThunk(
 export const createRoom = createAsyncThunk("users/createRoom", async (data) => {
   socket.emit("createRoom", data);
 });
+export const updateOptionEmit = createAsyncThunk(
+  "users/updateOptionEmit",
+  async (data) => {
+    console.log(data);
+    socket.emit("updateRoomSetting", {
+      roomID: data.roomID,
+      setting: data.settings,
+    });
+  }
+);
+
 export const changeNameEmit = createAsyncThunk(
   "users/changeName",
   async (data) => {
@@ -77,6 +88,19 @@ export const changeDescriptionEmit = createAsyncThunk(
     );
   }
 );
+export const createRoomSeatEmit = createAsyncThunk(
+  "users/createRoomSeatEmit",
+  async (data) => {
+    console.log(data);
+    socket.emit("createRoomSeat", {
+      roomID: data.roomID,
+      ownerName: data.name,
+      ownerEmail: data.email,
+      // ownerClass: "test",
+    });
+  }
+);
+
 export const counterSlice = createSlice({
   name: "counter",
   initialState,
@@ -87,10 +111,11 @@ export const counterSlice = createSlice({
     roomListSelect(state, action) {
       // console.log(action);
       const roomSelected = state.listRooms.filter(
-        ({ roomID }) => roomID === action.payload - 1
+        ({ roomID }) => roomID === action.payload
       );
       state.roomSelect = {
         roomSelected: roomSelected[0],
+        players: Object.values(roomSelected[0].seats),
         page: action.payload,
       };
     },
@@ -99,9 +124,11 @@ export const counterSlice = createSlice({
     },
     setRoomsList(state, data) {
       state.listRooms = data.payload;
-      // state.loginError = false;
     },
     addNewRoom(state, data) {
+      state.listRooms.push(data.payload);
+    },
+    addNewPlayer(state, data) {
       state.listRooms.push(data.payload);
     },
     changeName(state, data) {
@@ -118,7 +145,6 @@ export const counterSlice = createSlice({
         updatedRoom,
         ...state.listRooms.slice(index + 1),
       ];
-      console.log("newArr", newArr);
       state.listRooms = newArr;
     },
     changeDescription(state, data) {
@@ -136,6 +162,12 @@ export const counterSlice = createSlice({
         ...state.listRooms.slice(index + 1),
       ];
       state.listRooms = newArr;
+    },
+    addSeat(state, data) {
+      const index = state.listRooms.findIndex(
+        ({ roomID }) => roomID === data.payload.roomID
+      );
+      console.log(index);
     },
   },
   // cookies.get("userToken")

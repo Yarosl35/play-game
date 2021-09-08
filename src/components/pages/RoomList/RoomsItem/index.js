@@ -7,11 +7,11 @@ import { Link } from "react-router-dom";
 export const RoomsItem = ({ data }) => {
   const dispatch = useDispatch();
   const selectRoom = () => {
-    dispatch(roomListSelect(data.roomID + 1));
+    dispatch(roomListSelect(data.roomID));
   };
   return (
     <Link
-      to={`/dash-board/${data.roomID + 1}`}
+      to={`/dash-board/}`}
       onClick={selectRoom}
       style={{ textDecoration: "none" }}
     >

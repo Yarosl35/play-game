@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useDebounce } from "./../../queries/use-debounce";
 import { socket } from "./../../../socket";
@@ -21,19 +20,15 @@ export const DashBoard = () => {
   const [loaderName, setLoaderName] = useState(false);
   const [loaderDescription, setLoaderDescription] = useState(false);
   const roomSelect = useSelector(({ roomSelect }) => roomSelect);
-
+  console.log(roomSelect);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   useEffect(() => {
-    if (!roomSelect.page) {
-      history.push(process.env.REACT_APP_REDIRECT_MAIN_PAGE);
-    } else {
-      history.push(`/dash-board/${roomSelect.page}`);
+    if (roomSelect.page || roomSelect.page === 0) {
       setNameRoom(roomSelect.roomSelected.name);
       setDescriptionRoom(roomSelect.roomSelected.description);
     }
-  }, [roomSelect, history]);
+  }, [roomSelect]);
 
   const debouncedName = useDebounce(nameRoom, 700);
   const debouncedDescription = useDebounce(descriptionRoom, 700);
@@ -52,6 +47,7 @@ export const DashBoard = () => {
   useEffect(() => {
     if (roomSelect)
       if (debouncedName) {
+        console.log("debouncedName", debouncedName);
         setLoaderName(false);
         dispatch(
           changeNameEmit({

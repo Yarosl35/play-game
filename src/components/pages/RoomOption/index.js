@@ -2,18 +2,24 @@ import React, { useState, forwardRef, useEffect } from "react";
 import styles from "./RoomOption.module.css";
 import calendar from "./calendar.svg";
 import DatePicker from "react-datepicker";
+import { useSelector, useDispatch } from "react-redux";
+import { updateOptionEmit } from "../../../redux/feature/reducer";
+import { socket } from "./../../../socket";
 import { Board } from "../../layout/Board";
 import { Switch } from "./../../queries/Switch";
 import "react-datepicker/dist/react-datepicker.css";
-import { useSelector } from "react-redux";
 
 export const RoomOption = () => {
+  const dispatch = useDispatch();
   const roomSelect = useSelector(({ roomSelect }) => roomSelect);
+
   const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
   const [speed, setSpeed] = useState(0);
   const [switchBicycle, setSwitchBicycle] = useState(false);
   const [switchBus, setSwitchBus] = useState(false);
-  const [endDate, setEndDate] = useState(new Date());
+
   const CustomInputDate = forwardRef(({ value, onClick }, ref) => (
     <div className={styles.blockCustomInput}>
       <input type="text" className={styles.inputDate} value={value} readOnly />
@@ -27,7 +33,34 @@ export const RoomOption = () => {
     </div>
   ));
   useEffect(() => {
-    if (roomSelect) {
+    const updateDate = {
+      roomID: roomSelect.page,
+      setting: {
+        timeSetting: {
+          startTime: startDate,
+          endTime: endDate,
+        },
+        gameSetting: {
+          questCSV: `too long to display..`,
+          allowBicycle: switchBicycle,
+          allowBus: switchBus,
+          maximumSpeed: speed,
+        },
+      },
+    };
+    dispatch(updateOptionEmit(updateDate));
+  }, [
+    dispatch,
+    speed,
+    switchBicycle,
+    switchBus,
+    startDate,
+    endDate,
+    roomSelect,
+  ]);
+  console.log("roomSelect 12345", roomSelect);
+  useEffect(() => {
+    if (roomSelect.page) {
       const {
         roomSelected: { settings },
       } = roomSelect;
@@ -36,6 +69,17 @@ export const RoomOption = () => {
       setSpeed(settings.gameSetting.maximumSpeed);
     }
   }, [roomSelect]);
+  useEffect(() => {
+    socket.on("updateRoomSetting", (data) => {
+      console.log("updateRoomSetting", data);
+    });
+
+    return () => {
+      socket.off("updateRoomSetting", (data) => {
+        console.log("updateRoomSetting", data);
+      });
+    };
+  }, [dispatch]);
   if (!roomSelect) return null;
   return (
     <Board>

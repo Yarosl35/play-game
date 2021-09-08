@@ -31,7 +31,7 @@ function App() {
           <PrivateRoute path="/room-list">
             <RoomList />
           </PrivateRoute>
-          <PrivateRoute path="/dash-board/:id?">
+          <PrivateRoute path="/dash-board">
             <DashBoard />
           </PrivateRoute>
           <PrivateRoute path="/room-options">

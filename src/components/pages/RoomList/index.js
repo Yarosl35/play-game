@@ -25,7 +25,7 @@ export const RoomList = () => {
       console.log(data);
     });
   }, [dispatch]);
-  if (!listRooms) return null;
+  if (!listRooms) return <p>no data</p>;
   console.log(listRooms);
   const listItems = listRooms.map((data) => {
     return <RoomsItem key={data.roomID} data={data} />;
