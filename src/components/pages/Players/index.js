@@ -43,10 +43,10 @@ export const Players = () => {
       console.log(data);
     });
     return () => {
-      socket.on("removeRoomSeat", (data) => {
+      socket.of("removeRoomSeat", (data) => {
         console.log(data);
       });
-      socket.on("updateRoomSeat", (data) => {
+      socket.of("updateRoomSeat", (data) => {
         console.log(data);
       });
       socket.of("addRoomSeat", (data) => {
