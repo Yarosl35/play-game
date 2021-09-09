@@ -1,0 +1,36 @@
+.block {
+  pointer-events: none;
+  position: absolute;
+  height: 188px;
+  width: 352px;
+  padding: 12px;
+  background: #ffffff;
+  border: 4px solid #000000;
+  box-sizing: border-box;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 33px;
+  margin-top: -40px;
+  margin-left: 40px;
+  color: #000000;
+}
+.logo {
+  position: relative;
+  border-radius: 50px;
+  width: 73px;
+  height: 73px;
+}
+.isLightLogo {
+  width: 39px;
+  height: 39px;
+}
+.isLightPosition {
+  margin-top: -20px;
+  margin-left: 20px;
+}
+.mainContainer {
+  position: relative;
+  margin-left: 20px;
+}

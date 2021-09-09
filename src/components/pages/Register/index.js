@@ -9,6 +9,7 @@ import { LoginLayout } from "../../layout/LoginLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "../../Modal";
 import { registerUser, closeModal } from "../../../redux/feature/reducer";
+import { Tooltip } from "../../queries/Tooltip";
 
 const forList = [
   { id: 1, value: "teacher", name: "Teacher" },
@@ -24,12 +25,12 @@ export const Register = () => {
   const dispatch = useDispatch();
   const [selectedJob, setSelectedJob] = useState(forList[0].value);
 
-  const regUser = async (loginData) => {
+  const regUser = async (registrationData) => {
     const newObj = {
-      email: loginData.email,
-      password: loginData.password,
-      fullName: "test",
-      school: loginData.schoolName,
+      email: registrationData.email,
+      password: registrationData.password,
+      fullName: registrationData.fullName,
+      school: registrationData.schoolName,
       jobPosition: selectedJob,
     };
     dispatch(registerUser(newObj));
@@ -66,6 +67,7 @@ export const Register = () => {
             email: "",
             password: "",
             confirmPassword: "",
+            fullName: "",
             schoolName: "",
           }}
           validationSchema={RegisterSchema}
@@ -97,6 +99,9 @@ export const Register = () => {
                   type="password"
                   autoComplete="off"
                 />
+                <div className={styles.containerTooltip}>
+                  <Tooltip />
+                </div>
                 {errors.password && touched.password ? (
                   <div
                     className={styles.error}
@@ -115,6 +120,19 @@ export const Register = () => {
                   <div
                     className={styles.error}
                   >{`Error: ${errors.confirmPassword}`}</div>
+                ) : null}
+              </div>
+              <div className={styles.containerSchool}>
+                <label className={styles.labelInput}>full name</label>
+                <Field
+                  name="fullName"
+                  className={styles.formLoginPage}
+                  type="text"
+                />
+                {errors.fullName && touched.fullName ? (
+                  <div
+                    className={styles.error}
+                  >{`Error: ${errors.fullName}`}</div>
                 ) : null}
               </div>
               <div className={styles.containerSchool}>

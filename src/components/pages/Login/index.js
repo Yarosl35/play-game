@@ -7,6 +7,7 @@ import icon from "./iconUser.svg";
 import { LoginLayout } from "../../layout/LoginLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, loginNotError } from "../../../redux/feature/reducer";
+import { Tooltip } from "../../queries/Tooltip";
 
 export const Login = () => {
   const formikRef = useRef();
@@ -75,6 +76,9 @@ export const Login = () => {
                   type="password"
                   autoComplete="off"
                 />
+                <div className={styles.containerTooltip}>
+                  <Tooltip />
+                </div>
                 {errors.password && touched.password ? (
                   <div
                     className={styles.error}

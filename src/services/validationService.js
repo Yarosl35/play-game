@@ -15,7 +15,12 @@ export const RegisterSchema = Yup.object().shape({
     [Yup.ref("password"), null],
     "Passwords must match"
   ),
-  schoolName: Yup.string().min(2, "should be 2 chars minimum."),
+  fullName: Yup.string()
+    .min(2, "should be 2 chars minimum.")
+    .required("Required"),
+  schoolName: Yup.string()
+    .min(2, "should be 2 chars minimum.")
+    .required("Required"),
 });
 export const UserSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),

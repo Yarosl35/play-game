@@ -82,9 +82,15 @@
 }
 .containerLoginInput {
   /* margin-top: 10px; */
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 220px;
+}
+.containerTooltip {
+  position: absolute;
+  left: 540px;
+  top: 57px;
 }
 .listJob {
   height: 230px;

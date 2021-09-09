@@ -64,6 +64,7 @@
   height: 220px;
 }
 .containerPasswordInput {
+  position: relative;
   height: 260px;
   display: flex;
   flex-direction: column;
@@ -105,4 +106,9 @@
   margin-top: 25px;
   margin-left: 40px;
   color: #ac0505;
+}
+.containerTooltip {
+  position: absolute;
+  left: 540px;
+  top: 57px;
 }

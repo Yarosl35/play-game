@@ -4,6 +4,7 @@ import { Formik, Form, Field } from "formik";
 import { Link } from "react-router-dom";
 import { LoginLayout } from "../../layout/LoginLayout";
 import eyeIcon from "./eye.svg";
+import { Tooltip } from "../../queries/Tooltip";
 
 export const NewPassword = () => {
   const [showFirst, setShowFirst] = useState(false);
@@ -27,9 +28,12 @@ export const NewPassword = () => {
             {({ errors, touched }) => (
               <Form className={styles.formMainContainer}>
                 <div className={styles.inputContainer}>
-                  <label className={styles.label} htmlFor="newPassword">
-                    New password
-                  </label>
+                  <div className={styles.tooltipContainer}>
+                    <label className={styles.label} htmlFor="newPassword">
+                      New password
+                    </label>
+                    <Tooltip isLight={true} />
+                  </div>
                   <div className={styles.inputWrapper}>
                     <Field
                       name="newPassword"
