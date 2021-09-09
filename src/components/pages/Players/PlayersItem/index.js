@@ -1,9 +1,16 @@
 import { useState } from "react";
 import copyIcon from "./copy.svg";
 import removeIcon from "./remove.svg";
-import styles from "./PlayersItem.module.css";
+import { useDispatch } from "react-redux";
+import { removeRoomSeatEmit } from "./../../../../redux/feature/reducer";
 
-export const PlayersItem = ({ data, removePlayer }) => {
+import styles from "./PlayersItem.module.css";
+export const PlayersItem = ({ data }) => {
+  const dispatch = useDispatch();
+  const removePlayer = (roomID, seatCode) => {
+    dispatch(removeRoomSeatEmit({ roomID, seatCode }));
+    console.log(roomID, seatCode);
+  };
   const [MousePosition, setMousePosition] = useState({
     left: 0,
     top: 0,
@@ -13,6 +20,7 @@ export const PlayersItem = ({ data, removePlayer }) => {
     setShowHideUpdateRow(true);
     setMousePosition({ left: ev.screenX, top: ev.screenY });
   }
+
   return (
     <li>
       <div
@@ -20,7 +28,7 @@ export const PlayersItem = ({ data, removePlayer }) => {
         onMouseMove={(ev) => handleMouseMove(ev)}
         onMouseOut={() => setShowHideUpdateRow(false)}
       >
-        <div className={styles.name}>{data.name}</div>
+        <div className={styles.name}>{data.ownerName}</div>
         <div
           className={`${styles.status} ${
             data.status === "Waiting"
@@ -30,13 +38,15 @@ export const PlayersItem = ({ data, removePlayer }) => {
               : styles.statusOffline
           }`}
         >
-          {data.status}
+          {" "}
+          N/A
+          {/* {data.status} */}
         </div>
-        <div className={styles.seatCode}>{data.seatCode}</div>
+        <div className={styles.seatCode}>{data.invitationCode}</div>
       </div>
       <div className={styles.remove}>
         <img
-          onClick={() => removePlayer(data.id)}
+          onClick={() => removePlayer(data.roomID, data.seatCode)}
           src={removeIcon}
           alt={"remove"}
         />
@@ -44,7 +54,9 @@ export const PlayersItem = ({ data, removePlayer }) => {
       <div className={styles.link}>
         <img
           onClick={() => {
-            navigator.clipboard.writeText(data.link);
+            navigator.clipboard.writeText(
+              `${process.env.REACT_APP_COPY_URL}${data.roomID}|${data.invitationCode}`
+            );
           }}
           src={copyIcon}
           alt={"copy"}
@@ -59,8 +71,8 @@ export const PlayersItem = ({ data, removePlayer }) => {
           }}
         >
           <div>
-            <p>player name: {data.name}</p>
-            <p>status: {data.status}</p>
+            <p>player name: {data.ownerName}</p>
+            <p>status: not</p>
             <p>seat code: {data.seatCode}</p>
             <p>region: {data.region}</p>
             <p>IP address: {data.ipAddress}</p>

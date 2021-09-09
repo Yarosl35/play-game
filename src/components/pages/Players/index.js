@@ -3,7 +3,11 @@ import styles from "./Players.module.css";
 import { playersData } from "./data/playersData";
 import { PlayersItem } from "./PlayersItem";
 import { useFormik } from "formik";
-import { createRoomSeatEmit } from "./../../../redux/feature/reducer";
+import {
+  createRoomSeatEmit,
+  addSeat,
+  removePlayer,
+} from "./../../../redux/feature/reducer";
 import { Board } from "../../layout/Board";
 import { socket } from "./../../../socket";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,9 +15,10 @@ import { useDispatch, useSelector } from "react-redux";
 export const Players = () => {
   const dispatch = useDispatch();
   const roomSelect = useSelector(({ roomSelect }) => roomSelect);
-  const [arrPlayers, setArrPlayers] = useState(playersData);
+
+  const [arrPlayers, setArrPlayers] = useState(roomSelect.players);
   const addNewPlayer = (dataPlayer) => {
-    dispatch(createRoomSeatEmit({ ...dataPlayer, roomID: roomSelect.page }));
+    dispatch(createRoomSeatEmit({ ...dataPlayer, roomID: roomSelect.roomId }));
   };
   const formik = useFormik({
     initialValues: {
@@ -26,35 +31,36 @@ export const Players = () => {
     },
   });
 
-  const removePlayer = (idPlayer) => {
-    setArrPlayers((arr) => arr.filter((el) => el.id !== idPlayer));
-  };
-  const listItems = arrPlayers.map((data, index) => {
-    return <PlayersItem key={index} data={data} removePlayer={removePlayer} />;
-  });
+  useEffect(() => {
+    console.log("roomSelect.players 1111", roomSelect.players);
+    setArrPlayers(roomSelect.players);
+  }, [roomSelect.players]);
+
   useEffect(() => {
     socket.on("addRoomSeat", (data) => {
-      console.log(data);
+      dispatch(addSeat(data));
     });
     socket.on("removeRoomSeat", (data) => {
-      console.log(data);
+      // console.log("removeRoomSeat", data);
+      dispatch(removePlayer(data));
     });
     socket.on("updateRoomSeat", (data) => {
       console.log(data);
     });
     return () => {
-      socket.of("removeRoomSeat", (data) => {
+      socket.off("removeRoomSeat", (data) => {
         console.log(data);
       });
-      socket.of("updateRoomSeat", (data) => {
+      socket.off("updateRoomSeat", (data) => {
         console.log(data);
       });
-      socket.of("addRoomSeat", (data) => {
+      socket.off("addRoomSeat", (data) => {
         console.log(data);
       });
     };
   }, [dispatch]);
-  console.log(roomSelect);
+  console.log("players", arrPlayers);
+  if (!arrPlayers) return null;
   return (
     <Board>
       <div className={styles.mainContainer}>
@@ -69,7 +75,23 @@ export const Players = () => {
           <div className={styles.link}>Share join link</div>
         </div>
         <div className={styles.containerScroll}>
-          <ul className={styles.listPlayers}>{listItems}</ul>
+          <ul className={styles.listPlayers}>
+            {arrPlayers.length !== 0 ? (
+              <>
+                {arrPlayers.map((data, index) => {
+                  return (
+                    <PlayersItem
+                      key={index}
+                      data={data}
+                      removePlayer={removePlayer}
+                    />
+                  );
+                })}
+              </>
+            ) : (
+              <div className={styles.playersInf}>no players</div>
+            )}
+          </ul>
         </div>
         <div className={styles.containerAddSeat}>
           <div className={styles.AddSeatText}>
@@ -77,39 +99,44 @@ export const Players = () => {
           </div>
 
           <form onSubmit={formik.handleSubmit}>
-            <div className={styles.boxFormAddSeat}>
-              <div className={styles.boxFormAddSeatInput}>
-                <span className={styles.inputAddContainer}>
-                  <label htmlFor="email">name</label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                  />
-                </span>
-                <span className={styles.inputAddContainer}>
-                  <label htmlFor="email">email</label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    onChange={formik.handleChange}
-                    value={formik.values.email}
-                  />
-                </span>
+            <div className={styles.containerForm}>
+              <div className={styles.boxFormAddSeat}>
+                <div>
+                  <span className={styles.inputEmail}>
+                    <label htmlFor="email">email</label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      onChange={formik.handleChange}
+                      value={formik.values.email}
+                    />
+                  </span>
+                </div>
+                <div className={styles.boxFormAddSeatInput}>
+                  <span className={styles.inputClass}>
+                    <label htmlFor="class">class</label>
+                    <input
+                      id="class"
+                      name="class"
+                      type="class"
+                      onChange={formik.handleChange}
+                      value={formik.values.class}
+                    />
+                  </span>
+                  <span className={styles.inputAddContainer}>
+                    <label htmlFor="email">name</label>
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      onChange={formik.handleChange}
+                      value={formik.values.name}
+                    />
+                  </span>
+                </div>
               </div>
-              <span className={styles.inputAddContainer}>
-                <label htmlFor="class">class</label>
-                <input
-                  id="class"
-                  name="class"
-                  type="class"
-                  onChange={formik.handleChange}
-                  value={formik.values.class}
-                />
-              </span>
+
               <button type="submit" className={styles.BtnAdd}>
                 Add
               </button>

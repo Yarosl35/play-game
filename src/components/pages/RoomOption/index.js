@@ -34,7 +34,7 @@ export const RoomOption = () => {
   ));
   useEffect(() => {
     const updateDate = {
-      roomID: roomSelect.page,
+      roomID: roomSelect.roomId,
       setting: {
         timeSetting: {
           startTime: startDate,
@@ -58,9 +58,8 @@ export const RoomOption = () => {
     endDate,
     roomSelect,
   ]);
-  console.log("roomSelect 12345", roomSelect);
   useEffect(() => {
-    if (roomSelect.page) {
+    if (roomSelect.roomId) {
       const {
         roomSelected: { settings },
       } = roomSelect;

@@ -9,7 +9,7 @@ const initialState = {
   user: { email: "", token: "" },
   listRooms: null,
   userDetails: null,
-  roomSelect: { page: null },
+  roomSelect: { roomId: null },
   auth: null,
   socket: null,
   loginError: false,
@@ -60,7 +60,7 @@ export const updateOptionEmit = createAsyncThunk(
   async (data) => {
     console.log(data);
     socket.emit("updateRoomSetting", {
-      roomID: data.roomID,
+      roomId: data.roomID,
       setting: data.settings,
     });
   }
@@ -91,12 +91,21 @@ export const changeDescriptionEmit = createAsyncThunk(
 export const createRoomSeatEmit = createAsyncThunk(
   "users/createRoomSeatEmit",
   async (data) => {
-    console.log(data);
+    console.log("redux", data);
     socket.emit("createRoomSeat", {
       roomID: data.roomID,
       ownerName: data.name,
       ownerEmail: data.email,
-      // ownerClass: "test",
+      ownerClass: data.class,
+    });
+  }
+);
+export const removeRoomSeatEmit = createAsyncThunk(
+  "users/removeRoomSeat",
+  async (data) => {
+    socket.emit("removeRoomSeat", {
+      roomID: data.roomID,
+      seatCode: data.seatCode,
     });
   }
 );
@@ -108,6 +117,12 @@ export const counterSlice = createSlice({
     closeModal(state) {
       state.createdUserShow = { show: false, text: "" };
     },
+    setRoomsList(state, listRooms) {
+      const newArrRoom = listRooms.payload.map((room) => {
+        return { ...room, seats: Object.values(room.seats) };
+      });
+      state.listRooms = newArrRoom;
+    },
     roomListSelect(state, action) {
       // console.log(action);
       const roomSelected = state.listRooms.filter(
@@ -115,16 +130,14 @@ export const counterSlice = createSlice({
       );
       state.roomSelect = {
         roomSelected: roomSelected[0],
-        players: Object.values(roomSelected[0].seats),
-        page: action.payload,
+        players: roomSelected[0].seats,
+        roomId: action.payload,
       };
     },
     loginNotError(state) {
       state.loginError = false;
     },
-    setRoomsList(state, data) {
-      state.listRooms = data.payload;
-    },
+
     addNewRoom(state, data) {
       state.listRooms.push(data.payload);
     },
@@ -162,12 +175,43 @@ export const counterSlice = createSlice({
         ...state.listRooms.slice(index + 1),
       ];
       state.listRooms = newArr;
+
+      state.roomSelect = { ...state.roomSelect };
     },
     addSeat(state, data) {
       const index = state.listRooms.findIndex(
         ({ roomID }) => roomID === data.payload.roomID
       );
-      console.log(index);
+      const changedRoom = state.listRooms[index];
+      const seatsArr = changedRoom.seats;
+      const changedRoomSeats = [...seatsArr, data.payload.seat];
+      const updatedRoom = { ...changedRoom, seats: changedRoomSeats };
+      const newArr = [
+        ...state.listRooms.slice(0, index),
+        updatedRoom,
+        ...state.listRooms.slice(index + 1),
+      ];
+      state.listRooms = newArr;
+      state.roomSelect = { ...state.roomSelect, players: changedRoomSeats };
+    },
+    removePlayer(state, data) {
+      // {roomID: "50dcef1e-86f5-457a-a2c3-835e7ddfbb3d", seatCode: "b0d1a359-340b-49d3-af93-74a31b78829a"}
+      const index = state.listRooms.findIndex(
+        ({ roomID }) => roomID === data.payload.roomID
+      );
+      const changedRoom = state.listRooms[index];
+      const seatsArr = changedRoom.seats;
+      const changedRoomSeats = seatsArr.filter(
+        (el) => el.seatCode !== data.payload.seatCode
+      );
+      const updatedRoom = { ...changedRoom, seats: changedRoomSeats };
+      const newArr = [
+        ...state.listRooms.slice(0, index),
+        updatedRoom,
+        ...state.listRooms.slice(index + 1),
+      ];
+      state.listRooms = newArr;
+      state.roomSelect = { ...state.roomSelect, players: changedRoomSeats };
     },
   },
   // cookies.get("userToken")
@@ -211,6 +255,8 @@ export const {
   addNewRoom,
   changeName,
   changeDescription,
+  addSeat,
+  removePlayer,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

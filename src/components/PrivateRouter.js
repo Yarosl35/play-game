@@ -12,7 +12,7 @@ export const PrivateRoute = ({ children, ...rest }) => {
   const history = useHistory();
 
   useEffect(() => {
-    if (!roomSelect.page && roomSelect.page !== 0) {
+    if (!roomSelect.roomId && roomSelect.roomId !== 0) {
       history.push(process.env.REACT_APP_REDIRECT_MAIN_PAGE);
     }
   }, [roomSelect, history]);
