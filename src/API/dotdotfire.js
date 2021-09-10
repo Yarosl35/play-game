@@ -60,14 +60,6 @@ export class Api {
   };
 
   getUser = async (token) => {
-    //   {
-    //     "msg": "found user details",
-    //     "details": {
-    //         "fullName": "test",
-    //         "schoolName": "test",
-    //         "jobPosition": "teacher"
-    //     }
-    // }
     const options = {
       method: "GET",
       url: `${url}/users/details`,
