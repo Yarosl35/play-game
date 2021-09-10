@@ -1,9 +1,33 @@
-import styles from "./resetPassword.module.css";
+import { useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+
+import { forgetPassword } from "../../../redux/feature/extraReducers";
 import { LoginLayout } from "../../layout/LoginLayout";
 
+import styles from "./resetPassword.module.css";
+
 export const ResetPassword = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const { forgetPasswordLink, forgetPasswordError } = useSelector(
+    ({ forgetPasswordLink, forgetPasswordError }) => {
+      return { forgetPasswordLink, forgetPasswordError };
+    }
+  );
+  console.log(forgetPasswordLink, forgetPasswordError);
+  const resetPass = (emailData) => {
+    dispatch(forgetPassword(emailData));
+  };
+
+  useEffect(() => {
+    if (forgetPasswordLink) {
+      history.push("/reset/email");
+    }
+  }, [forgetPasswordLink, history]);
   return (
     <LoginLayout>
       <div className={styles.containerWrapper}>
@@ -15,30 +39,40 @@ export const ResetPassword = () => {
             }}
             // validationSchema={RegisterSchema}
             onSubmit={(values) => {
-              // server request
+              resetPass(values);
             }}
           >
             {({ errors, touched }) => (
-              <Form className={styles.formMainContainer}>
-                <p className={styles.formTitle}>What is your email?</p>
-                <div className={styles.inputContainer}>
-                  <Field name="email" className={styles.input} type="email" />
-                  {errors.email && touched.email ? (
-                    <div
-                      className={styles.error}
-                    >{`Error: ${errors.email}`}</div>
-                  ) : null}
+              <Form>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className={styles.formMainContainer}>
+                    <p className={styles.formTitle}>What is your email?</p>
+                    <div className={styles.inputContainer}>
+                      <Field
+                        name="email"
+                        className={styles.input}
+                        type="email"
+                      />
+                      {errors.email && touched.email ? (
+                        <div
+                          className={styles.error}
+                        >{`Error: ${errors.email}`}</div>
+                      ) : null}
+                    </div>
+                  </div>
+                  <button className={styles.BtnReset}>Login</button>
                 </div>
               </Form>
             )}
           </Formik>
-          <Link to="/reset/email">
-            <button className={styles.btnSendEmail}>Send email</button>
-          </Link>
         </div>
-        <Link to="/login" className={styles.positionRightBtn}>
-          <button className={styles.BtnReset}>Login</button>
-        </Link>
       </div>
     </LoginLayout>
   );

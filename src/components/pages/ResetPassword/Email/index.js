@@ -15,7 +15,7 @@ export const EmailSend = () => {
             </p>
           </div>
 
-          <Link to="/">
+          <Link to="/login">
             <button className={styles.btnMainPage}>Main page</button>
           </Link>
         </div>

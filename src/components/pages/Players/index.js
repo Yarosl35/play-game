@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Players.module.css";
-import { playersData } from "./data/playersData";
 import { PlayersItem } from "./PlayersItem";
 import { useFormik } from "formik";
 import {
-  createRoomSeatEmit,
   addSeat,
   removePlayer,
 } from "./../../../redux/feature/reducer";
+import {
+  createRoomSeatEmit
+} from "./../../../redux/feature/extraReducers";
 import { Board } from "../../layout/Board";
 import { socket } from "./../../../socket";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +33,6 @@ export const Players = () => {
   });
 
   useEffect(() => {
-    console.log("roomSelect.players 1111", roomSelect.players);
     setArrPlayers(roomSelect.players);
   }, [roomSelect.players]);
 
@@ -41,7 +41,6 @@ export const Players = () => {
       dispatch(addSeat(data));
     });
     socket.on("removeRoomSeat", (data) => {
-      // console.log("removeRoomSeat", data);
       dispatch(removePlayer(data));
     });
     socket.on("updateRoomSeat", (data) => {
@@ -59,7 +58,6 @@ export const Players = () => {
       });
     };
   }, [dispatch]);
-  console.log("players", arrPlayers);
   if (!arrPlayers) return null;
   return (
     <Board>

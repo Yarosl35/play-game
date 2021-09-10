@@ -17,6 +17,34 @@ export class Api {
     const dataResponse = await axios.request(options);
     return dataResponse;
   };
+  ForgetPassword = async (data) => {
+    const options = {
+      method: "POST",
+      url: `${url}/users/forgot-password`,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        accept: "*/*",
+      },
+      data: qs.stringify({ email: data.email }),
+    };
+    const dataResponse = await axios.request(options);
+    return dataResponse;
+  };
+
+  ResetPassword = async (data) => {
+    const options = {
+      method: "POST",
+      url: `${url}/users/reset-password`,
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      data: qs.stringify({
+        token: data.token,
+        password: data.pass,
+        password2: data.pass2,
+      }),
+    };
+    const dataResponse = await axios.request(options);
+    return dataResponse;
+  };
   register = async (data) => {
     const options = {
       method: "POST",
@@ -32,24 +60,23 @@ export class Api {
   };
 
   getUser = async (token) => {
-    // console.log("token api", token);
-    // const options = {
-    //   method: "GET",
-    //   url: `${url}/users/details`,
-    //   headers: {
-    //     // "Content-Type": "application/json",
-    //     Authentication: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMTF0ZXN0QG1haWwuY29tIiwiaWF0IjoxNjMwNTEwNzM3LCJleHAiOjE2MzgyODY3Mzd9.GA39zQmrx3LFjnA-T5u85QjioTEWu1SJic-gXvz-2Cw`,
-    //   },
-    // };
-
-    // const dataResponse = await axios.request(options);
-    const dataResponse = await axios.get(`${url}/users/details`, {
+    //   {
+    //     "msg": "found user details",
+    //     "details": {
+    //         "fullName": "test",
+    //         "schoolName": "test",
+    //         "jobPosition": "teacher"
+    //     }
+    // }
+    const options = {
+      method: "GET",
+      url: `${url}/users/details`,
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    });
+    };
+    const dataResponse = axios.request(options);
     return dataResponse;
   };
 }
-// namenew@gmail.com
-// 987654qwerty

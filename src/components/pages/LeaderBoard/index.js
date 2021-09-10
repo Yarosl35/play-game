@@ -22,15 +22,7 @@ export const LeaderBoard = () => {
       value: room,
     };
   });
-  useEffect(() => {
-    if (socket) {
-      console.log(socket);
-      io(process.env.REACT_APP_WS_URL);
-      socket.on("room", (e) => console.log("room", e));
-    }
-  }, [socket]);
-  // console.log(dt);
-  console.log(socket);
+
   return (
     <Board>
       <div className={styles.mainContainer}>

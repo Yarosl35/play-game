@@ -4,7 +4,7 @@ export const Modal = ({ response }) => {
   return (
     <div className={styles.Modal}>
       <div className={styles.Modal_Body}>
-        <p>{response.createdUserShow.text}</p>
+        <p>{response}</p>
       </div>
     </div>
   );

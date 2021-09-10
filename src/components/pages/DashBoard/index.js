@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useDebounce } from "./../../queries/use-debounce";
 import { socket } from "./../../../socket";
@@ -9,9 +9,8 @@ import { Board } from "../../layout/Board";
 import {
   changeNameEmit,
   changeDescriptionEmit,
-  changeName,
-  changeDescription,
-} from "../../../redux/feature/reducer";
+} from "../../../redux/feature/extraReducers";
+import { changeName, changeDescription } from "../../../redux/feature/reducer";
 // import { Loader } from "../../queries/loader/loader";
 
 export const DashBoard = () => {
@@ -20,15 +19,17 @@ export const DashBoard = () => {
   const [loaderName, setLoaderName] = useState(false);
   const [loaderDescription, setLoaderDescription] = useState(false);
   const roomSelect = useSelector(({ roomSelect }) => roomSelect);
-  console.log(roomSelect);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (roomSelect.page || roomSelect.page === 0) {
+  const innerFunction = useCallback(() => {
+    if (roomSelect.roomId || roomSelect.roomId === 0) {
       setNameRoom(roomSelect.roomSelected.name);
       setDescriptionRoom(roomSelect.roomSelected.description);
     }
   }, [roomSelect]);
+  useEffect(() => {
+    innerFunction();
+  }, [innerFunction]);
 
   const debouncedName = useDebounce(nameRoom, 700);
   const debouncedDescription = useDebounce(descriptionRoom, 700);
@@ -47,7 +48,6 @@ export const DashBoard = () => {
   useEffect(() => {
     if (roomSelect)
       if (debouncedName) {
-        console.log("debouncedName", debouncedName);
         setLoaderName(false);
         dispatch(
           changeNameEmit({
@@ -58,12 +58,13 @@ export const DashBoard = () => {
       }
   }, [debouncedName, dispatch, roomSelect]);
   useEffect(() => {
-    socket.on("updateRoomName", (data) => {
-      dispatch(changeName(data));
-    });
     socket.on("updateRoomDescription", (data) => {
       dispatch(changeDescription(data));
     });
+    socket.on("updateRoomName", (data) => {
+      dispatch(changeName(data));
+    });
+
     return () => {
       socket.off("updateRoomName", (data) => {
         console.log("updateRoomName", data);
@@ -73,6 +74,7 @@ export const DashBoard = () => {
       });
     };
   }, [dispatch]);
+
   if (!roomSelect) return null;
   return (
     <Board>
@@ -101,29 +103,36 @@ export const DashBoard = () => {
                   }}
                 />
                 {loaderName ? (
-                  <>
-                    {/* <Loader />  */}
-                    saving...
-                  </>
+                  <span style={{ fontSize: "2em" }}>
+                    {" "}
+                    &nbsp;&nbsp; saving...
+                  </span>
                 ) : null}
               </div>
               <div>
                 <p>Room description</p>
-                <textarea
-                  className={styles.roomDescription}
-                  type="text"
-                  value={descriptionRoom}
-                  onChange={(e) => {
-                    setDescriptionRoom(e.target.value);
-                    setLoaderDescription(true);
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
                   }}
-                />
-                {loaderDescription ? (
-                  <>
-                    {/* <Loader />  */}
-                    saving...
-                  </>
-                ) : null}
+                >
+                  <textarea
+                    className={styles.roomDescription}
+                    type="text"
+                    value={descriptionRoom}
+                    onChange={(e) => {
+                      setDescriptionRoom(e.target.value);
+                      setLoaderDescription(true);
+                    }}
+                  />
+                  {loaderDescription ? (
+                    <span style={{ fontSize: "2em" }}>
+                      {" "}
+                      &nbsp;&nbsp; saving...
+                    </span>
+                  ) : null}
+                </div>
               </div>
             </div>
           </div>

@@ -1,9 +1,15 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "universal-cookie";
-import { socket } from "./../../socket/index";
 
-import { Api } from "../../API/dotdotfire";
-const userAPI = new Api();
+import {
+  loginUser,
+  registrationUser,
+  getUser,
+  forgetPassword,
+  resetPassword,
+} from "./extraReducers";
+
+const cookies = new Cookies();
 
 const initialState = {
   user: { email: "", token: "" },
@@ -11,104 +17,15 @@ const initialState = {
   userDetails: null,
   roomSelect: { roomId: null },
   auth: null,
+  resetPasswordSuccess: false,
   socket: null,
+  forgetPasswordLink: false,
+  forgetPasswordError: false,
   loginError: false,
+  errorPass: false,
   emailUserError: false,
   createdUserShow: { show: false, text: "" },
 };
-
-const cookies = new Cookies();
-
-export const loginUser = createAsyncThunk(
-  "users/loginUser",
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await userAPI.LoginUser(data);
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
-export const registerUser = createAsyncThunk(
-  "users/Register",
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await userAPI.register(data);
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
-export const getUser = createAsyncThunk(
-  "users/getUser",
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await userAPI.getUser(cookies.get("userToken").token);
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
-export const createRoom = createAsyncThunk("users/createRoom", async (data) => {
-  socket.emit("createRoom", data);
-});
-export const updateOptionEmit = createAsyncThunk(
-  "users/updateOptionEmit",
-  async (data) => {
-    console.log(data);
-    socket.emit("updateRoomSetting", {
-      roomId: data.roomID,
-      setting: data.settings,
-    });
-  }
-);
-
-export const changeNameEmit = createAsyncThunk(
-  "users/changeName",
-  async (data) => {
-    console.log("changeNameEmit", data);
-    socket.emit("updateRoomName", {
-      roomID: data.roomID,
-      name: data.name,
-    });
-  }
-);
-export const changeDescriptionEmit = createAsyncThunk(
-  "users/changeDescription",
-  async (data) => {
-    socket.emit(
-      "updateRoomDescription",
-      { roomID: data.roomID, description: data.description },
-      function (a) {
-        console.log(a);
-      }
-    );
-  }
-);
-export const createRoomSeatEmit = createAsyncThunk(
-  "users/createRoomSeatEmit",
-  async (data) => {
-    console.log("redux", data);
-    socket.emit("createRoomSeat", {
-      roomID: data.roomID,
-      ownerName: data.name,
-      ownerEmail: data.email,
-      ownerClass: data.class,
-    });
-  }
-);
-export const removeRoomSeatEmit = createAsyncThunk(
-  "users/removeRoomSeat",
-  async (data) => {
-    socket.emit("removeRoomSeat", {
-      roomID: data.roomID,
-      seatCode: data.seatCode,
-    });
-  }
-);
 
 export const counterSlice = createSlice({
   name: "counter",
@@ -124,7 +41,6 @@ export const counterSlice = createSlice({
       state.listRooms = newArrRoom;
     },
     roomListSelect(state, action) {
-      // console.log(action);
       const roomSelected = state.listRooms.filter(
         ({ roomID }) => roomID === action.payload
       );
@@ -137,7 +53,9 @@ export const counterSlice = createSlice({
     loginNotError(state) {
       state.loginError = false;
     },
-
+    passNotError(state) {
+      state.errorPass = false;
+    },
     addNewRoom(state, data) {
       state.listRooms.push(data.payload);
     },
@@ -175,8 +93,6 @@ export const counterSlice = createSlice({
         ...state.listRooms.slice(index + 1),
       ];
       state.listRooms = newArr;
-
-      state.roomSelect = { ...state.roomSelect };
     },
     addSeat(state, data) {
       const index = state.listRooms.findIndex(
@@ -195,7 +111,6 @@ export const counterSlice = createSlice({
       state.roomSelect = { ...state.roomSelect, players: changedRoomSeats };
     },
     removePlayer(state, data) {
-      // {roomID: "50dcef1e-86f5-457a-a2c3-835e7ddfbb3d", seatCode: "b0d1a359-340b-49d3-af93-74a31b78829a"}
       const index = state.listRooms.findIndex(
         ({ roomID }) => roomID === data.payload.roomID
       );
@@ -214,33 +129,41 @@ export const counterSlice = createSlice({
       state.roomSelect = { ...state.roomSelect, players: changedRoomSeats };
     },
   },
-  // cookies.get("userToken")
   extraReducers: {
-    [changeNameEmit.fulfilled]: (state, action) => {
-      // console.log("changeNameEmit", action);
-    },
     [loginUser.fulfilled]: (state, action) => {
       state.user = action.payload;
       state.auth = true;
       state.loginError = false;
       //add cookies
       cookies.set("userToken", { token: action.payload.accessToken });
+      cookies.set("userEmail", { email: action.payload.email });
     },
     [loginUser.rejected]: (state) => {
       state.loginError = true;
     },
-    [registerUser.fulfilled]: (state, action) => {
+    [registrationUser.fulfilled]: (state, action) => {
       state.createdUserShow = { show: true, text: action.payload.msg };
       state.emailUserError = false;
     },
-    [registerUser.rejected]: (state) => {
+    [registrationUser.rejected]: (state) => {
       state.emailUserError = true;
     },
-    [getUser.fulfilled]: (state, action) => {
-      // console.log(action.payload);
+    [forgetPassword.fulfilled]: (state, action) => {
+      state.forgetPasswordLink = true;
     },
-    [getUser.rejected]: (state, action) => {
-      // console.log(action.payload);
+    [forgetPassword.rejected]: (state, action) => {
+      state.forgetPasswordLink = false;
+      state.forgetPasswordError = true;
+    },
+    [getUser.fulfilled]: (state, action) => {
+      state.userDetails = action.payload.details;
+    },
+    [resetPassword.fulfilled]: (state, action) => {
+      state.resetPasswordSuccess = true;
+    },
+    [resetPassword.rejected]: (state, action) => {
+      state.resetPasswordSuccess = false;
+      state.errorPass = true;
     },
     //change dashboard
   },
@@ -257,6 +180,7 @@ export const {
   changeDescription,
   addSeat,
   removePlayer,
+  passNotError,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

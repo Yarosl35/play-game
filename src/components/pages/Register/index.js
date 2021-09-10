@@ -8,7 +8,8 @@ import { SelectList } from "../../queries/SelectList";
 import { LoginLayout } from "../../layout/LoginLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "../../Modal";
-import { registerUser, closeModal } from "../../../redux/feature/reducer";
+import { closeModal } from "../../../redux/feature/reducer";
+import { registrationUser } from "../../../redux/feature/extraReducers";
 import { Tooltip } from "../../queries/Tooltip";
 
 const forList = [
@@ -33,7 +34,7 @@ export const Register = () => {
       school: registrationData.schoolName,
       jobPosition: selectedJob,
     };
-    dispatch(registerUser(newObj));
+    dispatch(registrationUser(newObj));
   };
   const changeJob = (value) => {
     setSelectedJob(value);
@@ -58,7 +59,7 @@ export const Register = () => {
   return (
     <LoginLayout>
       {resRegistration.createdUserShow.show ? (
-        <Modal response={resRegistration} />
+        <Modal response={resRegistration.createdUserShow.text} />
       ) : null}
       <div className={styles.bgContainer}>
         <Formik

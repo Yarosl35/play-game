@@ -6,14 +6,17 @@ import { Link, useHistory } from "react-router-dom";
 import icon from "./iconUser.svg";
 import { LoginLayout } from "../../layout/LoginLayout";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, loginNotError } from "../../../redux/feature/reducer";
+import { loginUser } from "../../../redux/feature/extraReducers";
+import { loginNotError } from "../../../redux/feature/reducer";
 import { Tooltip } from "../../queries/Tooltip";
 
 export const Login = () => {
+  const dispatch = useDispatch();
   const formikRef = useRef();
+
   const loginError = useSelector(({ loginError }) => loginError);
   const dataLogin = useSelector((dataLogin) => dataLogin);
-  const dispatch = useDispatch();
+
   const sendDataLogin = async (loginData) => {
     dispatch(loginNotError());
     dispatch(loginUser(loginData));

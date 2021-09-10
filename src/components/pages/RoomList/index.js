@@ -10,26 +10,19 @@ import { setRoomsList } from "./../../../redux/feature/reducer";
 export const RoomList = () => {
   const [showNewRoom, setShowNewRoom] = useState(false);
   const listRooms = useSelector(({ listRooms }) => listRooms);
-
   const dispatch = useDispatch();
   const changeShowRoom = () => {
     setShowNewRoom((show) => !show);
   };
-
   useEffect(() => {
     socket.on("loadAllRooms", (data) => {
-      dispatch(setRoomsList(Object.values(data)));
+      dispatch(setRoomsList(data));
     });
 
     return socket.off("loadAllRooms", (data) => {
       console.log(data);
     });
   }, [dispatch]);
-  if (!listRooms) return <p>no data</p>;
-  console.log(listRooms);
-  const listItems = listRooms.map((data) => {
-    return <RoomsItem key={data.roomID} data={data} />;
-  });
   return (
     <Panel>
       {showNewRoom ? <NewRoom setShowModal={setShowNewRoom} /> : null}
@@ -41,7 +34,17 @@ export const RoomList = () => {
             </button>
           </div>
           <div className={styles.containerScroll}>
-            <ul className={styles.roomList}>{listItems}</ul>
+            <ul className={styles.roomList}>
+              {!listRooms ? (
+                <li>N/A</li>
+              ) : (
+                <>
+                  {listRooms.map((data) => {
+                    return <RoomsItem key={data.roomID} data={data} />;
+                  })}
+                </>
+              )}
+            </ul>
           </div>
         </div>
       </div>

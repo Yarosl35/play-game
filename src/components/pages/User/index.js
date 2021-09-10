@@ -4,31 +4,33 @@ import { UserSchema } from "./../../../services/validationService";
 import styles from "./User.module.css";
 // import { Api } from "./../../../API/dotdotfire";
 import { Panel } from "../../layout/Panel";
-import { getUser } from "./../../../redux/feature/reducer";
-import { useDispatch } from "react-redux";
-// const datauser = new Api();
+import { getUser } from "./../../../redux/feature/extraReducers";
+import { useDispatch, useSelector } from "react-redux";
+import Cookies from "universal-cookie";
 
 export const User = () => {
   const dispatch = useDispatch();
-  // const [user, setUser] = useState({});
+  const cookies = new Cookies();
 
-  // const dataUserInfo = async () => {
-  //   const dataUser = await datauser.getUser();
-  //   setUser(dataUser.data.details);
-  // };
+  const userDetails = useSelector(({ userDetails }) => userDetails);
 
   useEffect(() => {
+
     dispatch(getUser());
-  }, []);
+    return {
+      
+    }
+  }, [dispatch]);
+  if (!userDetails) return null;
   return (
     <Panel>
       <div className={styles.containerWrapper}>
         <div className={styles.container}>
           <Formik
             initialValues={{
-              email: "test@email.com",
-              fullName: "full name",
-              schoolName: "school name",
+              email: cookies.get("userEmail").email,
+              fullName: userDetails.fullName,
+              schoolName: userDetails.schoolName,
               oldPassword: "",
               newPassword: "",
               confirmPassword: "",

@@ -21,7 +21,7 @@ function App() {
           <Route path="/register" component={Register} />
           <Route exact path="/reset/email" component={EmailSend} />
           <Route path="/reset" component={ResetPassword} />
-          <Route path="/new-password" component={NewPassword} />
+          <Route path="/reset-password/:token" component={NewPassword} />
           <PrivateRoute path="/leader-board">
             <LeaderBoard />
           </PrivateRoute>

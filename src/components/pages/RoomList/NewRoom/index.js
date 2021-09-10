@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { SelectList } from "./SelectList";
-import { createRoom, addNewRoom } from "./../../../../redux/feature/reducer";
+import { addNewRoom } from "./../../../../redux/feature/reducer";
+import { createRoom } from "./../../../../redux/feature/extraReducers";
 import styles from "./NewRoom.module.css";
 import { socket } from "../../../../socket";
 const arrayList = [
@@ -10,7 +11,6 @@ const arrayList = [
 ];
 export const NewRoom = ({ setShowModal }) => {
   const [roomName, setRoomName] = useState("");
-  const [addRoomShow, setAddRoomShow] = useState(null);
   const dispatch = useDispatch();
   const [valueList, setValueList] = useState(arrayList[0].value);
   const change = (value) => {
@@ -22,8 +22,8 @@ export const NewRoom = ({ setShowModal }) => {
       name: roomName,
       description: "Just description",
     };
-    console.log(newRoomDate);
     dispatch(createRoom(newRoomDate));
+    setShowModal(false);
   }
   const changeNameRoom = (e) => {
     setRoomName(e.target.value);

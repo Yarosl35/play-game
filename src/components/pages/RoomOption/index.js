@@ -3,7 +3,7 @@ import styles from "./RoomOption.module.css";
 import calendar from "./calendar.svg";
 import DatePicker from "react-datepicker";
 import { useSelector, useDispatch } from "react-redux";
-import { updateOptionEmit } from "../../../redux/feature/reducer";
+import { updateOptionEmit } from "../../../redux/feature/extraReducers";
 import { socket } from "./../../../socket";
 import { Board } from "../../layout/Board";
 import { Switch } from "./../../queries/Switch";

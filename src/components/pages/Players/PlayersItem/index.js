@@ -2,14 +2,13 @@ import { useState } from "react";
 import copyIcon from "./copy.svg";
 import removeIcon from "./remove.svg";
 import { useDispatch } from "react-redux";
-import { removeRoomSeatEmit } from "./../../../../redux/feature/reducer";
+import { removeRoomSeatEmit } from "./../../../../redux/feature/extraReducers";
 
 import styles from "./PlayersItem.module.css";
 export const PlayersItem = ({ data }) => {
   const dispatch = useDispatch();
   const removePlayer = (roomID, seatCode) => {
     dispatch(removeRoomSeatEmit({ roomID, seatCode }));
-    console.log(roomID, seatCode);
   };
   const [MousePosition, setMousePosition] = useState({
     left: 0,

@@ -36,3 +36,13 @@ export const UserSchema = Yup.object().shape({
     "Passwords must match"
   ),
 });
+
+export const newPasswordSchema = Yup.object().shape({
+  newPassword: Yup.string()
+    .required("Required")
+    .min(8, "should be 8 chars minimum."),
+  confirmPassword: Yup.string().oneOf(
+    [Yup.ref("password"), null],
+    "Passwords must match"
+  ),
+});
