@@ -4,21 +4,47 @@ import calendar from "./calendar.svg";
 import DatePicker from "react-datepicker";
 import { useSelector, useDispatch } from "react-redux";
 import { updateOptionEmit } from "../../../redux/feature/extraReducers";
+import { updateSetting } from "../../../redux/feature/reducer";
 import { socket } from "./../../../socket";
 import { Board } from "../../layout/Board";
 import { Switch } from "./../../queries/Switch";
 import "react-datepicker/dist/react-datepicker.css";
+import {useDebounce} from "../../queries/use-debounce";
 
 export const RoomOption = () => {
   const dispatch = useDispatch();
   const roomSelect = useSelector(({ roomSelect }) => roomSelect);
 
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  let defaultValue = {
+    'startDate': new Date(),
+    'endDate': new Date(),
+    'switchBicycle': false,
+    'switchBus': false,
+    'speed': 0
+  }
 
-  const [speed, setSpeed] = useState(0);
-  const [switchBicycle, setSwitchBicycle] = useState(false);
-  const [switchBus, setSwitchBus] = useState(false);
+  // If the data is exist
+  if (roomSelect.roomId) {
+    const setting = roomSelect.roomSelected.setting;
+    const gameSetting = setting.gameSetting;
+    const timeSetting = setting.timeSetting;
+    if (timeSetting) {
+      if (timeSetting.startTime) defaultValue.startDate = timeSetting.startTime;
+      if (timeSetting.endTime) defaultValue.endDate = timeSetting.endTime;
+    }
+
+    if (gameSetting) {
+      if (gameSetting.allowBicycle) defaultValue.switchBicycle = gameSetting.allowBicycle;
+      if (gameSetting.allowBus) defaultValue.switchBus = gameSetting.allowBus;
+      if (gameSetting.maximumSpeed) defaultValue.speed = gameSetting.maximumSpeed;
+    }
+  }
+
+  const [startDate, setStartDate] = useState(defaultValue.startDate);
+  const [endDate, setEndDate] = useState(defaultValue.endDate);
+  const [switchBicycle, setSwitchBicycle] = useState(defaultValue.switchBicycle);
+  const [switchBus, setSwitchBus] = useState(defaultValue.switchBus);
+  const [speed, setSpeed] = useState(defaultValue.speed);
 
   const CustomInputDate = forwardRef(({ value, onClick }, ref) => (
     <div className={styles.blockCustomInput}>
@@ -32,50 +58,65 @@ export const RoomOption = () => {
       />
     </div>
   ));
+
+  // Delay before update
+  const debouncedStartDate = useDebounce(startDate, 2000);
+  const debouncedEndDate = useDebounce(endDate, 2000);
+  const debouncedSwitchBicycle = useDebounce(switchBicycle, 2000);
+  const debouncedSwitchBus = useDebounce(switchBus, 2000);
+  const debouncedSpeed = useDebounce(speed, 2000);
+
   useEffect(() => {
-    const updateDate = {
+    const data = {
       roomID: roomSelect.roomId,
       setting: {
         timeSetting: {
-          startTime: startDate,
-          endTime: endDate,
+          startTime: new Date(debouncedStartDate).getTime(),
+          endTime: new Date(debouncedEndDate).getTime(),
         },
         gameSetting: {
           questCSV: `too long to display..`,
-          allowBicycle: switchBicycle,
-          allowBus: switchBus,
-          maximumSpeed: speed,
+          allowBicycle: debouncedSwitchBicycle,
+          allowBus: debouncedSwitchBus,
+          maximumSpeed: debouncedSpeed,
         },
       },
     };
-    dispatch(updateOptionEmit(updateDate));
+    dispatch(updateOptionEmit(data));
   }, [
     dispatch,
-    speed,
-    switchBicycle,
-    switchBus,
-    startDate,
-    endDate,
-    roomSelect,
+    debouncedSwitchBicycle,
+    debouncedSwitchBus,
+    debouncedSpeed,
+    debouncedStartDate,
+    debouncedEndDate
   ]);
+
   useEffect(() => {
     if (roomSelect.roomId) {
-      const {
-        roomSelected: { settings },
-      } = roomSelect;
-      setSwitchBicycle(settings.gameSetting.allowBicycle);
-      setSwitchBus(settings.gameSetting.allowBus);
-      setSpeed(settings.gameSetting.maximumSpeed);
+      const setting = roomSelect.roomSelected.setting;
+      const gameSetting = setting.gameSetting;
+      const timeSetting = setting.timeSetting;
+      if (timeSetting) {
+        if (timeSetting.hasOwnProperty('startTime')) setStartDate(timeSetting.startTime);
+        if (timeSetting.hasOwnProperty('endTime')) setEndDate(timeSetting.endTime);
+      }
+      if (gameSetting) {
+        if (gameSetting.hasOwnProperty('allowBicycle')) setSwitchBicycle(gameSetting.allowBicycle);
+        if (gameSetting.hasOwnProperty('allowBus')) setSwitchBus(gameSetting.allowBus);
+        if (gameSetting.hasOwnProperty('maximumSpeed')) setSpeed(gameSetting.maximumSpeed);
+      }
     }
   }, [roomSelect]);
+
   useEffect(() => {
     socket.on("updateRoomSetting", (data) => {
-      console.log("updateRoomSetting", data);
+      dispatch(updateSetting(data));
     });
 
     return () => {
       socket.off("updateRoomSetting", (data) => {
-        console.log("updateRoomSetting", data);
+        console.log("OFF");
       });
     };
   }, [dispatch]);

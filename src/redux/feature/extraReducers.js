@@ -73,8 +73,8 @@ export const updateOptionEmit = createAsyncThunk(
   "users/updateOptionEmit",
   async (data) => {
     socket.emit("updateRoomSetting", {
-      roomId: data.roomID,
-      setting: data.settings,
+      roomID: data.roomID,
+      setting: data.setting,
     });
   }
 );

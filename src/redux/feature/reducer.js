@@ -98,6 +98,27 @@ export const counterSlice = createSlice({
       // Update description to selected room
       state.roomSelect.roomSelected.description = data.payload.description;
     },
+    updateSetting (state, data) {
+      const setting = data.payload.setting;
+      if (!setting) return false;
+
+      const stateSetting = state.roomSelect.roomSelected.setting;
+
+      // Update setting
+      const timeSetting = setting.timeSetting;
+      if (timeSetting) {
+        if (timeSetting.hasOwnProperty('startTime')) stateSetting.timeSetting.startTime = timeSetting.startTime;
+        if (timeSetting.hasOwnProperty('endTime')) stateSetting.timeSetting.endTime = timeSetting.endTime;
+      }
+
+      const gameSetting = setting.gameSetting;
+      if (gameSetting) {
+        if (gameSetting.hasOwnProperty('allowBicycle')) stateSetting.gameSetting.allowBicycle = gameSetting.allowBicycle;
+        if (gameSetting.hasOwnProperty('allowBus')) stateSetting.gameSetting.allowBus = gameSetting.allowBus;
+        if (gameSetting.hasOwnProperty('maximumSpeed')) stateSetting.gameSetting.maximumSpeed = gameSetting.maximumSpeed;
+      }
+      state.roomSelect.roomSelected.setting = stateSetting;
+    },
     addSeat(state, data) {
       const index = state.listRooms.findIndex(
         ({ roomID }) => roomID === data.payload.roomID
@@ -182,6 +203,7 @@ export const {
   addNewRoom,
   changeName,
   changeDescription,
+  updateSetting,
   addSeat,
   removePlayer,
   passNotError,
