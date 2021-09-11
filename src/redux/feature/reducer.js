@@ -77,6 +77,8 @@ export const counterSlice = createSlice({
         ...state.listRooms.slice(index + 1),
       ];
       state.listRooms = newArr;
+      // Update name to selected room
+      state.roomSelect.roomSelected.name = data.payload.name;
     },
     changeDescription(state, data) {
       const index = state.listRooms.findIndex(
@@ -93,6 +95,8 @@ export const counterSlice = createSlice({
         ...state.listRooms.slice(index + 1),
       ];
       state.listRooms = newArr;
+      // Update description to selected room
+      state.roomSelect.roomSelected.description = data.payload.description;
     },
     addSeat(state, data) {
       const index = state.listRooms.findIndex(
