@@ -46,3 +46,7 @@ export const newPasswordSchema = Yup.object().shape({
     "Passwords must match"
   ),
 });
+
+export const ResetPasswordSchema = Yup.object().shape({
+  email: Yup.string().email("Invalid email").required("Required"),
+});

@@ -6,6 +6,7 @@ import { useHistory } from "react-router";
 
 import { forgetPassword } from "../../../redux/feature/extraReducers";
 import { LoginLayout } from "../../layout/LoginLayout";
+import { ResetPasswordSchema } from "../../../services/validationService";
 
 import styles from "./resetPassword.module.css";
 
@@ -37,7 +38,7 @@ export const ResetPassword = () => {
             initialValues={{
               email: "",
             }}
-            // validationSchema={RegisterSchema}
+            validationSchema={ResetPasswordSchema}
             onSubmit={(values) => {
               resetPass(values);
             }}
