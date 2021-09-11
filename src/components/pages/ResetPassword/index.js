@@ -6,6 +6,9 @@ import { useHistory } from "react-router";
 
 import { forgetPassword } from "../../../redux/feature/extraReducers";
 import { LoginLayout } from "../../layout/LoginLayout";
+import { ResetPasswordSchema } from "../../../services/validationService";
+import { Modal } from "../../Modal";
+import { closeModal } from "../../../redux/feature/reducer";
 
 import styles from "./resetPassword.module.css";
 
@@ -28,8 +31,20 @@ export const ResetPassword = () => {
       history.push("/reset/email");
     }
   }, [forgetPasswordLink, history]);
+
+  useEffect(() => {
+    if (forgetPasswordError) {
+      setTimeout(() => {
+        dispatch(closeModal());
+        return history.push("/login");
+      }, 3000);
+    }
+  }, [forgetPasswordError, history]);
   return (
     <LoginLayout>
+      {forgetPasswordError ? (
+        <Modal response="something wrong!" />
+      ) : null}
       <div className={styles.containerWrapper}>
         <div className={styles.container}>
           <h2 className={styles.blockTitle}>Reset password</h2>
@@ -37,7 +52,7 @@ export const ResetPassword = () => {
             initialValues={{
               email: "",
             }}
-            // validationSchema={RegisterSchema}
+            validationSchema={ResetPasswordSchema}
             onSubmit={(values) => {
               resetPass(values);
             }}

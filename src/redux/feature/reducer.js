@@ -22,7 +22,7 @@ const initialState = {
   forgetPasswordLink: false,
   forgetPasswordError: false,
   loginError: false,
-  errorPass: false,
+  errorPass: { show:false, text: ""},
   emailUserError: false,
   createdUserShow: { show: false, text: "" },
 };
@@ -54,7 +54,7 @@ export const counterSlice = createSlice({
       state.loginError = false;
     },
     passNotError(state) {
-      state.errorPass = false;
+      state.errorPass.show = false;
     },
     addNewRoom(state, data) {
       state.listRooms.push(data.payload);
@@ -163,7 +163,7 @@ export const counterSlice = createSlice({
     },
     [resetPassword.rejected]: (state, action) => {
       state.resetPasswordSuccess = false;
-      state.errorPass = true;
+      state.errorPass = { show: true, text: action.payload.msg };
     },
     //change dashboard
   },
