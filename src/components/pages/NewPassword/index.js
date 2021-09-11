@@ -59,7 +59,7 @@ export const NewPassword = () => {
               newPassword: "",
               confirmPassword: "",
             }}
-            // validationSchema={newPasswordSchema}
+            validationSchema={newPasswordSchema}
             onSubmit={(values) => {
               resetPass(values);
             }}
@@ -89,17 +89,19 @@ export const NewPassword = () => {
                           className={styles.input}
                           type={showFirst ? "text" : "password"}
                         />
-                        {/* {errors.newPassword && touched.newPassword ? (
-                        <div
-                          className={styles.error}
-                        >{`Error: ${errors.newPassword}`}</div>
-                      ) : null} */}
                         <img
                           src={eyeIcon}
                           className={styles.icon}
                           onClick={() => setShowFirst((show) => !show)}
                           alt="show"
                         />
+                      </div>
+                      <div className={styles.inputWrapper}>
+                        {errors.newPassword && touched.newPassword ? (
+                        <div
+                          className={styles.error}
+                        >{`Error: ${errors.newPassword}`}</div>
+                        ) : null}
                       </div>
                     </div>
                     <div className={styles.inputContainer}>
@@ -113,17 +115,19 @@ export const NewPassword = () => {
                           className={styles.input}
                           type={showSecond ? "text" : "password"}
                         />
-                        {/* {errors.confirmPassword && touched.confirmPassword ? (
-                        <div
-                          className={styles.error}
-                        >{`Error: ${errors.confirmPassword}`}</div>
-                      ) : null} */}
                         <img
                           src={eyeIcon}
                           className={styles.icon}
                           onClick={() => setShowSecond((show) => !show)}
                           alt="show"
                         />
+                      </div>
+                      <div className={styles.inputWrapper}>
+                        {errors.confirmPassword && touched.confirmPassword ? (
+                        <div
+                          className={styles.error}
+                        >{`Error: ${errors.confirmPassword}`}</div>
+                        ) : null}
                       </div>
                     </div>
                   </div>
