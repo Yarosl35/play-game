@@ -9,7 +9,7 @@ export const LoginLayout = ({ children }) => {
   const auth = useSelector(({ auth }) => auth);
   const history = useHistory();
   useEffect(() => {
-    if (auth) return history.push("/players");
+    if (auth) return history.push("/dash-board");
   }, [auth, history]);
   return (
     <div className={styles.test}>
