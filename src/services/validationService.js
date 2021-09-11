@@ -42,7 +42,7 @@ export const newPasswordSchema = Yup.object().shape({
     .required("Required")
     .min(8, "should be 8 chars minimum."),
   confirmPassword: Yup.string().oneOf(
-    [Yup.ref("password"), null],
+    [Yup.ref("newPassword"), null],
     "Passwords must match"
   ),
 });
