@@ -11,6 +11,7 @@ import { resetPassword } from "../../../redux/feature/extraReducers";
 import { newPasswordSchema } from "../../../services/validationService";
 import { passNotError } from "./../../../redux/feature/reducer";
 import { Modal } from "../../Modal";
+import { closeModal } from "../../../redux/feature/reducer";
 
 export const NewPassword = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,6 @@ export const NewPassword = () => {
     ({ resetPasswordSuccess }) => resetPasswordSuccess
   );
   const errorPass = useSelector(({ errorPass }) => errorPass);
-  console.log(errorPass);
 
   const [showFirst, setShowFirst] = useState(false);
   const [showSecond, setShowSecond] = useState(false);
@@ -42,15 +42,16 @@ export const NewPassword = () => {
     }
   }, [resetPasswordSuccess, history]);
   useEffect(() => {
-    if (errorPass) {
+    if (errorPass.show) {
       setTimeout(() => {
-        dispatch(passNotError());
-      }, 2000);
+        dispatch(closeModal());
+        return history.push("/login");
+      }, 3000);
     }
   }, [errorPass, dispatch]);
   return (
     <LoginLayout>
-      {errorPass ? <Modal response="token error" /> : null}
+      {errorPass.show ? <Modal response={errorPass.text} /> : null}
       <div className={styles.containerWrapper}>
         <div className={styles.container}>
           <h2 className={styles.blockTitle}>Reset password</h2>
