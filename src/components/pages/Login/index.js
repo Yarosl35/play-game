@@ -30,11 +30,7 @@ export const Login = () => {
   }, [dataLogin.auth, history]);
   useEffect(() => {
     if (loginError) {
-      formikRef.current.setFieldError(
-        "passwordUsername",
-        "Error: username not found"
-      );
-      formikRef.current.setFieldError("passwordError", "Error: wrong password");
+      formikRef.current.setFieldError("passwordError", "Error: please check email or password");
     }
   }, [loginError]);
 
