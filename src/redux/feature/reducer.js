@@ -83,7 +83,9 @@ export const counterSlice = createSlice({
       ];
       state.listRooms = newArr;
       // Update name to selected room
-      state.roomSelect.roomSelected.name = data.payload.name;
+      if (state.roomSelect.roomId === data.payload.roomID) {
+        state.roomSelect.roomSelected.name = data.payload.name;
+      }
     },
     changeDescription(state, data) {
       const index = state.listRooms.findIndex(
@@ -101,11 +103,13 @@ export const counterSlice = createSlice({
       ];
       state.listRooms = newArr;
       // Update description to selected room
-      state.roomSelect.roomSelected.description = data.payload.description;
+      if (state.roomSelect.roomId === data.payload.roomID) {
+        state.roomSelect.roomSelected.description = data.payload.description;
+      }
     },
     updateSetting (state, data) {
       const setting = data.payload.setting;
-      if (!setting) return false;
+      if (!setting || data.payload.roomID !== state.roomSelect.roomId) return false;
 
       const stateSetting = state.roomSelect.roomSelected.setting;
 

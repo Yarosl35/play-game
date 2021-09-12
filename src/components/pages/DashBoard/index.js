@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useDebounce } from "./../../queries/use-debounce";
-import { socket } from "./../../../socket";
+import { useDebounce } from "../../queries/use-debounce";
 
 import logo from "./logo.svg";
 import styles from "./DashBoard.module.css";
@@ -10,7 +9,6 @@ import {
   changeNameEmit,
   changeDescriptionEmit,
 } from "../../../redux/feature/extraReducers";
-import { changeName, changeDescription } from "../../../redux/feature/reducer";
 
 export const DashBoard = () => {
   const [nameRoom, setNameRoom] = useState("");
@@ -56,23 +54,6 @@ export const DashBoard = () => {
         );
       }
   }, [debouncedName, dispatch, roomSelect]);
-  useEffect(() => {
-    socket.on("updateRoomDescription", (data) => {
-      dispatch(changeDescription(data));
-    });
-    socket.on("updateRoomName", (data) => {
-      dispatch(changeName(data));
-    });
-
-    return () => {
-      socket.off("updateRoomName", (data) => {
-        console.log("updateRoomName", data);
-      });
-      socket.off("updateRoomDescription", (data) => {
-        console.log("updateRoomDescription", data);
-      });
-    };
-  }, [dispatch]);
 
   if (!roomSelect) return null;
   return (

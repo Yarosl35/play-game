@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
+  addNewRoom,
+  changeDescription,
+  changeName,
   removeRoom,
   updateLeaderboard
 } from "../../redux/feature/reducer";
@@ -42,8 +45,19 @@ export const SocketHandler = () => {
     }));
 
     // Room page
+    socket.on("addRoom", (data) => {
+      dispatch(addNewRoom(data));
+    });
     socket.on("removeRoom", (data) => {
       dispatch(removeRoom(data));
+    });
+
+    // Dashboard
+    socket.on("updateRoomDescription", (data) => {
+      dispatch(changeDescription(data));
+    });
+    socket.on("updateRoomName", (data) => {
+      dispatch(changeName(data));
     });
 
     // Leader page
@@ -51,10 +65,27 @@ export const SocketHandler = () => {
       dispatch(updateLeaderboard(data));
     });
 
+    /**
+     * Off event
+     */
     return () => {
+      // Room page
+      socket.off("addRoom", (data) => {
+        console.log(data);
+      });
       socket.off("removeRoom", (data) => {
         console.log(data);
       });
+
+      // Dashboard
+      socket.off("updateRoomName", (data) => {
+        console.log("updateRoomName", data);
+      });
+      socket.off("updateRoomDescription", (data) => {
+        console.log("updateRoomDescription", data);
+      });
+
+      // Leader page
       socket.off("updateLeaderboard", (data) => {
         console.log(data);
       });

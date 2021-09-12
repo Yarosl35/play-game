@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { SelectList } from "./SelectList";
-import { addNewRoom } from "./../../../../redux/feature/reducer";
-import { createRoom } from "./../../../../redux/feature/extraReducers";
+import { createRoom } from "../../../../redux/feature/extraReducers";
 import styles from "./NewRoom.module.css";
-import { socket } from "../../../../socket";
 const arrayList = [
   { id: 1, name: "coming soon 1", value: "1" },
   { id: 2, name: "coming soon 2", value: "2" },
@@ -28,14 +26,7 @@ export const NewRoom = ({ setShowModal }) => {
   const changeNameRoom = (e) => {
     setRoomName(e.target.value);
   };
-  useEffect(() => {
-    socket.on("addRoom", (data) => {
-      dispatch(addNewRoom(data));
-    });
-    return socket.off("addRoom", (data) => {
-      console.log(data);
-    });
-  }, [dispatch]);
+
   return (
     <div className={styles.Modal}>
       <div className={styles.Modal_Body}>
