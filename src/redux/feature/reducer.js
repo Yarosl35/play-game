@@ -60,6 +60,10 @@ export const counterSlice = createSlice({
     addNewRoom(state, data) {
       state.listRooms.push(data.payload);
     },
+    removeRoom (state, data) {
+      const roomList = state.listRooms.filter(({roomID}) => roomID !== data.payload.roomID);
+      state.listRooms = [...roomList];
+    },
     addNewPlayer(state, data) {
       state.listRooms.push(data.payload);
     },
@@ -218,9 +222,9 @@ export const {
   closeModal,
   roomListSelect,
   loginNotError,
-  connectSocket,
   setRoomsList,
   addNewRoom,
+  removeRoom,
   changeName,
   changeDescription,
   updateSetting,

@@ -3,9 +3,9 @@ import styles from "./Rooms.module.css";
 import { RoomsItem } from "./RoomsItem";
 import { Panel } from "../../layout/Panel";
 import { NewRoom } from "./NewRoom";
-import { socket } from "./../../../socket";
+import { socket } from "../../../socket";
 import { useDispatch, useSelector } from "react-redux";
-import { setRoomsList } from "./../../../redux/feature/reducer";
+import { setRoomsList } from "../../../redux/feature/reducer";
 
 export const RoomList = () => {
   const [showNewRoom, setShowNewRoom] = useState(false);
@@ -36,7 +36,7 @@ export const RoomList = () => {
           <div className={styles.containerScroll}>
             <ul className={styles.roomList}>
               {!listRooms ? (
-                <li>N/A</li>
+                <li><div>No data</div></li>
               ) : (
                 <>
                   {listRooms.map((data) => {

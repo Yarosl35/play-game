@@ -69,6 +69,13 @@ export const resetPassword = createAsyncThunk(
 export const createRoom = createAsyncThunk("users/createRoom", async (data) => {
   socket.emit("createRoom", data);
 });
+
+export const removeRoomEmit = createAsyncThunk("users/removeRoom", async (roomID) => {
+  socket.emit("removeRoom", {
+    roomID: roomID
+  });
+});
+
 export const updateOptionEmit = createAsyncThunk(
   "users/updateOptionEmit",
   async (data) => {
