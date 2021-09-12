@@ -29,14 +29,14 @@ export const RoomOption = () => {
     const gameSetting = setting.gameSetting;
     const timeSetting = setting.timeSetting;
     if (timeSetting) {
-      if (timeSetting.startTime) defaultValue.startDate = timeSetting.startTime;
-      if (timeSetting.endTime) defaultValue.endDate = timeSetting.endTime;
+      if (timeSetting.hasOwnProperty('startTime')) defaultValue.startDate = timeSetting.startTime;
+      if (timeSetting.hasOwnProperty('endDate')) defaultValue.endDate = timeSetting.endTime;
     }
 
     if (gameSetting) {
-      if (gameSetting.allowBicycle) defaultValue.switchBicycle = gameSetting.allowBicycle;
-      if (gameSetting.allowBus) defaultValue.switchBus = gameSetting.allowBus;
-      if (gameSetting.maximumSpeed) defaultValue.speed = gameSetting.maximumSpeed;
+      if (gameSetting.hasOwnProperty('allowBicycle')) defaultValue.switchBicycle = gameSetting.allowBicycle;
+      if (gameSetting.hasOwnProperty('allowBus')) defaultValue.switchBus = gameSetting.allowBus;
+      if (gameSetting.hasOwnProperty('maximumSpeed')) defaultValue.speed = gameSetting.maximumSpeed;
     }
   }
 

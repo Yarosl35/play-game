@@ -17,7 +17,7 @@ export const Players = () => {
   const dispatch = useDispatch();
   const roomSelect = useSelector(({ roomSelect }) => roomSelect);
 
-  const [arrPlayers, setArrPlayers] = useState(roomSelect.players);
+  const [players, setPlayers] = useState(roomSelect.players);
   const addNewPlayer = (dataPlayer) => {
     dispatch(createRoomSeatEmit({ ...dataPlayer, roomID: roomSelect.roomId }));
   };
@@ -29,11 +29,12 @@ export const Players = () => {
     },
     onSubmit: (values) => {
       addNewPlayer(values);
+      formik.resetForm();
     },
   });
 
   useEffect(() => {
-    setArrPlayers(roomSelect.players);
+    setPlayers(roomSelect.players);
   }, [roomSelect.players]);
 
   useEffect(() => {
@@ -58,7 +59,6 @@ export const Players = () => {
       });
     };
   }, [dispatch]);
-  if (!arrPlayers) return null;
   return (
     <Board>
       <div className={styles.mainContainer}>
@@ -74,13 +74,13 @@ export const Players = () => {
         </div>
         <div className={styles.containerScroll}>
           <ul className={styles.listPlayers}>
-            {arrPlayers.length !== 0 ? (
+            {players && Object.keys(players).length > 0 ? (
               <>
-                {arrPlayers.map((data, index) => {
+                {Object.keys(players).map((key) => {
                   return (
                     <PlayersItem
-                      key={index}
-                      data={data}
+                      key={key}
+                      data={players[key]}
                       removePlayer={removePlayer}
                     />
                   );
@@ -134,7 +134,6 @@ export const Players = () => {
                   </span>
                 </div>
               </div>
-
               <button type="submit" className={styles.BtnAdd}>
                 Add
               </button>
