@@ -11,7 +11,6 @@ import {
   changeDescriptionEmit,
 } from "../../../redux/feature/extraReducers";
 import { changeName, changeDescription } from "../../../redux/feature/reducer";
-// import { Loader } from "../../queries/loader/loader";
 
 export const DashBoard = () => {
   const [nameRoom, setNameRoom] = useState("");

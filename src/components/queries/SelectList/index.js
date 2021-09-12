@@ -4,8 +4,9 @@ import styles from "./MenuRoom.module.css";
 import btnLogo from "./btnLogo.svg";
 import { ListItem } from "./ListItem";
 
-export const SelectList = ({ arrayList, change, circle, inputBig }) => {
-  const [value, setValue] = useState(arrayList[0].name);
+export const SelectList = ({ arrayList, change, circle, inputBig, defaultValue }) => {
+  if (typeof defaultValue === 'undefined') defaultValue = arrayList[0].name;
+  const [value, setValue] = useState(defaultValue);
   const [showList, setShowList] = useState(false);
 
   const changeInput = ({ value, name }) => {

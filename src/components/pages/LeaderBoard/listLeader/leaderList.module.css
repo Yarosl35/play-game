@@ -54,3 +54,20 @@
 .containerScroll::-webkit-scrollbar-thumb {
   background: #ffffff;
 }
+
+.rankState {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #C4C4C4;
+  box-shadow: 0px 5px 5px #777;
+  background: #C4C4C4;
+}
+
+.rankState.connected {
+  background: #4AD065 !important;
+}
+
+.rankState.disconnected {
+  background: #C4C4C4 !important;
+}

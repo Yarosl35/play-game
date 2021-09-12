@@ -11,6 +11,8 @@ import { EmailSend } from "./pages/ResetPassword/Email";
 import { NewPassword } from "./pages/NewPassword";
 import { PrivateRoute } from "./PrivateRouter";
 import { DashBoard } from "./pages/DashBoard";
+import { SocketHandler } from "./layout/socketHandler";
+import React from "react";
 
 function App() {
   return (
@@ -45,6 +47,7 @@ function App() {
           </PrivateRoute>
         </Switch>
       </div>
+      <SocketHandler />
     </BrowserRouter>
   );
 }

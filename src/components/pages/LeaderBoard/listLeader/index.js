@@ -10,14 +10,13 @@ const colorPlace = {
 };
 
 export const ListLeader = ({ arrayList }) => {
-  const listItems = arrayList
+  const listItems = (arrayList && arrayList.length > 0) ? arrayList
     .sort((a, b) => b.score - a.score)
     .map((data, index) => {
       const place = index + 1;
-
       return (
         <ListItem
-          key={data.id}
+          key={index}
           name={data.name}
           rank={place}
           color={
@@ -30,9 +29,11 @@ export const ListLeader = ({ arrayList }) => {
               : colorPlace.other
           }
           score={data.score}
+          state={data.state}
         />
       );
-    });
+    }) : <div></div>;
+
   return (
     <>
       <div className={styles.listTopNames}>
@@ -44,6 +45,9 @@ export const ListLeader = ({ arrayList }) => {
         </div>
         <div className={`${styles.score} ${styles.cellLeader} `}>
           <p>score</p>
+        </div>
+        <div className={`${styles.score} ${styles.cellLeader} `}>
+          <p>stage</p>
         </div>
       </div>
       <div className={styles.containerScroll}>{listItems}</div>

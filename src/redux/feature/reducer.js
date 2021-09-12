@@ -25,6 +25,7 @@ const initialState = {
   errorPass: false,
   emailUserError: false,
   createdUserShow: { show: false, text: "" },
+  leaderBoard: {}
 };
 
 export const counterSlice = createSlice({
@@ -137,7 +138,7 @@ export const counterSlice = createSlice({
       // state.listRooms = newArr;
       // state.roomSelect = { ...state.roomSelect, players: changedRoomSeats };
       const statePlayers = state.roomSelect.players;
-      if ((state.roomSelect.roomId == data.payload.roomID) && !statePlayers[data.payload.seat.seatCode]) {
+      if ((state.roomSelect.roomId === data.payload.roomID) && !statePlayers[data.payload.seat.seatCode]) {
         statePlayers[data.payload.seat.seatCode] = data.payload.seat;
         state.roomSelect.players = { ...statePlayers };
       }
@@ -161,11 +162,17 @@ export const counterSlice = createSlice({
       // state.listRooms = newArr;
       // state.roomSelect = { ...state.roomSelect, players: changedRoomSeats };
       const statePlayers = state.roomSelect.players;
-      if ((state.roomSelect.roomId == data.payload.roomID) && statePlayers[data.payload.seatCode]) {
+      if ((state.roomSelect.roomId === data.payload.roomID) && statePlayers[data.payload.seatCode]) {
         delete statePlayers[data.payload.seatCode];
         state.roomSelect.players = { ...statePlayers };
       }
     },
+    updateLeaderboard (state, data) {
+      let leaderBoard = state.leaderBoard;
+      if (!leaderBoard) return false;
+      leaderBoard[data.payload.roomID] = [...data.payload.leaderboard]
+      state.leaderBoard = leaderBoard;
+    }
   },
   extraReducers: {
     [loginUser.fulfilled]: (state, action) => {
@@ -219,6 +226,7 @@ export const {
   updateSetting,
   addSeat,
   removePlayer,
+  updateLeaderboard,
   passNotError,
 } = counterSlice.actions;
 

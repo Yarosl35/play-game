@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { SelectList } from "./SelectList";
 import { addNewRoom } from "./../../../../redux/feature/reducer";
 import { createRoom } from "./../../../../redux/feature/extraReducers";

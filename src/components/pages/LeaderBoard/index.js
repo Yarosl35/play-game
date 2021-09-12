@@ -1,27 +1,37 @@
-import React, { useState, useEffect } from "react";
-import { leaderData } from "./data/leaderData";
+import React, {useState, useEffect, useCallback} from "react";
 import { ListLeader } from "./listLeader/index";
 import styles from "./leaderBoard.module.css";
 import { SelectList } from "../../queries/SelectList";
 import { Board } from "../../layout/Board";
-import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
 
-export const LeaderBoard = () => {
-  const socket = useSelector(({ socket }) => socket);
-  const [leaderListRoom, setLeaderListRoom] = useState(leaderData[0].list);
+export const LeaderBoard = (callback, deps) => {
+  const leaderBoard = useSelector(({ leaderBoard }) => leaderBoard);
+  const roomSelect = useSelector(({ roomSelect }) => roomSelect);
+  const listRooms = useSelector(({ listRooms }) => listRooms);
+  const [roomSelection, setRoomSelection] = useState([]);
+  const [leaderListRoom, setLeaderListRoom] = useState([]);
 
-  const changeRoom = (room) => {
-    const roomSelected = leaderData.find((e) => e.room === room);
-    setLeaderListRoom(roomSelected.list);
-  };
-  const forList = leaderData.map(({ room }) => {
-    return {
-      id: `room ${room}`,
-      name: `room ${room}`,
-      value: room,
-    };
-  });
+  const changeRoom = useCallback((roomID) => {
+    const selectedLeaderBoard = leaderBoard[roomID] || [];
+    setLeaderListRoom([...selectedLeaderBoard]);
+  }, [leaderBoard]);
+
+  useEffect(() => {
+    const roomSelectionMap = listRooms ? listRooms.map((room) => {
+      return {
+        id: room.roomID,
+        name: room.name,
+        value: room.roomID,
+      };
+    }) : [];
+    setRoomSelection(roomSelectionMap);
+    changeRoom(roomSelect.roomId);
+  }, [listRooms, changeRoom]);
+
+  useEffect(() => {
+    changeRoom(roomSelect.roomId);
+  }, [leaderBoard, changeRoom, roomSelect]);
 
   return (
     <Board>
@@ -29,12 +39,13 @@ export const LeaderBoard = () => {
         <div className={styles.selectContainer}>
           <div className={styles.containerForSelect}>
             <p className={styles.id}>Room ID :</p>{" "}
-            <SelectList
-              arrayList={forList}
+            { (roomSelection && roomSelection.length > 0) ? <SelectList
+              defaultValue={roomSelect.roomSelected ? roomSelect.roomSelected.name : undefined}
+              arrayList={roomSelection}
               change={changeRoom}
               circle={true}
               inputBig={false}
-            />
+            /> : '' }
           </div>
         </div>
         <ListLeader arrayList={leaderListRoom} />

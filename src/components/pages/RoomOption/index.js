@@ -89,7 +89,8 @@ export const RoomOption = () => {
     debouncedSwitchBus,
     debouncedSpeed,
     debouncedStartDate,
-    debouncedEndDate
+    debouncedEndDate,
+    roomSelect.roomId
   ]);
 
   useEffect(() => {
