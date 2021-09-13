@@ -13,9 +13,9 @@ const cookies = new Cookies();
 
 const initialState = {
   user: { email: "", token: "" },
-  listRooms: null,
+  listRooms: [],
   userDetails: null,
-  roomSelect: { roomId: null },
+  roomSelect: { roomID: null, seats: {} },
   auth: null,
   resetPasswordSuccess: false,
   socket: null,
@@ -36,20 +36,11 @@ export const counterSlice = createSlice({
       state.createdUserShow = { show: false, text: "" };
     },
     setRoomsList(state, listRooms) {
-      const newArrRoom = listRooms.payload.map((room) => {
-        return { ...room, seats: room.seats };
-      });
-      state.listRooms = newArrRoom;
+      state.listRooms = [...listRooms.payload];
     },
     roomListSelect(state, action) {
-      const roomSelected = state.listRooms.filter(
-        ({ roomID }) => roomID === action.payload
-      );
-      state.roomSelect = {
-        roomSelected: roomSelected[0],
-        players: { ...roomSelected[0].seats },
-        roomId: action.payload,
-      };
+      const roomSelected = state.listRooms.find(({ roomID }) => roomID === action.payload);
+      state.roomSelect = { ...roomSelected };
     },
     loginNotError(state) {
       state.loginError = false;
@@ -63,121 +54,91 @@ export const counterSlice = createSlice({
     removeRoom (state, data) {
       const roomList = state.listRooms.filter(({roomID}) => roomID !== data.payload.roomID);
       state.listRooms = [...roomList];
+      // Remove selected room
+      if (state.roomSelect.roomID === data.payload.roomID) {
+        state.roomSelect = { roomID: null, seats: {} };
+      }
     },
     addNewPlayer(state, data) {
       state.listRooms.push(data.payload);
     },
     changeName(state, data) {
-      const index = state.listRooms.findIndex(
-        ({ roomID }) => roomID === data.payload.roomID
-      );
-      const oldRoom = state.listRooms[index];
-      const updatedRoom = {
-        ...oldRoom,
-        name: data.payload.name,
-      };
-      const newArr = [
-        ...state.listRooms.slice(0, index),
-        updatedRoom,
-        ...state.listRooms.slice(index + 1),
-      ];
-      state.listRooms = newArr;
-      // Update name to selected room
-      if (state.roomSelect.roomId === data.payload.roomID) {
-        state.roomSelect.roomSelected.name = data.payload.name;
-      }
+      let { index, room } = getUpdatedRoom({ state, data });
+      if (!room) return state;
+
+      /* Logic start */
+      room.name = data.payload.name;
+      /* Logic end */
+
+      updateRoomList({ state, index, room });
+      updateSelectedRoom({ state, room });
     },
     changeDescription(state, data) {
-      const index = state.listRooms.findIndex(
-        ({ roomID }) => roomID === data.payload.roomID
-      );
-      const oldRoom = state.listRooms[index];
-      const updatedRoom = {
-        ...oldRoom,
-        description: data.payload.description,
-      };
-      const newArr = [
-        ...state.listRooms.slice(0, index),
-        updatedRoom,
-        ...state.listRooms.slice(index + 1),
-      ];
-      state.listRooms = newArr;
-      // Update description to selected room
-      if (state.roomSelect.roomId === data.payload.roomID) {
-        state.roomSelect.roomSelected.description = data.payload.description;
-      }
+      let { index, room } = getUpdatedRoom({ state, data });
+      if (!room) return state;
+
+      /* Logic start */
+      room.description = data.payload.description;
+      /* Logic end */
+
+      updateRoomList({ state, index, room });
+      updateSelectedRoom({ state, room });
     },
     updateSetting (state, data) {
+      let { index, room } = getUpdatedRoom({ state, data });
+      if (!room) return state;
+
+      /* Logic start */
       const setting = data.payload.setting;
-      if (!setting || data.payload.roomID !== state.roomSelect.roomId) return false;
-
-      const stateSetting = state.roomSelect.roomSelected.setting;
-
-      // Update setting
-      const timeSetting = setting.timeSetting;
+      let timeSetting = setting.timeSetting;
       if (timeSetting) {
-        if (!stateSetting.timeSetting) stateSetting.timeSetting = {};
-        if (timeSetting.hasOwnProperty('startTime')) stateSetting.timeSetting.startTime = timeSetting.startTime;
-        if (timeSetting.hasOwnProperty('endTime')) stateSetting.timeSetting.endTime = timeSetting.endTime;
+        if (!room.setting.timeSetting) room.setting.timeSetting = {};
+        if (timeSetting.hasOwnProperty('startTime')) room.setting.timeSetting.startTime = timeSetting.startTime;
+        if (timeSetting.hasOwnProperty('endTime')) room.setting.timeSetting.endTime = timeSetting.endTime;
       }
 
       const gameSetting = setting.gameSetting;
       if (gameSetting) {
-        if (!stateSetting.gameSetting) stateSetting.gameSetting = {};
-        if (gameSetting.hasOwnProperty('allowBicycle')) stateSetting.gameSetting.allowBicycle = gameSetting.allowBicycle;
-        if (gameSetting.hasOwnProperty('allowBus')) stateSetting.gameSetting.allowBus = gameSetting.allowBus;
-        if (gameSetting.hasOwnProperty('maximumSpeed')) stateSetting.gameSetting.maximumSpeed = gameSetting.maximumSpeed;
+        if (!room.setting.gameSetting) room.setting.gameSetting = {};
+        if (gameSetting.hasOwnProperty('questCSV')) room.setting.gameSetting.questCSV = gameSetting.questCSV;
+        if (gameSetting.hasOwnProperty('allowBicycle')) room.setting.gameSetting.allowBicycle = gameSetting.allowBicycle;
+        if (gameSetting.hasOwnProperty('allowBus')) room.setting.gameSetting.allowBus = gameSetting.allowBus;
+        if (gameSetting.hasOwnProperty('maximumSpeed')) room.setting.gameSetting.maximumSpeed = gameSetting.maximumSpeed;
       }
-      state.roomSelect.roomSelected.setting = stateSetting;
+      /* Logic end */
+
+      updateRoomList({ state, index, room });
+      updateSelectedRoom({ state, room });
     },
     addSeat(state, data) {
-      // const index = state.listRooms.findIndex(
-      //   ({ roomID }) => roomID === data.payload.roomID
-      // );
-      // const changedRoom = state.listRooms[index];
-      // const seatsArr = changedRoom.seats;
-      // const changedRoomSeats = [...seatsArr, data.payload.seat];
-      // const updatedRoom = { ...changedRoom, seats: changedRoomSeats };
-      // const newArr = [
-      //   ...state.listRooms.slice(0, index),
-      //   updatedRoom,
-      //   ...state.listRooms.slice(index + 1),
-      // ];
-      // state.listRooms = newArr;
-      // state.roomSelect = { ...state.roomSelect, players: changedRoomSeats };
-      const statePlayers = state.roomSelect.players;
-      if ((state.roomSelect.roomId === data.payload.roomID) && !statePlayers[data.payload.seat.seatCode]) {
-        statePlayers[data.payload.seat.seatCode] = data.payload.seat;
-        state.roomSelect.players = { ...statePlayers };
-      }
+      let { index, room } = getUpdatedRoom({ state, data });
+      if (!room) return state;
+
+      /* Logic start */
+      if (!room.seats) room.seats = {};
+      room.seats[data.payload.seat.seatCode] = data.payload.seat;
+      /* Logic end */
+
+      updateRoomList({ state, index, room });
+      updateSelectedRoom({ state, room });
     },
 
     removePlayer(state, data) {
-      // const index = state.listRooms.findIndex(
-      //   ({ roomID }) => roomID === data.payload.roomID
-      // );
-      // const changedRoom = state.listRooms[index];
-      // const seatsArr = changedRoom.seats;
-      // const changedRoomSeats = seatsArr.filter(
-      //   (el) => el.seatCode !== data.payload.seatCode
-      // );
-      // const updatedRoom = { ...changedRoom, seats: changedRoomSeats };
-      // const newArr = [
-      //   ...state.listRooms.slice(0, index),
-      //   updatedRoom,
-      //   ...state.listRooms.slice(index + 1),
-      // ];
-      // state.listRooms = newArr;
-      // state.roomSelect = { ...state.roomSelect, players: changedRoomSeats };
-      const statePlayers = state.roomSelect.players;
-      if ((state.roomSelect.roomId === data.payload.roomID) && statePlayers[data.payload.seatCode]) {
-        delete statePlayers[data.payload.seatCode];
-        state.roomSelect.players = { ...statePlayers };
+      let { index, room } = getUpdatedRoom({ state, data });
+      if (!room) return state;
+
+      /* Logic start */
+      if (room.seats && room.seats[data.payload.seatCode]) {
+        delete room.seats[data.payload.seatCode];
       }
+      /* Logic end */
+
+      updateRoomList({ state, index, room });
+      updateSelectedRoom({ state, room });
     },
     updateLeaderboard (state, data) {
       let leaderBoard = state.leaderBoard;
-      if (!leaderBoard) return false;
+      if (!leaderBoard) return state;
       leaderBoard[data.payload.roomID] = [...data.payload.leaderboard]
       state.leaderBoard = leaderBoard;
     }
@@ -221,6 +182,34 @@ export const counterSlice = createSlice({
     //change dashboard
   },
 });
+
+const getUpdatedRoom = ({ state, data }) => {
+  const index = state.listRooms.findIndex(({ roomID }) => roomID === data.payload.roomID);
+  const room = state.listRooms[index];
+  if (!room) return {
+    index: -1,
+    room: null
+  }
+  return {
+    index,
+    room
+  }
+}
+
+const updateRoomList = ({ state, index, room }) => {
+  const list = [
+    ...state.listRooms.slice(0, index),
+    room,
+    ...state.listRooms.slice(index + 1),
+  ];
+  state.listRooms = list;
+}
+
+const updateSelectedRoom = ({ state, room }) => {
+  if (state.roomSelect.roomID === room.roomID) {
+    state.roomSelect = { ...room };
+  }
+}
 
 export const {
   closeModal,

@@ -19,9 +19,11 @@ export const RoomList = () => {
       dispatch(setRoomsList(data));
     });
 
-    return socket.off("loadAllRooms", (data) => {
-      console.log(data);
-    });
+    return () => {
+      socket.off("loadAllRooms", (data) => {
+        console.log(data);
+      });
+    };
   }, [dispatch]);
   return (
     <Panel>

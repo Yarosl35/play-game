@@ -3,22 +3,20 @@ import { useDispatch } from "react-redux";
 import { SelectList } from "./SelectList";
 import { createRoom } from "../../../../redux/feature/extraReducers";
 import styles from "./NewRoom.module.css";
-const arrayList = [
-  { id: 1, name: "coming soon 1", value: "1" },
-  { id: 2, name: "coming soon 2", value: "2" },
-];
+import { gameTypes } from "../data/gameTypes";
+
 export const NewRoom = ({ setShowModal }) => {
   const [roomName, setRoomName] = useState("");
   const dispatch = useDispatch();
-  const [valueList, setValueList] = useState(arrayList[0].value);
+  const [valueList, setValueList] = useState(gameTypes[0].value);
   const change = (value) => {
     setValueList(value);
   };
   function sendCreateNewRoomRequest() {
     const newRoomDate = {
-      type: "The-Neighbormood",
+      type: valueList,
       name: roomName,
-      description: "Just description",
+      description: "",
     };
     dispatch(createRoom(newRoomDate));
     setShowModal(false);
@@ -35,13 +33,12 @@ export const NewRoom = ({ setShowModal }) => {
           <p>Room name</p>
           <input
             type="text"
-            className={styles.newRoomInp}
+            className={`${styles.newRoomInp} ${styles.inputRoomName}`}
             value={roomName}
             onChange={changeNameRoom}
-            className={styles.inputRoomName}
           />
           <p>Game type</p>
-          <SelectList arrayList={arrayList} change={change} />
+          <SelectList arrayList={gameTypes} change={change} />
           <div className={styles.btnContainer}>
             <button
               onClick={() => {

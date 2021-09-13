@@ -83,7 +83,20 @@
   width: 148.44px;
   height: 40px;
   color: #ffffff;
+  padding: 0;
 }
+.uploadCsv label {
+  width: 100%;
+  height: 36px;
+  line-height: 36px;
+  vertical-align: middle;
+  display: block;
+}
+
+.uploadCsv input {
+  display: none;
+}
+
 .pOption {
   font-family: Roboto;
   font-style: normal;

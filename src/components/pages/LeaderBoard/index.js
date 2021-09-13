@@ -26,12 +26,12 @@ export const LeaderBoard = (callback, deps) => {
       };
     }) : [];
     setRoomSelection(roomSelectionMap);
-    changeRoom(roomSelect.roomId);
-  }, [listRooms, changeRoom]);
+    changeRoom(roomSelect.roomID);
+  }, [listRooms, changeRoom, roomSelect.roomID]);
 
   useEffect(() => {
-    changeRoom(roomSelect.roomId);
-  }, [leaderBoard, changeRoom, roomSelect]);
+    changeRoom(roomSelect.roomID);
+  }, [leaderBoard, changeRoom, roomSelect, roomSelect.roomID]);
 
   return (
     <Board>
@@ -40,7 +40,7 @@ export const LeaderBoard = (callback, deps) => {
           <div className={styles.containerForSelect}>
             <p className={styles.id}>Room ID :</p>{" "}
             { (roomSelection && roomSelection.length > 0) ? <SelectList
-              defaultValue={roomSelect.roomSelected ? roomSelect.roomSelected.name : undefined}
+              defaultValue={roomSelect ? roomSelect.name : undefined}
               arrayList={roomSelection}
               change={changeRoom}
               circle={true}

@@ -1,10 +1,11 @@
 import styles from "./Switch.module.css";
 
-export const Switch = ({ value, setValue }) => {
+export const Switch = ({ value, setValue, callback }) => {
   return (
     <div
       onClick={() => {
-        setValue((e) => !e);
+        if (typeof(setValue) === 'function') setValue((e) => !e);
+        if (typeof(callback) === 'function') callback(!value);
       }}
       className={styles.switchOption}
     >

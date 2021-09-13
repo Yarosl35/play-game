@@ -3,25 +3,24 @@ import styles from "./Players.module.css";
 import { PlayersItem } from "./PlayersItem";
 import { useFormik } from "formik";
 import {
-  addSeat,
   removePlayer,
-} from "./../../../redux/feature/reducer";
+} from "../../../redux/feature/reducer";
 import {
   createRoomSeatEmit
-} from "./../../../redux/feature/extraReducers";
+} from "../../../redux/feature/extraReducers";
 import { Board } from "../../layout/Board";
-import { socket } from "./../../../socket";
 import { useDispatch, useSelector } from "react-redux";
 
 export const Players = () => {
   const dispatch = useDispatch();
   const roomSelect = useSelector(({ roomSelect }) => roomSelect);
 
-  const [players, setPlayers] = useState(roomSelect.players);
+  const [seats, setSeats] = useState(roomSelect.seats);
   const addNewPlayer = (dataPlayer) => {
-    dispatch(createRoomSeatEmit({ ...dataPlayer, roomID: roomSelect.roomId }));
+    dispatch(createRoomSeatEmit({ ...dataPlayer, roomID: roomSelect.roomID }));
   };
-  const formik = useFormik({
+
+  const formData = useFormik({
     initialValues: {
       name: "",
       email: "",
@@ -29,36 +28,14 @@ export const Players = () => {
     },
     onSubmit: (values) => {
       addNewPlayer(values);
-      formik.resetForm();
+      formData.resetForm();
     },
   });
 
   useEffect(() => {
-    setPlayers(roomSelect.players);
-  }, [roomSelect.players]);
+    setSeats(roomSelect.seats);
+  }, [roomSelect.seats]);
 
-  useEffect(() => {
-    socket.on("addRoomSeat", (data) => {
-      dispatch(addSeat(data));
-    });
-    socket.on("removeRoomSeat", (data) => {
-      dispatch(removePlayer(data));
-    });
-    socket.on("updateRoomSeat", (data) => {
-      console.log(data);
-    });
-    return () => {
-      socket.off("removeRoomSeat", (data) => {
-        console.log(data);
-      });
-      socket.off("updateRoomSeat", (data) => {
-        console.log(data);
-      });
-      socket.off("addRoomSeat", (data) => {
-        console.log(data);
-      });
-    };
-  }, [dispatch]);
   return (
     <Board>
       <div className={styles.mainContainer}>
@@ -74,13 +51,13 @@ export const Players = () => {
         </div>
         <div className={styles.containerScroll}>
           <ul className={styles.listPlayers}>
-            {players && Object.keys(players).length > 0 ? (
+            {seats && Object.keys(seats).length > 0 ? (
               <>
-                {Object.keys(players).map((key) => {
+                {Object.keys(seats).map((key) => {
                   return (
                     <PlayersItem
                       key={key}
-                      data={players[key]}
+                      data={seats[key]}
                       removePlayer={removePlayer}
                     />
                   );
@@ -96,7 +73,7 @@ export const Players = () => {
             <p>Add seat</p>
           </div>
 
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={formData.handleSubmit}>
             <div className={styles.containerForm}>
               <div className={styles.boxFormAddSeat}>
                 <div>
@@ -106,8 +83,8 @@ export const Players = () => {
                       id="email"
                       name="email"
                       type="email"
-                      onChange={formik.handleChange}
-                      value={formik.values.email}
+                      onChange={formData.handleChange}
+                      value={formData.values.email}
                     />
                   </span>
                 </div>
@@ -118,8 +95,8 @@ export const Players = () => {
                       id="class"
                       name="class"
                       type="class"
-                      onChange={formik.handleChange}
-                      value={formik.values.class}
+                      onChange={formData.handleChange}
+                      value={formData.values.class}
                     />
                   </span>
                   <span className={styles.inputAddContainer}>
@@ -128,8 +105,8 @@ export const Players = () => {
                       id="name"
                       name="name"
                       type="text"
-                      onChange={formik.handleChange}
-                      value={formik.values.name}
+                      onChange={formData.handleChange}
+                      value={formData.values.name}
                     />
                   </span>
                 </div>
