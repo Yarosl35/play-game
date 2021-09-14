@@ -36,7 +36,7 @@ export const UpdatePassword = () => {
             />
             {errors.oldPassword && touched.oldPassword ? (
               <div
-                className={styles.error}
+                className={styles.passwordError}
               >{`Error: ${errors.oldPassword}`}</div>
             ) : null}
           </div>
@@ -49,7 +49,7 @@ export const UpdatePassword = () => {
             />
             {errors.newPassword && touched.newPassword ? (
               <div
-                className={styles.error}
+                className={styles.passwordError}
               >{`Error: ${errors.newPassword}`}</div>
             ) : null}
           </div>
@@ -62,7 +62,7 @@ export const UpdatePassword = () => {
             />
             {errors.confirmNewPassword && touched.confirmNewPassword ? (
               <div
-                className={styles.error}
+                className={styles.passwordError}
               >{`Error: ${errors.confirmNewPassword}`}</div>
             ) : null}
           </div>

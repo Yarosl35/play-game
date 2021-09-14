@@ -76,3 +76,11 @@ input[type="email"]:disabled {
   top: 38px;
   color: #ff0000;
 }
+
+.passwordError {
+  position: absolute;
+  left: 0px;
+  white-space: nowrap;
+  top: 38px;
+  color: #ff0000;
+}

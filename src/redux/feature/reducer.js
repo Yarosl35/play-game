@@ -141,7 +141,7 @@ export const counterSlice = createSlice({
       /* Logic start */
       if (!room.seats) room.seats = {};
       if (!room.seats[data.payload.seat.seatCode]) return state;
-      room.seats[data.payload.seat.seatCode] = data.payload.seat;
+      room.seats[data.payload.seat.seatCode] = { ...room.seats[data.payload.seat.seatCode], ...data.payload.seat };
       /* Logic end */
 
       updateRoomList({ state, index, room });

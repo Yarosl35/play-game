@@ -84,3 +84,19 @@
 
   color: #000000;
 }
+
+.image {
+  min-width: 150px;
+}
+
+.roomName {
+  min-width: 200px;
+}
+
+.date {
+  min-width: 200px;
+}
+
+.time {
+  min-width: 330px;
+}

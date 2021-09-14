@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 import { useDispatch } from "react-redux";
-import { roomListSelect } from "./../../../../redux/feature/reducer";
+import { roomListSelect } from "../../../../redux/feature/reducer";
 import ListIcon from "./ListIcon.svg";
 import { Link } from "react-router-dom";
 import removeIcon from './remove.svg';
@@ -33,20 +33,20 @@ export const RoomsItem = ({ data }) => {
         style={{ textDecoration: "none" }}
       >
         <li>
-          <div>
+          <div className={styles.image}>
             <img src={ListIcon} alt="icon" />
           </div>
           <div>
-            <div>
+            <div className={styles.roomName}>
               <p>{data.name}</p>
               <p>{data.competition}</p>
             </div>
           </div>
-          <div>
+          <div className={styles.date}>
             <p>Date:</p>
             <p>{formatDate(data.setting.timeSetting.startTime) || '-'}</p>
           </div>
-          <div>
+          <div className={styles.time}>
             <p>Time: </p>
             <p>{ formatDate(data.setting.timeSetting.startTime, 'LT') }
               -
