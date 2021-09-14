@@ -65,6 +65,23 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
+export const updatePassword = createAsyncThunk(
+  "users/updatePassword",
+  async (data, { rejectWithValue }) => {
+    data.accessToken = cookies.get("userToken").token;
+    try {
+      const response = await userAPI.updatePassword(data);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const updateUserDetail = createAsyncThunk("users/updateUserDetail", async (data) => {
+  socket.emit("updateUserDetail", data);
+});
+
 //socket
 export const createRoom = createAsyncThunk("users/createRoom", async (data) => {
   socket.emit("createRoom", data);

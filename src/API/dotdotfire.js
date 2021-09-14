@@ -71,4 +71,17 @@ export class Api {
     const dataResponse = axios.request(options);
     return dataResponse;
   };
+
+  updatePassword = async (data) => {
+    const options = {
+      method: "POST",
+      url: `${url}/users/set-password`,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${data.accessToken}`,
+      },
+      data: qs.stringify(data),
+    };
+    return axios.request(options);
+  };
 }

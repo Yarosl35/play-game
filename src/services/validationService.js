@@ -28,13 +28,7 @@ export const UserSchema = Yup.object().shape({
     .trim()
     .matches(/^[a-zA-Z\s]*$/, "Is not in correct format")
     .required("Required"),
-  schoolName: Yup.string().min(2, "should be 2 chars minimum."),
-  oldPassword: Yup.string().min(8, "should be 8 chars minimum."),
-  newPassword: Yup.string().min(8, "should be 8 chars minimum."),
-  confirmPassword: Yup.string().oneOf(
-    [Yup.ref("newPassword"), null],
-    "Passwords must match"
-  ),
+  schoolName: Yup.string().min(2, "should be 2 chars minimum.")
 });
 
 export const newPasswordSchema = Yup.object().shape({
@@ -43,6 +37,15 @@ export const newPasswordSchema = Yup.object().shape({
     .min(8, "should be 8 chars minimum."),
   confirmPassword: Yup.string().oneOf(
     [Yup.ref("password"), null],
+    "Passwords must match"
+  ),
+});
+
+export const updatePasswordSchema = Yup.object().shape({
+  oldPassword: Yup.string().min(8, "should be 8 chars minimum."),
+  newPassword: Yup.string().min(8, "should be 8 chars minimum."),
+  confirmPassword: Yup.string().oneOf(
+    [Yup.ref("newPassword"), null],
     "Passwords must match"
   ),
 });

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
+  updateUser,
   addNewRoom,
   removeRoom,
   changeDescription,
@@ -11,9 +12,11 @@ import {
   updateLeaderboard
 } from "../../redux/feature/reducer";
 import { socket } from "../../socket";
+import { useHistory } from "react-router-dom";
 
 export const SocketHandler = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     // This is demo data. Please remove it when run on production
@@ -46,6 +49,14 @@ export const SocketHandler = () => {
         },
       ]
     }));
+
+    // User
+    socket.on("loadUser", (data) => {
+      dispatch(updateUser(data));
+    });
+    socket.on("updateUserDetail", (data) => {
+      dispatch(updateUser(data));
+    });
 
     // Room
     socket.on("addRoom", (data) => {
@@ -81,11 +92,26 @@ export const SocketHandler = () => {
       dispatch(updateLeaderboard(data));
     });
 
+    // Error handler
+    socket.on("connect_error", (err) => {
+      if (err.message.indexOf('JsonWebTokenError') > -1) {
+        history.push("/login");
+      }
+      console.log(err.message);
+    });
+
+    socket.on("error", (err) => {
+      if (err.message.indexOf('JsonWebTokenError') > -1) {
+        history.push("/login");
+      }
+      console.log(err.message);
+    });
+
     // Component unmount
     return () => {
 
     };
-  }, [dispatch]);
+  }, [dispatch, history]);
 
   return (
     <div></div>

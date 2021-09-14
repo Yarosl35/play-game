@@ -12,9 +12,8 @@ import {
 const cookies = new Cookies();
 
 const initialState = {
-  user: { email: "", token: "" },
+  user: { email: "", token: "", details: {} },
   listRooms: [],
-  userDetails: null,
   roomSelect: { roomID: null, seats: {} },
   auth: null,
   resetPasswordSuccess: false,
@@ -25,7 +24,8 @@ const initialState = {
   errorPass: false,
   emailUserError: false,
   createdUserShow: { show: false, text: "" },
-  leaderBoard: {}
+  leaderBoard: {},
+  popupMessage: null
 };
 
 export const counterSlice = createSlice({
@@ -34,6 +34,9 @@ export const counterSlice = createSlice({
   reducers: {
     closeModal(state) {
       state.createdUserShow = { show: false, text: "" };
+    },
+    setPopupMessage (state, data) {
+      state.popupMessage = data.payload;
     },
     setRoomsList(state, listRooms) {
       state.listRooms = [...listRooms.payload];
@@ -47,6 +50,15 @@ export const counterSlice = createSlice({
     },
     passNotError(state) {
       state.errorPass = false;
+    },
+    updateUser (state, data) {
+      const user = state.user;
+      if (data.payload.email) user.email = data.payload.email;
+      if (data.payload.details) user.details = { ...user.details, ...data.payload.details };
+      if (data.payload.fullName) user.fullName = data.payload.fullName;
+      if (data.payload.schoolName) user.schoolName = data.payload.schoolName;
+      if (data.payload.jobPosition) user.jobPosition = data.payload.jobPosition;
+      state.user = { ...user };
     },
     addNewRoom(state, data) {
       state.listRooms.push(data.payload);
@@ -213,8 +225,10 @@ const updateSelectedRoom = ({ state, room }) => {
 
 export const {
   closeModal,
+  setPopupMessage,
   roomListSelect,
   loginNotError,
+  updateUser,
   setRoomsList,
   addNewRoom,
   removeRoom,

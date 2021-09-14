@@ -4,10 +4,10 @@ import { useDispatch } from "react-redux";
 import { roomListSelect } from "./../../../../redux/feature/reducer";
 import ListIcon from "./ListIcon.svg";
 import { Link } from "react-router-dom";
-import moment from 'moment';
 import removeIcon from './remove.svg';
 import styles from "../../Players/PlayersItem/PlayersItem.module.css";
 import { RemoveRoomConfirm } from '../RemoveRoomConfirm';
+import { formatDate }  from '../../../../services/commonService';
 
 export const RoomsItem = ({ data }) => {
   const dispatch = useDispatch();
@@ -44,11 +44,14 @@ export const RoomsItem = ({ data }) => {
           </div>
           <div>
             <p>Date:</p>
-            <p>{moment(data.setting.timeSetting.startTime).format('DD/MM/YYYY')}</p>
+            <p>{formatDate(data.setting.timeSetting.startTime) || '-'}</p>
           </div>
           <div>
             <p>Time: </p>
-            <p>{moment(data.setting.timeSetting.startTime).format('LT')}-{moment(data.setting.timeSetting.endTime).format('LT')}</p>
+            <p>{ formatDate(data.setting.timeSetting.startTime, 'LT') }
+              -
+              { formatDate(data.setting.timeSetting.endTime,'LT') }
+            </p>
           </div>
           <div className={styles.remove}>
             <img

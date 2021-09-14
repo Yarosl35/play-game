@@ -1,0 +1,37 @@
+.Modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 30;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.Modal:target {
+  display: flex;
+  pointer-events: auto;
+}
+.Modal_Body {
+  position: relative;
+  z-index: 50;
+  top: 50px;
+  width: 400px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 4px solid #8b8b8b;
+  box-sizing: border-box;
+  font-size: 2.4em;
+}
+.ModalFull {
+  position: absolute;
+  display: block;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+}

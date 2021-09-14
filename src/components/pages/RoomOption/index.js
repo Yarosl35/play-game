@@ -8,6 +8,7 @@ import { Board } from "../../layout/Board";
 import { Switch } from "../../queries/Switch";
 import "react-datepicker/dist/react-datepicker.css";
 import {useFormik} from "formik";
+import { formatDate } from '../../../services/commonService';
 
 export const RoomOption = () => {
   const dispatch = useDispatch();
@@ -91,8 +92,8 @@ export const RoomOption = () => {
       const gameSetting = setting.gameSetting;
       const timeSetting = setting.timeSetting;
       if (timeSetting) {
-        if (timeSetting.hasOwnProperty('startTime')) formData.setFieldValue('startTime', timeSetting.startTime);
-        if (timeSetting.hasOwnProperty('endTime')) formData.setFieldValue('endTime', timeSetting.endTime);
+        if (timeSetting.hasOwnProperty('startTime')) formData.setFieldValue('startTime', formatDate(timeSetting.startTime, 'DateObject') || new Date());
+        if (timeSetting.hasOwnProperty('endTime')) formData.setFieldValue('endTime', formatDate(timeSetting.endTime, 'DateObject') || new Date());
       }
       if (gameSetting) {
         if (gameSetting.hasOwnProperty('allowBicycle')) formData.setFieldValue('allowBicycle', gameSetting.allowBicycle);

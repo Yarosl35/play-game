@@ -13,10 +13,12 @@ import { PrivateRoute } from "./PrivateRouter";
 import { DashBoard } from "./pages/DashBoard";
 import { SocketHandler } from "./layout/socketHandler";
 import React from "react";
+import { PopupMessage } from './queries/PopupMessage';
 
 function App() {
   return (
     <BrowserRouter>
+      <PopupMessage />
       <div>
         <Switch>
           <Route path="/login" component={Login} />

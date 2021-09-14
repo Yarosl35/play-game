@@ -1,50 +1,39 @@
 import { Field, Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { UserSchema } from "./../../../services/validationService";
+import React  from "react";
+import { UserSchema } from "../../../services/validationService";
 import styles from "./User.module.css";
-// import { Api } from "./../../../API/dotdotfire";
 import { Panel } from "../../layout/Panel";
-import { getUser } from "./../../../redux/feature/extraReducers";
+import { updateUserDetail } from "../../../redux/feature/extraReducers";
 import { useDispatch, useSelector } from "react-redux";
-import Cookies from "universal-cookie";
+import { SelectList } from "./SelectList";
+import { UpdatePassword } from './UpdatePassword';
+import { jobPositions } from "../../../constants";
 
 export const User = () => {
   const dispatch = useDispatch();
-  const cookies = new Cookies();
+  const user = useSelector(({ user }) => user);
+  const details = useSelector(({ user }) => user.details);
 
-  const userDetails = useSelector(({ userDetails }) => userDetails);
-
-  useEffect(() => {
-
-    dispatch(getUser());
-    return {
-      
-    }
-  }, [dispatch]);
-  if (!userDetails) return null;
   return (
     <Panel>
       <div className={styles.containerWrapper}>
         <div className={styles.container}>
           <Formik
             initialValues={{
-              email: cookies.get("userEmail").email,
-              fullName: userDetails.fullName,
-              schoolName: userDetails.schoolName,
-              oldPassword: "",
-              newPassword: "",
-              confirmPassword: "",
+              email: user.email,
+              fullName: details ? details.fullName : '',
+              schoolName: details ? details.schoolName : '',
+              jobPosition: details ? details.jobPosition : null,
             }}
             validationSchema={UserSchema}
             enableReinitialize={true}
             onSubmit={(values) => {
-              console.log(values);
+              dispatch(updateUserDetail(values));
             }}
           >
-            {({ errors, touched }) => (
+            {({ errors, touched, setFieldValue, initialValues }) => (
               <Form className={styles.formMainContainer}>
                 <h2 className={styles.blockTitle}>User Info</h2>
-
                 <div className={styles.inputContainer}>
                   <label className={styles.labelInput}>email</label>
                   <Field
@@ -53,11 +42,6 @@ export const User = () => {
                     type="email"
                     disabled
                   />
-                  {errors.email && touched.email ? (
-                    <div
-                      className={styles.error}
-                    >{`Error: ${errors.email}`}</div>
-                  ) : null}
                 </div>
                 <div className={styles.inputContainer}>
                   <label className={styles.labelInput}>full name</label>
@@ -81,49 +65,16 @@ export const User = () => {
                     >{`Error: ${errors.schoolName}`}</div>
                   ) : null}
                 </div>
-
-                <h2 className={styles.blockTitle}>Security</h2>
-
                 <div className={styles.inputContainer}>
-                  <label className={styles.labelInput}>old password</label>
-                  <Field
-                    name="oldPassword"
-                    className={styles.input}
-                    type="password"
+                  <label className={styles.labelInput}>job position</label>
+                  <SelectList
+                    arrayList={ jobPositions }
+                    change={(value) => { setFieldValue('jobPosition', value) }}
+                    value={initialValues.jobPosition}
+                    circle={false}
+                    inputBig={false}
                   />
-                  {errors.oldPassword && touched.oldPassword ? (
-                    <div
-                      className={styles.error}
-                    >{`Error: ${errors.oldPassword}`}</div>
-                  ) : null}
                 </div>
-                <div className={styles.inputContainer}>
-                  <label className={styles.labelInput}>new password</label>
-                  <Field
-                    name="newPassword"
-                    className={styles.input}
-                    type="password"
-                  />
-                  {errors.newPassword && touched.newPassword ? (
-                    <div
-                      className={styles.error}
-                    >{`Error: ${errors.newPassword}`}</div>
-                  ) : null}
-                </div>
-                <div className={styles.inputContainer}>
-                  <label className={styles.labelInput}>confirm password</label>
-                  <Field
-                    name="confirmPassword"
-                    className={styles.input}
-                    type="password"
-                  />
-                  {errors.confirmPassword && touched.confirmPassword ? (
-                    <div
-                      className={styles.error}
-                    >{`Error: ${errors.confirmPassword}`}</div>
-                  ) : null}
-                </div>
-
                 <div className={styles.btnBlock}>
                   <button type="submit" className={styles.btnSave}>
                     Save
@@ -132,6 +83,7 @@ export const User = () => {
               </Form>
             )}
           </Formik>
+          <UpdatePassword />
         </div>
       </div>
     </Panel>
