@@ -1,5 +1,5 @@
-import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
 import { setPopupMessage } from "../../../redux/feature/reducer";
 import styles from "./PopupMessage.module.css";
 

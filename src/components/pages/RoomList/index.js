@@ -1,30 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./Rooms.module.css";
 import { RoomsItem } from "./RoomsItem";
 import { Panel } from "../../layout/Panel";
 import { NewRoom } from "./NewRoom";
-import { socket } from "../../../socket";
-import { useDispatch, useSelector } from "react-redux";
-import { setRoomsList } from "../../../redux/feature/reducer";
+import { useSelector } from "react-redux";
 
 export const RoomList = () => {
   const [showNewRoom, setShowNewRoom] = useState(false);
   const listRooms = useSelector(({ listRooms }) => listRooms);
-  const dispatch = useDispatch();
   const changeShowRoom = () => {
     setShowNewRoom((show) => !show);
   };
-  useEffect(() => {
-    socket.on("loadAllRooms", (data) => {
-      dispatch(setRoomsList(data));
-    });
 
-    return () => {
-      socket.off("loadAllRooms", (data) => {
-        console.log(data);
-      });
-    };
-  }, [dispatch]);
   return (
     <Panel>
       {showNewRoom ? <NewRoom setShowModal={setShowNewRoom} /> : null}

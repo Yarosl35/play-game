@@ -71,3 +71,11 @@
 .rankState.disconnected {
   background: #C4C4C4 !important;
 }
+
+.noData {
+  display: flex;
+  justify-content: center;
+  font-family: "Roboto", sans-serif;
+  font-size: 30px;
+  margin-top: 20px;
+}

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../../redux/feature/extraReducers";
 import { loginNotError } from "../../../redux/feature/reducer";
 import { Tooltip } from "../../queries/Tooltip";
+import { reconnectSocket } from '../../../socket'
 
 export const Login = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (dataLogin.auth) {
+      reconnectSocket();
       return history.push(process.env.REACT_APP_REDIRECT_MAIN_PAGE);
     }
   }, [dataLogin.auth, history]);

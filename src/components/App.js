@@ -19,6 +19,7 @@ function App() {
   return (
     <BrowserRouter>
       <PopupMessage />
+      <SocketHandler />
       <div>
         <Switch>
           <Route path="/login" component={Login} />
@@ -49,7 +50,6 @@ function App() {
           </PrivateRoute>
         </Switch>
       </div>
-      <SocketHandler />
     </BrowserRouter>
   );
 }

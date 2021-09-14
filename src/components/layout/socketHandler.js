@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import {useDispatch, } from "react-redux";
 import {
   updateUser,
+  setRoomsList,
   addNewRoom,
   removeRoom,
   changeDescription,
   changeName,
   updateSetting,
   addSeat,
+  updateSeat,
   removePlayer,
   updateLeaderboard
 } from "../../redux/feature/reducer";
@@ -19,37 +21,6 @@ export const SocketHandler = () => {
   const history = useHistory();
 
   useEffect(() => {
-    // This is demo data. Please remove it when run on production
-    dispatch(updateLeaderboard({
-      roomID: "1885e5c6-581c-439a-91b8-59bc73755622",
-      leaderboard: [
-        {
-          name: "Matthew Choi",
-          class: "4B",
-          score: 500,
-          state: "connected"
-        },
-        {
-          name: "Stephen Yip",
-          class: "3B",
-          score: 400,
-          state: "disconnected"
-        },
-        {
-          name: "Edison chan",
-          class: "4B",
-          score: 300,
-          state: "connected"
-        },
-        {
-          name: "Francis Lo",
-          class: "4B",
-          score: 300,
-          state: "connected"
-        },
-      ]
-    }));
-
     // User
     socket.on("loadUser", (data) => {
       dispatch(updateUser(data));
@@ -59,6 +30,9 @@ export const SocketHandler = () => {
     });
 
     // Room
+    socket.on("loadAllRooms", (data) => {
+      dispatch(setRoomsList(data));
+    });
     socket.on("addRoom", (data) => {
       dispatch(addNewRoom(data));
     });
@@ -83,6 +57,9 @@ export const SocketHandler = () => {
     socket.on("addRoomSeat", (data) => {
       dispatch(addSeat(data));
     });
+    socket.on("updateRoomSeat", (data) => {
+      dispatch(updateSeat(data));
+    });
     socket.on("removeRoomSeat", (data) => {
       dispatch(removePlayer(data));
     });
@@ -97,19 +74,30 @@ export const SocketHandler = () => {
       if (err.message.indexOf('JsonWebTokenError') > -1) {
         history.push("/login");
       }
-      console.log(err.message);
     });
 
     socket.on("error", (err) => {
       if (err.message.indexOf('JsonWebTokenError') > -1) {
         history.push("/login");
       }
-      console.log(err.message);
     });
 
-    // Component unmount
+    // Component will unmount
     return () => {
-
+      socket.off('loadUser', () => {});
+      socket.off('updateUserDetail', () => {});
+      socket.off('loadAllRooms', () => {});
+      socket.off('addRoom', () => {});
+      socket.off('removeRoom', () => {});
+      socket.off('updateRoomName', () => {});
+      socket.off('updateRoomDescription', () => {});
+      socket.off('updateRoomSetting', () => {});
+      socket.off('addRoomSeat', () => {});
+      socket.off('updateRoomSeat', () => {});
+      socket.off('removeRoomSeat', () => {});
+      socket.off('updateLeaderboard', () => {});
+      socket.off('connect_error', () => {});
+      socket.off('error', () => {});
     };
   }, [dispatch, history]);
 

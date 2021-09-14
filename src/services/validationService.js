@@ -41,7 +41,6 @@ export const newPasswordSchema = Yup.object().shape({
   ),
 });
 
-
 export const updatePasswordSchema = Yup.object().shape({
   oldPassword: Yup.string().matches("(?=.*[a-z])(?=.*[0-9])(?=.{8,24})", "Password must be formed with 8 characters including big and small letters and numbers"),
   newPassword: Yup.string().matches("(?=.*[a-z])(?=.*[0-9])(?=.{8,24})", "Password must be formed with 8 characters including big and small letters and numbers"),
@@ -54,4 +53,3 @@ export const updatePasswordSchema = Yup.object().shape({
 export const ResetPasswordSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
 });
-

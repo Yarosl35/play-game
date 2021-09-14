@@ -134,7 +134,19 @@ export const counterSlice = createSlice({
       updateRoomList({ state, index, room });
       updateSelectedRoom({ state, room });
     },
+    updateSeat (state, data) {
+      let { index, room } = getUpdatedRoom({ state, data });
+      if (!room) return state;
 
+      /* Logic start */
+      if (!room.seats) room.seats = {};
+      if (!room.seats[data.payload.seat.seatCode]) return state;
+      room.seats[data.payload.seat.seatCode] = data.payload.seat;
+      /* Logic end */
+
+      updateRoomList({ state, index, room });
+      updateSelectedRoom({ state, room });
+    },
     removePlayer(state, data) {
       let { index, room } = getUpdatedRoom({ state, data });
       if (!room) return state;
@@ -236,6 +248,7 @@ export const {
   changeDescription,
   updateSetting,
   addSeat,
+  updateSeat,
   removePlayer,
   updateLeaderboard,
   passNotError,

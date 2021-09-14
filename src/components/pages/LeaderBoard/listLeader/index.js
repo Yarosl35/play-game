@@ -50,7 +50,9 @@ export const ListLeader = ({ arrayList }) => {
           <p>stage</p>
         </div>
       </div>
-      <div className={styles.containerScroll}>{listItems}</div>
+      <div className={styles.containerScroll}>{
+        listItems && listItems.length ? listItems : <div className={styles.noData}>No data</div>
+      }</div>
     </>
   );
 };
