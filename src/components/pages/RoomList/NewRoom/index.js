@@ -9,6 +9,7 @@ export const NewRoom = ({ setShowModal }) => {
   const [roomName, setRoomName] = useState("");
   const dispatch = useDispatch();
   const [valueList, setValueList] = useState(gameTypes[0].value);
+  const [requiredRoomName, setRequiredRoomName] = useState(false);
   const change = (value) => {
     setValueList(value);
   };
@@ -18,9 +19,24 @@ export const NewRoom = ({ setShowModal }) => {
       name: roomName,
       description: "",
     };
+    validateData();
+    if (!validateData()) return false;
+
     dispatch(createRoom(newRoomDate));
     setShowModal(false);
   }
+
+  const validateData = () => {
+    let isValid = true;
+    // Validate room name
+    if (!roomName || !roomName.replace(/ /g, '')) {
+      setRequiredRoomName(true);
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
   const changeNameRoom = (e) => {
     setRoomName(e.target.value);
   };
@@ -37,6 +53,7 @@ export const NewRoom = ({ setShowModal }) => {
             value={roomName}
             onChange={changeNameRoom}
           />
+          { requiredRoomName ? <div className={styles.errorMessage}>Error: This field is required.</div> : null }
           <p>Game type</p>
           <SelectList arrayList={gameTypes} change={change} />
           <div className={styles.btnContainer}>

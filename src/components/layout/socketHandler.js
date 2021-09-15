@@ -27,7 +27,7 @@ export const SocketHandler = () => {
     if (process.env.REACT_APP_USE_DEMO_LEADER_BOARD && roomSelect.roomID) {
         dispatch(updateLeaderboard(saveLeaderBoardDemo(roomSelect.roomID)));
     }
-  }, [roomSelect, roomSelect.roomID])
+  }, [dispatch, roomSelect, roomSelect.roomID])
   /* REMOVE IT ON PRODUCTION */
 
   useEffect(() => {
