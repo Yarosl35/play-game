@@ -84,4 +84,16 @@ export class Api {
     };
     return axios.request(options);
   };
+
+  logout = async (token) => {
+    const options = {
+      method: "POST",
+      url: `${url}/users/logout`,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${token}`,
+      }
+    };
+    return axios.request(options);
+  };
 }

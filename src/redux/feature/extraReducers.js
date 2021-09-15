@@ -78,6 +78,19 @@ export const updatePassword = createAsyncThunk(
   }
 );
 
+export const logoutUser = createAsyncThunk(
+  "users/logout",
+  async (data, { rejectWithValue }) => {
+    const token = cookies.get("userToken").token;
+    try {
+      const response = await userAPI.logout(token);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const updateUserDetail = createAsyncThunk("users/updateUserDetail", async (data) => {
   socket.emit("updateUserDetail", data);
 });

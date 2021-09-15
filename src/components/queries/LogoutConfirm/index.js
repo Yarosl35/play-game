@@ -2,13 +2,15 @@ import { useDispatch } from "react-redux";
 import styles from "./LogoutConfirm.module.css";
 import { setIsShowLogoutConfirm, logout } from '../../../redux/feature/reducer';
 import { useHistory } from "react-router-dom";
+import { logoutUser } from "../../../redux/feature/extraReducers";
 
 export const LogoutConfirm = ({ setShowModal, selectedRoomId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  function callLogout () {
-    dispatch(logout());
+  const callLogout = () => {
     dispatch(setIsShowLogoutConfirm(false));
+    dispatch(logoutUser());
+    dispatch(logout());
     history.push('/login');
   }
 
