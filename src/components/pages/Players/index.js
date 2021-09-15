@@ -10,6 +10,7 @@ import {
 } from "../../../redux/feature/extraReducers";
 import { Board } from "../../layout/Board";
 import { useDispatch, useSelector } from "react-redux";
+import { CreatePlayerSchema } from "../../../services/validationService";
 
 export const Players = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ export const Players = () => {
       addNewPlayer(values);
       formData.resetForm();
     },
+    validationSchema: CreatePlayerSchema
   });
 
   useEffect(() => {
@@ -72,7 +74,6 @@ export const Players = () => {
           <div className={styles.AddSeatText}>
             <p>Add seat</p>
           </div>
-
           <form onSubmit={formData.handleSubmit}>
             <div className={styles.containerForm}>
               <div className={styles.boxFormAddSeat}>
@@ -82,12 +83,17 @@ export const Players = () => {
                     <input
                       id="email"
                       name="email"
-                      type="email"
+                      type="text"
                       onChange={formData.handleChange}
                       value={formData.values.email}
                     />
                   </span>
                 </div>
+                {formData.errors.email && formData.touched.email ? (
+                  <div
+                    className={styles.passwordError}
+                  >{`Error: ${formData.errors.email}`}</div>
+                ) : null}
                 <div className={styles.boxFormAddSeatInput}>
                   <span className={styles.inputClass}>
                     <label htmlFor="class">class</label>
@@ -110,6 +116,11 @@ export const Players = () => {
                     />
                   </span>
                 </div>
+                {formData.errors.name && formData.touched.name ? (
+                  <div
+                    className={styles.passwordError}
+                  >{`Error: ${formData.errors.name}`}</div>
+                ) : null}
               </div>
               <button type="submit" className={styles.BtnAdd}>
                 Add

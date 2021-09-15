@@ -30,16 +30,14 @@ export const PlayersItem = ({ data }) => {
         <div className={styles.name}>{data.ownerName}</div>
         <div
           className={`${styles.status} ${
-            data.status === "Waiting"
+            data.status === "waiting"
               ? styles.statusWaiting
-              : data.status === "Playing"
+              : data.status === "playing"
               ? styles.statusPlaying
               : styles.statusOffline
           }`}
         >
-          {" "}
-          N/A
-          {/* {data.status} */}
+           {data.status}
         </div>
         <div className={styles.seatCode}>{data.invitationCode}</div>
       </div>
@@ -71,8 +69,8 @@ export const PlayersItem = ({ data }) => {
         >
           <div>
             <p>player name: {data.ownerName}</p>
-            <p>status: not</p>
-            <p>seat code: {data.seatCode}</p>
+            <p className={styles.tooltipStatus}>status: {data.status}</p>
+            <p>seat code: {data.invitationCode}</p>
             <p>region: {data.region}</p>
             <p>IP address: {data.ipAddress}</p>
           </div>

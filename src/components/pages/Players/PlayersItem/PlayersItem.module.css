@@ -25,6 +25,7 @@
   text-align: center;
   display: flex;
   justify-content: center;
+  text-transform: capitalize;
 }
 .statusWaiting {
   color: rgba(0, 170, 139, 1);
@@ -83,6 +84,10 @@
   line-height: 42px;
 
   color: #000000;
+}
+
+.tooltipStatus {
+  text-transform: capitalize;
 }
 
 .image {

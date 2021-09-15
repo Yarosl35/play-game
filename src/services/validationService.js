@@ -53,3 +53,10 @@ export const updatePasswordSchema = Yup.object().shape({
 export const ResetPasswordSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
 });
+
+export const CreatePlayerSchema = Yup.object().shape({
+  email: Yup.string().email("Invalid email"),
+  name: Yup.string()
+    .trim()
+    .required("Name is required."),
+});
