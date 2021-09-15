@@ -15,6 +15,7 @@ import {
 } from "../../redux/feature/reducer";
 import { socket } from "../../socket";
 import { useHistory } from "react-router-dom";
+import { isUnauthorized } from "../../services/authService"
 import { saveLeaderBoardDemo } from "../../services/commonService"; /* REMOVE IT ON PRODUCTION */
 
 export const SocketHandler = () => {
@@ -81,13 +82,13 @@ export const SocketHandler = () => {
 
     // Error handler
     socket.on("connect_error", (err) => {
-      if (err.message.indexOf('JsonWebTokenError') > -1) {
+      if (isUnauthorized(err.message)) {
         history.push("/login");
       }
     });
 
     socket.on("error", (err) => {
-      if (err.message.indexOf('JsonWebTokenError') > -1) {
+      if (isUnauthorized(err.message)) {
         history.push("/login");
       }
     });

@@ -1,20 +1,23 @@
-import { useEffect } from "react";
 import { Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 export const PrivateRoute = ({ children, ...rest }) => {
   const dataAuth = useSelector((data) => data.auth);
-  const roomSelect = useSelector(({ roomSelect }) => roomSelect);
+
   const render = () =>
     // dataAuth === null ? <Redirect to="/login" /> : children;
     dataAuth === null ? children : children;
   const history = useHistory();
 
-  useEffect(() => {
-    if (!roomSelect || (!roomSelect.roomID && roomSelect.roomID !== 0)) {
+  const currentPath = history.location.pathname.replace(/\//, '');
+  const ignoreRedirectRegex = 'room-list|user';
+  if (!(new Cookies()).get('roomID') && ignoreRedirectRegex.indexOf(currentPath) === -1) {
+    setTimeout(function () {
       history.push(process.env.REACT_APP_REDIRECT_MAIN_PAGE);
-    }
-  }, [roomSelect, history]);
+    }, 2000);
+  }
+
   return <Route {...rest} render={render} />;
 };

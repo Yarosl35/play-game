@@ -41,9 +41,19 @@ export const counterSlice = createSlice({
     },
     setRoomsList(state, listRooms) {
       state.listRooms = [...listRooms.payload];
+      let selectedRoomID = cookies.get('roomID');
+      if (selectedRoomID) {
+        const roomSelected = state.listRooms.find(({ roomID }) => roomID === selectedRoomID);
+        if (!roomSelected) {
+          cookies.remove('roomID', { path: '/'});
+          return state;
+        }
+        state.roomSelect = { ...roomSelected };
+      }
     },
     roomListSelect(state, action) {
       const roomSelected = state.listRooms.find(({ roomID }) => roomID === action.payload);
+      cookies.set("roomID", action.payload, { path: '/' });
       state.roomSelect = { ...roomSelected };
     },
     loginNotError(state) {
@@ -69,6 +79,7 @@ export const counterSlice = createSlice({
       state.listRooms = [...roomList];
       // Remove selected room
       if (state.roomSelect.roomID === data.payload.roomID) {
+        cookies.remove('roomID', { path: '/'});
         state.roomSelect = { roomID: null, seats: {} };
       }
     },
@@ -172,8 +183,9 @@ export const counterSlice = createSlice({
     },
     logout (state) {
       // Clear cookie
-      cookies.remove("userToken");
-      cookies.remove("userEmail");
+      cookies.remove("userToken", { path: '/'});
+      cookies.remove("userEmail", { path: '/'});
+      cookies.remove('roomID', { path: '/'});
 
       // Set default value
       state.user = { email: "", token: "", details: {} };
@@ -187,8 +199,8 @@ export const counterSlice = createSlice({
       state.auth = true;
       state.loginError = false;
       //add cookies
-      cookies.set("userToken", { token: action.payload.accessToken });
-      cookies.set("userEmail", { email: action.payload.email });
+      cookies.set("userToken", { token: action.payload.accessToken }, { path: '/' });
+      cookies.set("userEmail", { email: action.payload.email }, { path: '/' });
     },
     [loginUser.rejected]: (state) => {
       state.loginError = true;
