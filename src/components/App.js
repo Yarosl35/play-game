@@ -14,11 +14,13 @@ import { DashBoard } from "./pages/DashBoard";
 import { SocketHandler } from "./layout/socketHandler";
 import React from "react";
 import { PopupMessage } from './queries/PopupMessage';
+import { GlobalComponent } from './layout/GlobalComponent';
 
 function App() {
   return (
     <BrowserRouter>
       <PopupMessage />
+      <GlobalComponent />
       <SocketHandler />
       <div>
         <Switch>

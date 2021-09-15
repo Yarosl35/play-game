@@ -25,7 +25,8 @@ const initialState = {
   emailUserError: false,
   createdUserShow: { show: false, text: "" },
   leaderBoard: {},
-  popupMessage: null
+  popupMessage: null,
+  isShowLogoutConfirm: false
 };
 
 export const counterSlice = createSlice({
@@ -165,6 +166,19 @@ export const counterSlice = createSlice({
       if (!leaderBoard) return state;
       leaderBoard[data.payload.roomID] = [...data.payload.leaderboard]
       state.leaderBoard = leaderBoard;
+    },
+    setIsShowLogoutConfirm (state, data) {
+      state.isShowLogoutConfirm = data.payload;
+    },
+    logout (state) {
+      // Clear cookie
+      cookies.remove("userToken");
+      cookies.remove("userEmail");
+
+      // Set default value
+      state.user = { email: "", token: "", details: {} };
+      state.roomSelect = { roomID: null, seats: {} };
+      state.auth = null;
     }
   },
   extraReducers: {
@@ -252,6 +266,8 @@ export const {
   removePlayer,
   updateLeaderboard,
   passNotError,
+  setIsShowLogoutConfirm,
+  logout
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

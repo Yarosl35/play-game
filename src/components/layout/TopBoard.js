@@ -4,14 +4,24 @@ import { useHistory } from "react-router";
 import Logo from "./logo.svg";
 import LogoUser from "./logoUser.svg";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setIsShowLogoutConfirm } from '../../redux/feature/reducer';
 
 export const TopBoard = () => {
   const [showMenu, setShowMenu] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const selectProfile = () => {
     setShowMenu(false);
     history.push("/user");
   };
+
+  const openLogoutConfirm = () => {
+    setShowMenu(false)
+    dispatch(setIsShowLogoutConfirm(true));
+  }
+
   return (
     <div className={styles.topBar}>
       <Link
@@ -32,7 +42,7 @@ export const TopBoard = () => {
         {showMenu ? (
           <ul className={styles.menuList}>
             <li onClick={selectProfile}>Profile</li>
-            <li>Log out</li>
+            <li onClick={openLogoutConfirm}>Log out</li>
           </ul>
         ) : null}
       </div>
