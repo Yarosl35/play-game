@@ -30,9 +30,7 @@ export const PlayersItem = ({ data }) => {
         <div className={styles.name}>{data.ownerName}</div>
         <div
           className={`${styles.status} ${
-            data.status === "waiting"
-              ? styles.statusWaiting
-              : data.status === "playing"
+            data.status === "online"
               ? styles.statusPlaying
               : styles.statusOffline
           }`}
