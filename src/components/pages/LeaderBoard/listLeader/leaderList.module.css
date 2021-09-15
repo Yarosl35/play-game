@@ -64,11 +64,11 @@
   background: #C4C4C4;
 }
 
-.rankState.connected {
+.rankState.online {
   background: #4AD065 !important;
 }
 
-.rankState.disconnected {
+.rankState.offline {
   background: #C4C4C4 !important;
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {useDispatch, } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
   updateUser,
   setRoomsList,
@@ -15,10 +15,20 @@ import {
 } from "../../redux/feature/reducer";
 import { socket } from "../../socket";
 import { useHistory } from "react-router-dom";
+import { saveLeaderBoardDemo } from "../../services/commonService"; /* REMOVE IT ON PRODUCTION */
 
 export const SocketHandler = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  /* REMOVE IT ON PRODUCTION */
+  const roomSelect = useSelector(({ roomSelect }) => roomSelect);
+  useEffect(() => {
+    if (process.env.REACT_APP_USE_DEMO_LEADER_BOARD && roomSelect.roomID) {
+        dispatch(updateLeaderboard(saveLeaderBoardDemo(roomSelect.roomID)));
+    }
+  }, [roomSelect, roomSelect.roomID])
+  /* REMOVE IT ON PRODUCTION */
 
   useEffect(() => {
     // User

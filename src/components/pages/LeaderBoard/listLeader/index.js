@@ -29,7 +29,7 @@ export const ListLeader = ({ arrayList }) => {
               : colorPlace.other
           }
           score={data.score}
-          state={data.state}
+          status={data.status}
         />
       );
     }) : <div></div>;
