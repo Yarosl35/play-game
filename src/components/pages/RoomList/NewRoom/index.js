@@ -19,19 +19,24 @@ export const NewRoom = ({ setShowModal }) => {
       name: roomName,
       description: "",
     };
-    validateData();
+
     if (!validateData()) return false;
 
     dispatch(createRoom(newRoomDate));
     setShowModal(false);
   }
 
-  const validateData = () => {
+  const validateData = (attribute, value) => {
     let isValid = true;
     // Validate room name
-    if (!roomName || !roomName.replace(/ /g, '')) {
-      setRequiredRoomName(true);
-      isValid = false;
+    if (attribute === 'roomName' || !attribute) {
+      if (typeof value === 'undefined') value = roomName;
+      if (!value || !value.replace(/ /g, '')) {
+        setRequiredRoomName(true);
+        isValid = false;
+      } else {
+        setRequiredRoomName(false);
+      }
     }
 
     return isValid;
@@ -39,6 +44,7 @@ export const NewRoom = ({ setShowModal }) => {
 
   const changeNameRoom = (e) => {
     setRoomName(e.target.value);
+    validateData('roomName', e.target.value);
   };
 
   return (
