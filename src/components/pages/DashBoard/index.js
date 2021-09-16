@@ -7,6 +7,7 @@ import {
   changeNameEmit,
   changeDescriptionEmit,
 } from "../../../redux/feature/extraReducers";
+import { Loader } from "../../queries/loader";
 
 export const DashBoard = () => {
   const dispatch = useDispatch();
@@ -86,9 +87,8 @@ export const DashBoard = () => {
                   }}
                 />
                 {loaderName ? (
-                  <span style={{ fontSize: "2em" }}>
-                    {" "}
-                    &nbsp;&nbsp; saving...
+                  <span className={styles.loader}>
+                    <Loader size="sm" /> <span className={styles.saving}>saving...</span>
                   </span>
                 ) : null}
               </div>
@@ -111,9 +111,8 @@ export const DashBoard = () => {
                     }}
                   />
                   {loaderDescription ? (
-                    <span style={{ fontSize: "2em" }}>
-                      {" "}
-                      &nbsp;&nbsp; saving...
+                    <span className={styles.loader}>
+                      <Loader size="sm" /> <span className={styles.saving}>saving...</span>
                     </span>
                   ) : null}
                 </div>

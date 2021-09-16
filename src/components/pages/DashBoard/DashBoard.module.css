@@ -3,14 +3,16 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  height: calc(100% - 30px);
 }
+
 .mainContainer {
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  height: 700px;
+  height: auto;
   margin-left: 35px;
   margin-top: 51px;
   padding-left: 34px;
@@ -148,12 +150,17 @@
   display: flex;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   height: 132px;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-bottom: 5px;
   margin-top: 48px;
   width: 500px;
   width: 630px;
 }
+
+.gameType img {
+  margin: 0 30px;
+}
+
 .gameType p {
   color: #000000;
   font-family: Roboto;
@@ -161,6 +168,7 @@
   font-style: normal;
   font-weight: 500;
   line-height: 28px;
+  width: 100%;
 }
 .roomDetails {
   margin-left: 51px;
@@ -218,4 +226,18 @@
   font-style: normal;
   font-weight: 500;
   line-height: 28px;
+}
+
+.saving {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  margin-left: 5px;
+}
+
+.loader {
+  margin-left: 30px;
+}
+
+.loader img {
+  top: 10px;
 }
