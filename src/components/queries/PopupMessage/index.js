@@ -1,13 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import { setPopupMessage } from "../../../redux/feature/reducer";
 import styles from "./PopupMessage.module.css";
 import { SUCCESS, ERROR } from "../../../constants";
 
 export const PopupMessage = () => {
   const popupMessage = useSelector(({ popupMessage }) => popupMessage);
-  const popupMessageType = useSelector(({ popupMessageType }) => popupMessageType);
-  const popupMessageSize = useSelector(({ popupMessageSize }) => popupMessageSize);
   const [animation, setAnimation] = useState(0)
 
   const dispatch = useDispatch();
@@ -16,34 +14,36 @@ export const PopupMessage = () => {
     dispatch(setPopupMessage(null));
   };
 
-  const renderAnimations = () => {
-    return popupMessage ? setAnimation(1) : setAnimation(0)
-  }
+  const renderAnimations = useCallback(() => {
+    return popupMessage.message ? setAnimation(1) : setAnimation(0)
+  }, [popupMessage.message, setAnimation]);
 
   useEffect(() => {
     renderAnimations();
-
-    let popupTimeout = setTimeout(function () {
-      dispatch(setPopupMessage(null));
-    }, 3000);
-    return () => {
-      clearTimeout(popupTimeout);
+    if (!popupMessage.keep_alive) {
+      var popupTimeout = setTimeout(function () {
+        dispatch(setPopupMessage(null));
+      }, 3000);
     }
-  }, [dispatch, popupMessage]);
+
+    return () => {
+      if (!popupMessage.keep_alive) clearTimeout(popupTimeout);
+    }
+  }, [dispatch, renderAnimations, popupMessage.keep_alive]);
 
   return (
     <div>
-        { popupMessage ?
+        { popupMessage.message ?
           (<div className={styles.Modal} onClick={ closeModal }>
-            <div animation={animation} className={`${styles.Modal_Body} ${popupMessageSize ? styles[popupMessageSize] : null}`}>
+            <div animation={animation} className={`${styles.Modal_Body} ${popupMessage.size ? styles[popupMessage.size] : null}`}>
               <div
                 className={
-                  popupMessageType === SUCCESS ?
+                  popupMessage.type === SUCCESS ?
                     styles.successMessage :
-                    (popupMessageType === ERROR ? styles.errorMessage : null )
+                    (popupMessage.type === ERROR ? styles.errorMessage : null )
                 }
               >
-                <div dangerouslySetInnerHTML={{ __html: popupMessage }} />
+                <div dangerouslySetInnerHTML={{ __html: popupMessage.message }} />
               </div>
             </div>
           </div>)

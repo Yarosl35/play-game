@@ -4,3 +4,9 @@ export const isUnauthorized = (message) => {
     message.indexOf('tokenError') > -1
   );
 }
+
+export const isNetworkError = (message) => {
+  return (
+    message.indexOf('xhr poll error') > -1
+  );
+}

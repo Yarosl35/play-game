@@ -25,9 +25,12 @@ const initialState = {
   emailUserError: false,
   createdUserShow: { show: false, text: "" },
   leaderBoard: {},
-  popupMessage: null,
-  popupMessageType: null, // 1: is success, 0: is error, null: Normal
-  popupMessageSize: null,
+  popupMessage: {
+    message: null,
+    type: null,
+    size: null,
+    keep_alive: false
+  },
   isShowLogoutConfirm: false
 };
 
@@ -39,16 +42,19 @@ export const counterSlice = createSlice({
       state.createdUserShow = { show: false, text: "" };
     },
     setPopupMessage (state, data) {
+      let defaultData = {
+        message: null,
+        type: null,
+        size: null,
+        keep_alive: false
+      }
+
       // For normal message
       if (!data.payload || typeof data.payload == 'string') {
-        state.popupMessage = data.payload;
-        state.popupMessageType = null;
-        state.popupMessageSize = null;
+        state.popupMessage = { ...defaultData, message: data.payload  };
         return state;
       }
-      state.popupMessageSize = data.payload.size;
-      state.popupMessage = data.payload.message;
-      state.popupMessageType = data.payload.type;
+      state.popupMessage = { ...defaultData, ...data.payload };
     },
     setRoomsList(state, listRooms) {
       state.listRooms = [...listRooms.payload];

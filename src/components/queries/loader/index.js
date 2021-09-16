@@ -6,6 +6,7 @@ export const Loader = ({ size }) => {
       <img
         className={`${style.loader} ${size ? style[size] : ''}`}
         src={spiner}
+        alt=""
       />
   )
 }

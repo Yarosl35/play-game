@@ -11,11 +11,13 @@ import {
   addSeat,
   updateSeat,
   removePlayer,
-  updateLeaderboard
+  updateLeaderboard,
+  setPopupMessage
 } from "../../redux/feature/reducer";
 import { socket } from "../../socket";
 import { useHistory } from "react-router-dom";
-import { isUnauthorized } from "../../services/authService"
+import { isUnauthorized, isNetworkError } from "../../services/authService"
+import { ERROR } from "../../constants";
 import { saveLeaderBoardDemo } from "../../services/commonService"; /* REMOVE IT ON PRODUCTION */
 
 export const SocketHandler = () => {
@@ -82,6 +84,10 @@ export const SocketHandler = () => {
 
     // Error handler
     socket.on("connect_error", (err) => {
+      if (isNetworkError(err.message)) {
+        dispatch(setPopupMessage({message: 'Can not connect to server. Please reload the page.', type: ERROR, keep_alive: true }))
+      }
+
       if (isUnauthorized(err.message)) {
         history.push("/login");
       }
@@ -95,20 +101,20 @@ export const SocketHandler = () => {
 
     // Component will unmount
     return () => {
-      socket.off('loadUser', () => {});
-      socket.off('updateUserDetail', () => {});
-      socket.off('loadAllRooms', () => {});
-      socket.off('addRoom', () => {});
-      socket.off('removeRoom', () => {});
-      socket.off('updateRoomName', () => {});
-      socket.off('updateRoomDescription', () => {});
-      socket.off('updateRoomSetting', () => {});
-      socket.off('addRoomSeat', () => {});
-      socket.off('updateRoomSeat', () => {});
-      socket.off('removeRoomSeat', () => {});
-      socket.off('updateLeaderboard', () => {});
-      socket.off('connect_error', () => {});
-      socket.off('error', () => {});
+      socket.off('loadUser');
+      socket.off('updateUserDetail');
+      socket.off('loadAllRooms');
+      socket.off('addRoom');
+      socket.off('removeRoom');
+      socket.off('updateRoomName');
+      socket.off('updateRoomDescription');
+      socket.off('updateRoomSetting');
+      socket.off('addRoomSeat');
+      socket.off('updateRoomSeat');
+      socket.off('removeRoomSeat');
+      socket.off('updateLeaderboard');
+      socket.off('connect_error');
+      socket.off('error');
     };
   }, [dispatch, history]);
 
