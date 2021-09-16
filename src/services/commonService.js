@@ -1,4 +1,5 @@
 import moment from "moment";
+import Papa from 'papaparse';
 
 export const formatDate = (date, format = 'DD/MM/YYYY') => {
   let momentDate = moment(date);
@@ -40,4 +41,15 @@ export const saveLeaderBoardDemo = (roomID) => {
       },
     ]
   };
+}
+
+export const parseCSV = (data, configs = {}) => {
+  let defaultConfig = {
+    header: false
+  };
+
+  return Papa.parse(data, {
+    ...defaultConfig,
+    ...configs
+  });
 }

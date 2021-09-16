@@ -145,6 +145,14 @@ export const createRoomSeatEmit = createAsyncThunk(
     });
   }
 );
+
+export const createMultiRoomSeat = createAsyncThunk(
+  "users/createRoomSeatEmit",
+  async (data) => {
+    socket.emit("createRoomSeatList", data);
+  }
+);
+
 export const removeRoomSeatEmit = createAsyncThunk(
   "users/removeRoomSeat",
   async (data) => {

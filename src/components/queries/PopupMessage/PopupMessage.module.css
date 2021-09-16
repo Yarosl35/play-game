@@ -17,16 +17,17 @@
   z-index: 50;
   top: 50px;
   width: 400px;
-  height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: auto;
-  padding: 15px;
+  padding: 30px 15px;
   background: rgba(255, 255, 255, 0.9);
   border: 4px solid #8b8b8b;
   box-sizing: border-box;
-  font-size: 2.4em;
+  font-family: Roboto;
+  font-size: 36px;
+  line-height: 42px;
 }
 .ModalFull {
   position: absolute;
@@ -34,4 +35,20 @@
   z-index: 0;
   width: 100%;
   height: 100%;
+}
+
+.successMessage {
+  color: #289600;
+}
+
+.errorMessage {
+  color: #FF0200;
+}
+
+.lg {
+  width: 80%;
+}
+
+.md {
+  width: 50%;
 }
