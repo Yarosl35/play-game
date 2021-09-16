@@ -99,17 +99,17 @@ export const Players = () => {
     })
   }
 
-  const onSuccess = (data) => {
+  const onSuccess = useCallback((data) => {
     // Check imported
     if (waitImportResponse && data.roomID === roomSelect.roomID) {
       setWaitImportResponse(false);
       dispatch(setPopupMessage({ message: 'Successfully imported seats', type: SUCCESS }));
     }
-  };
+  }, [dispatch, waitImportResponse, roomSelect]);
 
-  const onError = (data) => {
+  const onError = useCallback((data) => {
     dispatch(setPopupMessage({ message: data.message, type: ERROR  }));
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     setSeats(roomSelect.seats);
