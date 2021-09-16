@@ -5,6 +5,7 @@ import styles from "../User.module.css";
 import { updatePassword } from "../../../../redux/feature/extraReducers";
 import { useDispatch } from "react-redux";
 import { setPopupMessage } from "../../../../redux/feature/reducer";
+import { ERROR } from "../../../../constants";
 
 export const UpdatePassword = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export const UpdatePassword = () => {
       enableReinitialize={true}
       onSubmit={async (values,{ resetForm }) => {
         let res = await dispatch(updatePassword(values));
-        dispatch(setPopupMessage(res.payload.msg));
+        dispatch(setPopupMessage({ message: res.payload.msg, type: ERROR }));
         if (res && !res.error) resetForm();
       }}
     >

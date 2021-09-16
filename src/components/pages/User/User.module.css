@@ -13,6 +13,10 @@
   background-color: #ffffff;
   padding: 55px;
   margin-top: 30px;
+  box-shadow: 1px 5px 5px 1px #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .formMainContainer {
@@ -63,11 +67,11 @@ input[type="email"]:disabled {
 }
 
 .btnSave {
-  border: 0;
-  background-color: #c4c4c4;
+  background-color: #80FF7C;
   width: 85px;
   height: 30px;
   cursor: pointer;
+  border: 2px solid #000000;
 }
 
 .error {

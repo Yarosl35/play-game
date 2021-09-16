@@ -5,7 +5,6 @@
   bottom: 0;
   left: 0;
   z-index: 30;
-  background: rgba(0, 0, 0, 0.7);
 }
 
 .Modal:target {
@@ -22,12 +21,13 @@
   justify-content: center;
   margin: auto;
   padding: 30px 15px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 4px solid #8b8b8b;
+  background: #FFFFFF;
+  border: 4px solid #000000;
   box-sizing: border-box;
   font-family: Roboto;
   font-size: 36px;
   line-height: 42px;
+  border-radius: 20px;
 }
 .ModalFull {
   position: absolute;
@@ -51,4 +51,13 @@
 
 .md {
   width: 50%;
+}
+
+.Modal_Body[animation="1"] {
+  animation: modal-enter 0.9s both;
+}
+
+@keyframes modal-enter {
+  0% { top: 0; opacity: 0 }
+  100% { top: 50px; opacity: 1 }
 }
