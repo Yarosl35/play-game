@@ -116,11 +116,11 @@ export const Players = () => {
   }, [roomSelect.seats]);
 
   useEffect(() => {
-    socket.on("addRoomSeat", onSuccess);
+    socket.on("addRoomSeatList", onSuccess);
     socket.on("error", onError);
 
     return (() => {
-      socket.off("addRoomSeat", onSuccess);
+      socket.off("addRoomSeatList", onSuccess);
       socket.off("error", onError);
     })
   }, [dispatch, onSuccess, onError]);

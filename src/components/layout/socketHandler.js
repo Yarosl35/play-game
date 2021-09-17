@@ -9,6 +9,7 @@ import {
   changeName,
   updateSetting,
   addSeat,
+  addRoomSeatList,
   updateSeat,
   removePlayer,
   updateLeaderboard,
@@ -69,6 +70,9 @@ export const SocketHandler = () => {
     // Player
     socket.on("addRoomSeat", (data) => {
       dispatch(addSeat(data));
+    });
+    socket.on("addRoomSeatList", (data) => {
+      dispatch(addRoomSeatList(data));
     });
     socket.on("updateRoomSeat", (data) => {
       dispatch(updateSeat(data));
