@@ -11,13 +11,19 @@
   height: 100%;
 }
 .rank {
-  width: 296px;
+  width: 210px;
 }
 .score {
-  width: 305px;
+  width: 130px;
 }
 .name {
-  width: 325px;
+  width: 370px;
+}
+.state {
+  width: 220px;
+}
+.stage {
+  margin-left: 180px;
 }
 .listItem {
   display: flex;
@@ -59,17 +65,17 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #C4C4C4;
+  background: #c4c4c4;
   box-shadow: 0px 5px 5px #777;
-  background: #C4C4C4;
+  background: #c4c4c4;
 }
 
 .rankState.online {
-  background: #4AD065 !important;
+  background: #4ad065 !important;
 }
 
 .rankState.offline {
-  background: #C4C4C4 !important;
+  background: #c4c4c4 !important;
 }
 
 .noData {
@@ -78,4 +84,7 @@
   font-family: "Roboto", sans-serif;
   font-size: 30px;
   margin-top: 20px;
+}
+.stateImg {
+  height: 52px;
 }

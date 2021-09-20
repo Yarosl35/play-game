@@ -21,7 +21,7 @@ const initialState = {
   forgetPasswordLink: false,
   forgetPasswordError: false,
   loginError: false,
-  errorPass: { show:false, text: ""},
+  errorPass: { show: false, text: "" },
   emailUserError: false,
   createdUserShow: { show: false, text: "" },
   leaderBoard: {},
@@ -29,9 +29,9 @@ const initialState = {
     message: null,
     type: null,
     size: null,
-    keep_alive: false
+    keep_alive: false,
   },
-  isShowLogoutConfirm: false
+  isShowLogoutConfirm: false,
 };
 
 export const counterSlice = createSlice({
@@ -41,36 +41,40 @@ export const counterSlice = createSlice({
     closeModal(state) {
       state.createdUserShow = { show: false, text: "" };
     },
-    setPopupMessage (state, data) {
+    setPopupMessage(state, data) {
       let defaultData = {
         message: null,
         type: null,
         size: null,
-        keep_alive: false
-      }
+        keep_alive: false,
+      };
 
       // For normal message
-      if (!data.payload || typeof data.payload == 'string') {
-        state.popupMessage = { ...defaultData, message: data.payload  };
+      if (!data.payload || typeof data.payload == "string") {
+        state.popupMessage = { ...defaultData, message: data.payload };
         return state;
       }
       state.popupMessage = { ...defaultData, ...data.payload };
     },
     setRoomsList(state, listRooms) {
       state.listRooms = [...listRooms.payload];
-      let selectedRoomID = cookies.get('roomID');
+      let selectedRoomID = cookies.get("roomID");
       if (selectedRoomID) {
-        const roomSelected = state.listRooms.find(({ roomID }) => roomID === selectedRoomID);
+        const roomSelected = state.listRooms.find(
+          ({ roomID }) => roomID === selectedRoomID
+        );
         if (!roomSelected) {
-          cookies.remove('roomID', { path: '/'});
+          cookies.remove("roomID", { path: "/" });
           return state;
         }
         state.roomSelect = { ...roomSelected };
       }
     },
     roomListSelect(state, action) {
-      const roomSelected = state.listRooms.find(({ roomID }) => roomID === action.payload);
-      cookies.set("roomID", action.payload, { path: '/' });
+      const roomSelected = state.listRooms.find(
+        ({ roomID }) => roomID === action.payload
+      );
+      cookies.set("roomID", action.payload, { path: "/" });
       state.roomSelect = { ...roomSelected };
     },
     loginNotError(state) {
@@ -79,10 +83,11 @@ export const counterSlice = createSlice({
     passNotError(state) {
       state.errorPass.show = false;
     },
-    updateUser (state, data) {
+    updateUser(state, data) {
       const user = state.user;
       if (data.payload.email) user.email = data.payload.email;
-      if (data.payload.details) user.details = { ...user.details, ...data.payload.details };
+      if (data.payload.details)
+        user.details = { ...user.details, ...data.payload.details };
       if (data.payload.fullName) user.fullName = data.payload.fullName;
       if (data.payload.schoolName) user.schoolName = data.payload.schoolName;
       if (data.payload.jobPosition) user.jobPosition = data.payload.jobPosition;
@@ -91,12 +96,14 @@ export const counterSlice = createSlice({
     addNewRoom(state, data) {
       state.listRooms.push(data.payload);
     },
-    removeRoom (state, data) {
-      const roomList = state.listRooms.filter(({roomID}) => roomID !== data.payload.roomID);
+    removeRoom(state, data) {
+      const roomList = state.listRooms.filter(
+        ({ roomID }) => roomID !== data.payload.roomID
+      );
       state.listRooms = [...roomList];
       // Remove selected room
       if (state.roomSelect.roomID === data.payload.roomID) {
-        cookies.remove('roomID', { path: '/'});
+        cookies.remove("roomID", { path: "/" });
         state.roomSelect = { roomID: null, seats: {} };
       }
     },
@@ -125,7 +132,7 @@ export const counterSlice = createSlice({
       updateRoomList({ state, index, room });
       updateSelectedRoom({ state, room });
     },
-    updateSetting (state, data) {
+    updateSetting(state, data) {
       let { index, room } = getUpdatedRoom({ state, data });
       if (!room) return state;
 
@@ -134,17 +141,23 @@ export const counterSlice = createSlice({
       let timeSetting = setting.timeSetting;
       if (timeSetting) {
         if (!room.setting.timeSetting) room.setting.timeSetting = {};
-        if (timeSetting.hasOwnProperty('startTime')) room.setting.timeSetting.startTime = timeSetting.startTime;
-        if (timeSetting.hasOwnProperty('endTime')) room.setting.timeSetting.endTime = timeSetting.endTime;
+        if (timeSetting.hasOwnProperty("startTime"))
+          room.setting.timeSetting.startTime = timeSetting.startTime;
+        if (timeSetting.hasOwnProperty("endTime"))
+          room.setting.timeSetting.endTime = timeSetting.endTime;
       }
 
       const gameSetting = setting.gameSetting;
       if (gameSetting) {
         if (!room.setting.gameSetting) room.setting.gameSetting = {};
-        if (gameSetting.hasOwnProperty('questCSV')) room.setting.gameSetting.questCSV = gameSetting.questCSV;
-        if (gameSetting.hasOwnProperty('allowBicycle')) room.setting.gameSetting.allowBicycle = gameSetting.allowBicycle;
-        if (gameSetting.hasOwnProperty('allowBus')) room.setting.gameSetting.allowBus = gameSetting.allowBus;
-        if (gameSetting.hasOwnProperty('maximumSpeed')) room.setting.gameSetting.maximumSpeed = gameSetting.maximumSpeed;
+        if (gameSetting.hasOwnProperty("questCSV"))
+          room.setting.gameSetting.questCSV = gameSetting.questCSV;
+        if (gameSetting.hasOwnProperty("allowBicycle"))
+          room.setting.gameSetting.allowBicycle = gameSetting.allowBicycle;
+        if (gameSetting.hasOwnProperty("allowBus"))
+          room.setting.gameSetting.allowBus = gameSetting.allowBus;
+        if (gameSetting.hasOwnProperty("maximumSpeed"))
+          room.setting.gameSetting.maximumSpeed = gameSetting.maximumSpeed;
       }
       /* Logic end */
 
@@ -158,7 +171,8 @@ export const counterSlice = createSlice({
       /* Logic start */
       if (!room.seats) room.seats = {};
       for (let i in data.payload.seatList) {
-        room.seats[data.payload.seatList[i].seatCode] = data.payload.seatList[i];
+        room.seats[data.payload.seatList[i].seatCode] =
+          data.payload.seatList[i];
       }
       /* Logic end */
 
@@ -177,14 +191,17 @@ export const counterSlice = createSlice({
       updateRoomList({ state, index, room });
       updateSelectedRoom({ state, room });
     },
-    updateSeat (state, data) {
+    updateSeat(state, data) {
       let { index, room } = getUpdatedRoom({ state, data });
       if (!room) return state;
 
       /* Logic start */
       if (!room.seats) room.seats = {};
       if (!room.seats[data.payload.seat.seatCode]) return state;
-      room.seats[data.payload.seat.seatCode] = { ...room.seats[data.payload.seat.seatCode], ...data.payload.seat };
+      room.seats[data.payload.seat.seatCode] = {
+        ...room.seats[data.payload.seat.seatCode],
+        ...data.payload.seat,
+      };
       /* Logic end */
 
       updateRoomList({ state, index, room });
@@ -203,26 +220,45 @@ export const counterSlice = createSlice({
       updateRoomList({ state, index, room });
       updateSelectedRoom({ state, room });
     },
-    updateLeaderboard (state, data) {
+    updateLeaderBoard(state, data) {
       let leaderBoard = state.leaderBoard;
+
       if (!leaderBoard) return state;
-      leaderBoard[data.payload.roomID] = [...data.payload.leaderboard]
-      state.leaderBoard = leaderBoard;
+
+      const prevLeaderBoard = leaderBoard[data.payload.roomID] || [];
+
+      leaderBoard[data.payload.roomID] = data.payload.leaderboard.map(
+        (newState) => {
+          const prevState = prevLeaderBoard.find(
+            (item) => item.id === newState.id
+          );
+
+          if (!prevState) return newState;
+
+          if (newState.score > prevState.score) {
+            return { state: "up", ...newState };
+          }
+          if (newState.score < prevState.score) {
+            return { state: "down", ...newState };
+          }
+          return newState;
+        }
+      );
     },
-    setIsShowLogoutConfirm (state, data) {
+    setIsShowLogoutConfirm(state, data) {
       state.isShowLogoutConfirm = data.payload;
     },
-    logout (state) {
+    logout(state) {
       // Clear cookie
-      cookies.remove("userToken", { path: '/'});
-      cookies.remove("userEmail", { path: '/'});
-      cookies.remove('roomID', { path: '/'});
+      cookies.remove("userToken", { path: "/" });
+      cookies.remove("userEmail", { path: "/" });
+      cookies.remove("roomID", { path: "/" });
 
       // Set default value
       state.user = { email: "", token: "", details: {} };
       state.roomSelect = { roomID: null, seats: {} };
       state.auth = null;
-    }
+    },
   },
   extraReducers: {
     [loginUser.fulfilled]: (state, action) => {
@@ -230,8 +266,12 @@ export const counterSlice = createSlice({
       state.auth = true;
       state.loginError = false;
       //add cookies
-      cookies.set("userToken", { token: action.payload.accessToken }, { path: '/' });
-      cookies.set("userEmail", { email: action.payload.email }, { path: '/' });
+      cookies.set(
+        "userToken",
+        { token: action.payload.accessToken },
+        { path: "/" }
+      );
+      cookies.set("userEmail", { email: action.payload.email }, { path: "/" });
     },
     [loginUser.rejected]: (state) => {
       state.loginError = true;
@@ -265,17 +305,20 @@ export const counterSlice = createSlice({
 });
 
 const getUpdatedRoom = ({ state, data }) => {
-  const index = state.listRooms.findIndex(({ roomID }) => roomID === data.payload.roomID);
+  const index = state.listRooms.findIndex(
+    ({ roomID }) => roomID === data.payload.roomID
+  );
   const room = state.listRooms[index];
-  if (!room) return {
-    index: -1,
-    room: null
-  }
+  if (!room)
+    return {
+      index: -1,
+      room: null,
+    };
   return {
     index,
-    room
-  }
-}
+    room,
+  };
+};
 
 const updateRoomList = ({ state, index, room }) => {
   const list = [
@@ -284,13 +327,13 @@ const updateRoomList = ({ state, index, room }) => {
     ...state.listRooms.slice(index + 1),
   ];
   state.listRooms = list;
-}
+};
 
 const updateSelectedRoom = ({ state, room }) => {
   if (state.roomSelect.roomID === room.roomID) {
     state.roomSelect = { ...room };
   }
-}
+};
 
 export const {
   closeModal,
@@ -308,10 +351,10 @@ export const {
   addRoomSeatList,
   updateSeat,
   removePlayer,
-  updateLeaderboard,
+  updateLeaderBoard,
   passNotError,
   setIsShowLogoutConfirm,
-  logout
+  logout,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

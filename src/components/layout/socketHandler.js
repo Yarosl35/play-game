@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   updateUser,
   setRoomsList,
@@ -12,12 +12,12 @@ import {
   addRoomSeatList,
   updateSeat,
   removePlayer,
-  updateLeaderboard,
-  setPopupMessage
+  updateLeaderBoard,
+  setPopupMessage,
 } from "../../redux/feature/reducer";
 import { socket } from "../../socket";
 import { useHistory } from "react-router-dom";
-import { isUnauthorized, isNetworkError } from "../../services/authService"
+import { isUnauthorized, isNetworkError } from "../../services/authService";
 import { ERROR } from "../../constants";
 import { saveLeaderBoardDemo } from "../../services/commonService"; /* REMOVE IT ON PRODUCTION */
 
@@ -29,9 +29,11 @@ export const SocketHandler = () => {
   const roomSelect = useSelector(({ roomSelect }) => roomSelect);
   useEffect(() => {
     if (process.env.REACT_APP_USE_DEMO_LEADER_BOARD && roomSelect.roomID) {
-        dispatch(updateLeaderboard(saveLeaderBoardDemo(roomSelect.roomID)));
+      setInterval(() => {
+        dispatch(updateLeaderBoard(saveLeaderBoardDemo(roomSelect.roomID)));
+      }, 4000);
     }
-  }, [dispatch, roomSelect, roomSelect.roomID])
+  }, [dispatch, roomSelect, roomSelect.roomID]);
   /* REMOVE IT ON PRODUCTION */
 
   useEffect(() => {
@@ -82,14 +84,20 @@ export const SocketHandler = () => {
     });
 
     // Leader page
-    socket.on("updateLeaderboard", (data) => {
-      dispatch(updateLeaderboard(data));
+    socket.on("updateLeaderBoard", (data) => {
+      dispatch(updateLeaderBoard(data));
     });
 
     // Error handler
     socket.on("connect_error", (err) => {
       if (isNetworkError(err.message)) {
-        dispatch(setPopupMessage({message: 'Can not connect to server. Please reload the page.', type: ERROR, keep_alive: true }))
+        dispatch(
+          setPopupMessage({
+            message: "Can not connect to server. Please reload the page.",
+            type: ERROR,
+            keep_alive: true,
+          })
+        );
       }
 
       if (isUnauthorized(err.message)) {
@@ -105,24 +113,22 @@ export const SocketHandler = () => {
 
     // Component will unmount
     return () => {
-      socket.off('loadUser');
-      socket.off('updateUserDetail');
-      socket.off('loadAllRooms');
-      socket.off('addRoom');
-      socket.off('removeRoom');
-      socket.off('updateRoomName');
-      socket.off('updateRoomDescription');
-      socket.off('updateRoomSetting');
-      socket.off('addRoomSeat');
-      socket.off('updateRoomSeat');
-      socket.off('removeRoomSeat');
-      socket.off('updateLeaderboard');
-      socket.off('connect_error');
-      socket.off('error');
+      socket.off("loadUser");
+      socket.off("updateUserDetail");
+      socket.off("loadAllRooms");
+      socket.off("addRoom");
+      socket.off("removeRoom");
+      socket.off("updateRoomName");
+      socket.off("updateRoomDescription");
+      socket.off("updateRoomSetting");
+      socket.off("addRoomSeat");
+      socket.off("updateRoomSeat");
+      socket.off("removeRoomSeat");
+      socket.off("updateLeaderBoard");
+      socket.off("connect_error");
+      socket.off("error");
     };
   }, [dispatch, history]);
 
-  return (
-    <div></div>
-  );
-}
+  return <div></div>;
+};

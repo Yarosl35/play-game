@@ -52,7 +52,7 @@ export const ListLeader = ({ arrayList, scroll }) => {
         <div className={`${styles.score} ${styles.cellLeader} `}>
           <p>score</p>
         </div>
-        <div className={`${styles.score} ${styles.cellLeader} `}>
+        <div className={`${styles.stage} ${styles.cellLeader} `}>
           <p>stage</p>
         </div>
       </div>
