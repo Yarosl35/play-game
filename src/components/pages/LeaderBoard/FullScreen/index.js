@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { ListLeader } from "./listLeader/index";
-import styles from "./leaderBoard.module.css";
-import { SelectList } from "../../queries/SelectList";
-import { Board } from "../../layout/Board";
-import { Link } from "react-router-dom";
+import { ListLeader } from "./../listLeader/index";
+import { SelectList } from "../../../queries/SelectList";
 import { useSelector } from "react-redux";
-import fullScreen from "./fullScreen.svg";
 
-export const LeaderBoard = (callback, deps) => {
+import { Panel } from "./../../../layout/Panel";
+import { TopBarFullScreen } from "./TopBarFullScreen";
+import styles from "./FullScreen.module.css";
+
+export const FullScreen = () => {
   const leaderBoard = useSelector(({ leaderBoard }) => leaderBoard);
   const roomSelect = useSelector(({ roomSelect }) => roomSelect);
   const listRooms = useSelector(({ listRooms }) => listRooms);
   const [roomSelection, setRoomSelection] = useState([]);
+  const user = useSelector(({ user }) => user);
   const [leaderListRoom, setLeaderListRoom] = useState([]);
 
   const changeRoom = useCallback(
@@ -39,31 +40,17 @@ export const LeaderBoard = (callback, deps) => {
   useEffect(() => {
     changeRoom(roomSelect.roomID);
   }, [leaderBoard, changeRoom, roomSelect, roomSelect.roomID]);
-  console.log(roomSelect);
+  console.log("leaderBoard", user, leaderBoard);
   return (
-    <Board>
-      <div className={styles.mainContainer}>
-        <div className={styles.selectContainer}>
-          <div className={styles.containerForSelect}>
-            <p className={styles.id}>Room ID :</p>{" "}
-            {roomSelection && roomSelection.length > 0 ? (
-              <SelectList
-                defaultValue={roomSelect ? roomSelect.name : undefined}
-                arrayList={roomSelection}
-                change={changeRoom}
-                circle={true}
-                inputBig={false}
-              />
-            ) : (
-              ""
-            )}
+    <Panel>
+      <div className={styles.mainWrapper}>
+        <TopBarFullScreen schoolName={user.details.schoolName} />
+        <div className={styles.bg}>
+          <div className={styles.mt}>
+            <ListLeader arrayList={leaderListRoom} scroll={false} />
           </div>
-          <Link to="/full-screen">
-            <img className={styles.fullBtn} src={fullScreen} alt="fullScreen" />
-          </Link>
         </div>
-        <ListLeader arrayList={leaderListRoom} scroll={true} />
       </div>
-    </Board>
+    </Panel>
   );
 };

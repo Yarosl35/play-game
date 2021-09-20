@@ -9,30 +9,36 @@ const colorPlace = {
   other: "rgba(255, 255, 255,  0.68)",
 };
 
-export const ListLeader = ({ arrayList }) => {
-  const listItems = (arrayList && arrayList.length > 0) ? arrayList
-    .sort((a, b) => b.score - a.score)
-    .map((data, index) => {
-      const place = index + 1;
-      return (
-        <ListItem
-          key={index}
-          name={data.name}
-          rank={place}
-          color={
-            place === 1
-              ? colorPlace.first
-              : place === 2
-              ? colorPlace.second
-              : place === 3
-              ? colorPlace.third
-              : colorPlace.other
-          }
-          score={data.score}
-          status={data.status}
-        />
-      );
-    }) : <div></div>;
+export const ListLeader = ({ arrayList, scroll }) => {
+  const listItems =
+    arrayList && arrayList.length > 0 ? (
+      arrayList
+        .sort((a, b) => b.score - a.score)
+        .map((data, index) => {
+          const place = index + 1;
+          return (
+            <ListItem
+              data={data}
+              key={index}
+              name={data.name}
+              rank={place}
+              color={
+                place === 1
+                  ? colorPlace.first
+                  : place === 2
+                  ? colorPlace.second
+                  : place === 3
+                  ? colorPlace.third
+                  : colorPlace.other
+              }
+              score={data.score}
+              status={data.status}
+            />
+          );
+        })
+    ) : (
+      <div></div>
+    );
 
   return (
     <>
@@ -50,9 +56,13 @@ export const ListLeader = ({ arrayList }) => {
           <p>stage</p>
         </div>
       </div>
-      <div className={styles.containerScroll}>{
-        listItems && listItems.length ? listItems : <div className={styles.noData}>No data</div>
-      }</div>
+      <div className={scroll ? styles.containerScroll : null}>
+        {listItems && listItems.length ? (
+          listItems
+        ) : (
+          <div className={styles.noData}>No data</div>
+        )}
+      </div>
     </>
   );
 };

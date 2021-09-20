@@ -6,6 +6,9 @@
 }
 .selectContainer {
   height: 102px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .containerForSelect {
   display: flex;
@@ -19,4 +22,7 @@
   font-style: normal;
   font-weight: 500;
   margin-right: 17px;
+}
+.fullBtn {
+  width: 44px;
 }

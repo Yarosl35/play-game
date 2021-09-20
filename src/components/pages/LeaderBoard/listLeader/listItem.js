@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./leaderList.module.css";
 
-export const ListItem = ({ name, color, score, rank, status }) => {
+export const ListItem = ({ name, color, score, rank, status, data }) => {
   return (
     <div className={styles.listItem} style={{ background: color }}>
       <div className={`${styles.rank} ${styles.cellLeader} `}>

@@ -6,6 +6,7 @@ import { Players } from "./pages/Players";
 import { RoomList } from "./pages/RoomList";
 import { RoomOption } from "./pages/RoomOption";
 import { User } from "./pages/User";
+import { FullScreen } from "./pages/LeaderBoard/FullScreen";
 import { ResetPassword } from "./pages/ResetPassword";
 import { EmailSend } from "./pages/ResetPassword/Email";
 import { NewPassword } from "./pages/NewPassword";
@@ -13,9 +14,9 @@ import { PrivateRoute } from "./PrivateRouter";
 import { DashBoard } from "./pages/DashBoard";
 import { SocketHandler } from "./layout/socketHandler";
 import React from "react";
-import { PopupMessage } from './queries/PopupMessage';
-import { GlobalComponent } from './layout/GlobalComponent';
-import './App.css'
+import { PopupMessage } from "./queries/PopupMessage";
+import { GlobalComponent } from "./layout/GlobalComponent";
+import "./App.css";
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
           <Route path="/reset-password/:token" component={NewPassword} />
           <PrivateRoute path="/leader-board">
             <LeaderBoard />
+          </PrivateRoute>
+          <PrivateRoute path="/full-screen">
+            <FullScreen />
           </PrivateRoute>
           <PrivateRoute path="/user">
             <User />
