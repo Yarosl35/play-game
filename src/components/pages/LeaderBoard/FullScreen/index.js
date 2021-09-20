@@ -40,7 +40,6 @@ export const FullScreen = () => {
   useEffect(() => {
     changeRoom(roomSelect.roomID);
   }, [leaderBoard, changeRoom, roomSelect, roomSelect.roomID]);
-  console.log("leaderBoard", user, leaderBoard);
   return (
     <Panel>
       <div className={styles.mainWrapper}>

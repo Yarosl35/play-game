@@ -39,7 +39,6 @@ export const LeaderBoard = (callback, deps) => {
   useEffect(() => {
     changeRoom(roomSelect.roomID);
   }, [leaderBoard, changeRoom, roomSelect, roomSelect.roomID]);
-  console.log(roomSelect);
   return (
     <Board>
       <div className={styles.mainContainer}>
