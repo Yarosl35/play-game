@@ -57,12 +57,12 @@
   background: #f16d6d;
   display: flex;
   justify-content: center;
-  z-index: 30;
+  z-index: 17;
 }
 .titleContainer {
   width: 1034px;
   position: absolute;
-  z-index: 40;
+  z-index: 19;
 }
 .title {
   margin-top: 100px;
@@ -76,7 +76,7 @@
   text-align: center;
 
   color: #000000;
-  z-index: 50;
+  z-index: 20;
 }
 .mt {
   margin-top: -40px;

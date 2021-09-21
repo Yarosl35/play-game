@@ -4,6 +4,7 @@ import { TopBoard } from "./TopBoard";
 import console from "./imgsMenu/console.svg";
 import dashboard from "./imgsMenu/dashboard.svg";
 import leaderBoard from "./imgsMenu/leaderboard.svg";
+import back from "./back.svg";
 import options from "./imgsMenu/options.svg";
 import permissions from "./imgsMenu/permissions.svg";
 import players from "./imgsMenu/players.svg";
@@ -81,6 +82,19 @@ export const Board = ({ children }) => {
               >
                 <img src={leaderBoard} alt="icon" />
                 <p>LeaderBoard</p>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/room-list"
+                activeClassName={styles.selected}
+                className={styles.linkStyle}
+                style={{ textDecoration: "none" }}
+              >
+                <div className={styles.backBtn}>
+                  <img src={back} alt="back" />
+                  <p>Back to room list</p>
+                </div>
               </NavLink>
             </li>
           </ul>
